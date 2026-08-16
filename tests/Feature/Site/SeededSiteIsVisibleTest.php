@@ -62,7 +62,11 @@ class SeededSiteIsVisibleTest extends TestCase
     {
         $this->seed(ListoraSeeder::class);
 
-        $listing = Listing::published()->first();
+        // Browse paginates under its own `recommended` ordering — featured
+        // first, then plan rank, then views — so the lowest-id listing is not
+        // necessarily on page one. Ask for the listing browse itself would
+        // show first, or this asserts against a page it was never on.
+        $listing = Listing::published()->sorted(null)->first();
 
         $this->get('/')->assertOk()->assertSee('/listing/', false);
         $this->get('/browse')->assertOk()->assertSee($listing->title, false);

@@ -9,6 +9,7 @@ use App\Models\PpcVisitor;
 use App\Models\User;
 use App\Services\Settings\SettingsRepository;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\TestCase;
 
 /**
@@ -54,6 +55,31 @@ class ExplorePageSeoTest extends TestCase
         // The visible H1 has to agree with the title — Google Ads scores
         // landing-page relevance on what the page says, not on the tag alone.
         $this->assertStringContainsString('<h1>Vacation Weeks to Rent in Hawaii</h1>', $html);
+    }
+
+    /**
+     * The count is a separate clause, not a prefix on the category name, and
+     * the mode fragment drops to lower case mid-sentence. Bolting a running
+     * total onto an already-plural category produced "1 vacation weeks", and
+     * reusing the title's fragment produced "to Rent" inside a sentence.
+     */
+    public function test_the_description_reads_as_a_sentence_for_a_single_result(): void
+    {
+        $this->publish(['kind' => Listing::KIND_WEEKS, 'mode' => 'rent', 'region' => 'Hawaii']);
+
+        $html = $this->get('/browse?kind=weeks&mode=rent&region=Hawaii')->assertOk()->getContent();
+
+        preg_match('#<meta name="description" content="(.*?)">#', $html, $m);
+        $description = html_entity_decode($m[1]);
+
+        $this->assertStringContainsString('1 live listing,', $description);
+        $this->assertStringNotContainsString('1 live listings', $description);
+        $this->assertStringContainsString('to rent in Hawaii', $description);
+        $this->assertStringNotContainsString('to Rent in Hawaii —', $description);
+
+        // Google renders roughly 155 characters; past that it is written for
+        // nobody.
+        $this->assertLessThanOrEqual(160, mb_strlen($description));
     }
 
     public function test_the_unfiltered_page_keeps_its_generic_heading(): void
@@ -266,7 +292,12 @@ class ExplorePageSeoTest extends TestCase
 
         $visitorId = PpcVisitor::sole()->visitor_id;
 
-        $this->withCookie('lst_vid', $visitorId)
+        // withUnencryptedCookie, not withCookie: `lst_vid` is exempt from cookie
+        // encryption so it survives an APP_KEY rotation across its two-year
+        // life (see bootstrap/app.php). withCookie would encrypt the value, the
+        // middleware would read ciphertext, and this would look like a brand
+        // new visitor. A real browser sends back exactly what was set.
+        $this->withUnencryptedCookie('lst_vid', $visitorId)
             ->get('/browse?gclid=SECOND&utm_source=bing&utm_campaign=later')
             ->assertOk();
 
