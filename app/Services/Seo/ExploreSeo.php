@@ -4,6 +4,7 @@ namespace App\Services\Seo;
 
 use App\Models\Listing;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Str;
 
 /**
  * Search and paid-search metadata for the Explore page.
@@ -112,23 +113,34 @@ final class ExploreSeo
     }
 
     /**
-     * Leads with the count because a real number is the one thing a snippet
-     * can say that a competitor's boilerplate cannot, then states the model
-     * — the fee and the absent commission are the reason to click.
+     * Names the facet, then the live count, then the model.
+     *
+     * The count is the one thing a snippet can say that a competitor's
+     * boilerplate cannot, but it is a separate clause rather than a prefix —
+     * "1 vacation weeks" is what happens when a running total is bolted onto
+     * a category name that is already plural. It also stays clear of the
+     * ~155 characters Google will actually render.
      */
     public function description(): string
     {
-        $total   = $this->listings->total();
-        $subject = strtolower($this->subject() ?: 'vacation properties, resort club points, and vacation weeks');
+        $total = $this->listings->total();
 
-        return trim(sprintf(
-            '%s %s%s%s advertised directly by the people who own them. '
-            .'Contact any owner yourself — Listora charges one flat listing fee and takes no commission.',
-            $total > 0 ? number_format($total) : 'Browse',
-            $subject,
-            $this->modeFragment(),
-            $this->regionFragment(),
-        ));
+        $what = trim(
+            ($this->subject() ?: 'Vacation properties, resort club points and vacation weeks')
+            .$this->modeFragment(titleCase: false)
+            .$this->regionFragment()
+        );
+
+        $count = $total > 0
+            ? sprintf(' — %s live %s', number_format($total), Str::plural('listing', $total))
+            : '';
+
+        return sprintf(
+            '%s%s, advertised directly by their owners. '
+            .'One flat listing fee, no commission. Contact the owner yourself.',
+            $what,
+            $count,
+        );
     }
 
     /**
@@ -327,7 +339,7 @@ final class ExploreSeo
         $parts = array_filter([
             $this->activeKind() ?: 'all',
             $this->activeMode() ?: 'any',
-            $this->region() ? \Illuminate\Support\Str::slug($this->region()) : 'anywhere',
+            $this->region() ? Str::slug($this->region()) : 'anywhere',
         ]);
 
         return 'explore_'.implode('_', $parts);
@@ -342,11 +354,16 @@ final class ExploreSeo
         return $kind ? (Listing::KINDS[$kind] ?? '') : '';
     }
 
-    private function modeFragment(): string
+    /**
+     * Title case for a <title> and an <h1>, lower case mid-sentence. The same
+     * fragment appears in both, and "to Rent" inside a meta description reads
+     * like a typo rather than a heading.
+     */
+    private function modeFragment(bool $titleCase = true): string
     {
         return match ($this->activeMode()) {
-            'rent'  => ' to Rent',
-            'own'   => ' to Own',
+            'rent'  => $titleCase ? ' to Rent' : ' to rent',
+            'own'   => $titleCase ? ' to Own' : ' to own',
             default => '',
         };
     }

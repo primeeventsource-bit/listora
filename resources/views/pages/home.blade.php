@@ -192,17 +192,27 @@
             <h2>Simple on both sides</h2>
         </div>
 
+        {{--
+            The two sides carry different accents (owner teal, traveler amber)
+            and each button hands its accent to the four steps it controls, so
+            clicking a tab visibly changes the 1-2-3-4 underneath rather than
+            swapping four identical-looking cards. `aria-pressed` and
+            `aria-controls` say the same thing to a screen reader that the
+            colour says to everyone else.
+        --}}
         <div class="center" style="margin-bottom:0">
-            <div class="switch reveal" id="howSwitch">
-                <button class="on" data-side="owner">I'm advertising</button>
-                <button data-side="traveler">I'm looking</button>
+            <div class="switch reveal" id="howSwitch" role="group" aria-label="Whose steps to show">
+                <button type="button" class="on" data-side="owner"
+                        aria-pressed="true" aria-controls="stepsOwner">I'm advertising</button>
+                <button type="button" data-side="traveler"
+                        aria-pressed="false" aria-controls="stepsTraveler">I'm looking</button>
             </div>
         </div>
 
-        <div class="grid g4" id="stepsOwner">
+        <div class="grid g4 steps steps-owner is-active" id="stepsOwner">
             @foreach ([
                 ['Tell us what you hold', 'Ten minutes, one form. A property, a points balance, or a week — we ask only for the details that interested users actually need.'],
-                ['We verify your ownership', 'Send your deed, club statement, or membership certificate. Our team checks it within two business days. Nothing publishes unverified.'],
+                ['Submit your property information', 'Send us the details of what you are advertising. A specialist will contact you to go over your options.'],
                 ['Your listing runs a year', 'One flat fee covers twelve months. Edit it whenever you like, pause it when it\'s booked, and renew at half price if it hasn\'t moved.'],
                 ['You connect directly', 'Messages arrive in your inbox. You set the terms and you keep everything — Listora takes no percentage at any point.'],
             ] as $i => [$t, $d])
@@ -210,11 +220,19 @@
                     <span class="num">{{ $i + 1 }}</span>
                     <h3>{{ $t }}</h3>
                     <p>{{ $d }}</p>
+
+                    {{-- Step 2 is the one with something to do, so it gets the link. --}}
+                    @if ($i === 1)
+                        <a href="{{ route('property-information.create') }}"
+                           class="btn btn-outline btn-sm" style="margin-top:16px">
+                            Property information sheet
+                        </a>
+                    @endif
                 </div>
             @endforeach
         </div>
 
-        <div class="grid g4" id="stepsTraveler" hidden>
+        <div class="grid g4 steps steps-traveler" id="stepsTraveler" hidden>
             @foreach ([
                 ['Search what you want', 'Filter by destination, dates, unit size, or points balance. Club listings show what the points actually book.'],
                 ['Read a real listing', 'Owners write their own descriptions. You\'ll learn which corner catches the breeze and which month to avoid.'],

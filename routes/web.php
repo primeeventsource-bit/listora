@@ -25,6 +25,7 @@ use App\Http\Controllers\Owner\ListingController as OwnerListingController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\PressController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\PropertyInformationController;
 use App\Http\Middleware\CaptureLandingAttribution;
 use Illuminate\Support\Facades\Route;
 
@@ -63,6 +64,14 @@ Route::post('/listing/{listing}/offer', [OfferController::class, 'store'])
 Route::get('/list-your-property', [ListingWizardController::class, 'create'])->name('list.create');
 Route::post('/list-your-property', [ListingWizardController::class, 'store'])
     ->middleware('throttle:10,1')->name('list.store');
+
+// The short way in: essentials only, then a specialist calls. Produces the
+// same ListingDraft the wizard does, marked with source=information_sheet, so
+// both arrive in one review queue rather than two.
+Route::get('/property-information', [PropertyInformationController::class, 'create'])
+    ->name('property-information.create');
+Route::post('/property-information', [PropertyInformationController::class, 'store'])
+    ->middleware('throttle:10,1')->name('property-information.store');
 
 Route::get('/how-it-works', [PageController::class, 'how'])->name('how');
 Route::get('/pricing', [PageController::class, 'pricing'])->name('pricing');

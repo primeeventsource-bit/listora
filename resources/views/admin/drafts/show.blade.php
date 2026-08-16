@@ -33,7 +33,14 @@
                     <dt>Points</dt><dd>{{ $draft->points ? number_format($draft->points) : '—' }}</dd>
                     <dt>Week</dt><dd>{{ $draft->week_number ?? '—' }} {{ $draft->season ? '· '.$draft->season : '' }}</dd>
                     <dt>Asking price</dt><dd>{{ $draft->price ? '$'.number_format($draft->price) : '—' }} {{ $draft->price_unit }}</dd>
-                    <dt>Plan</dt><dd>{{ $draft->plan?->label() ?? '—' }}</dd>
+                    <dt>Plan</dt>
+                    <dd>
+                        {{ $draft->plan?->label() ?? '—' }}
+                        @if (! $draft->plan && $draft->source === \App\Models\ListingDraft::SOURCE_SHEET)
+                            <span class="muted">— not chosen; the sheet does not ask, a specialist goes over the options</span>
+                        @endif
+                    </dd>
+                    <dt>Came in via</dt><dd>{{ $draft->sourceLabel() }}</dd>
                     <dt>Submitted</dt><dd>{{ $draft->created_at?->format('j M Y, H:i') }}</dd>
                     @if ($draft->verified_at)
                         <dt>Verified</dt>

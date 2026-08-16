@@ -45,7 +45,15 @@
                     <tbody>
                         @foreach ($drafts as $draft)
                             <tr>
-                                <td><code>{{ $draft->reference }}</code></td>
+                                <td>
+                                    <code>{{ $draft->reference }}</code>
+                                    {{-- A sheet arrives thinner than a wizard draft by design —
+                                         no plan, few unit facts — so say which it is before a
+                                         reviewer reads the gaps as an incomplete submission. --}}
+                                    @if ($draft->source === \App\Models\ListingDraft::SOURCE_SHEET)
+                                        <div style="margin-top:6px"><span class="pill pill-off">Information sheet</span></div>
+                                    @endif
+                                </td>
                                 <td>
                                     {{ $draft->owner_name }}<br>
                                     <span class="muted">{{ $draft->owner_email }}</span>

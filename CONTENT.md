@@ -66,7 +66,11 @@ bookmarks still land somewhere useful.
 ## 2. Explore — `/browse`
 `resources/views/pages/browse.blade.php`
 
-**Headline:** Browse every listing
+**Headline:** facet-aware. "Vacation Weeks to Rent in Hawaii" when the filters
+say so, "Browse every listing" when they don't. Built by
+`App\Services\Seo\ExploreSeo::heading()` and it must stay in step with the
+`<title>` — Google Ads scores landing-page relevance on the visible heading,
+and a mismatch is paid for on every click.
 
 **Purpose:** find something. Filters do the work, copy stays out of the way.
 
@@ -75,6 +79,36 @@ region · bedrooms · max price · sort
 
 **Empty state:** say plainly that nothing matched and offer to widen the
 filters — never show zero results with no way forward.
+
+### This is the paid-search landing page
+
+One route answering to seven parameters is a few hundred thousand URLs wearing
+one coat, so `ExploreSeo` decides per URL what is fit to index:
+
+| | |
+|---|---|
+| **Indexed** | the base page, and one or two facets (kind / mode / region) |
+| **`noindex, follow`** | keyword searches · non-default sorts · three or more facets · bedroom and price slices · any empty result set |
+| **Canonical** | self-referencing, keeps `page`, folds away `sort` — sort re-orders an identical set, so it must not mint a URL |
+
+**Never emit Product or Offer structured data.** Those types tell Google the
+thing is purchasable and can attach a buy intent to it in the results. The
+asking price here is the owner's number, not a transaction this site can
+complete — ItemList says "these are listings" and stops there. Same rule as
+the copy: see "the one rule the copy has to hold" above.
+
+**Turning tracking on** — both are blank by default, and blank means no tag,
+no network call, and no cookie:
+
+- Settings → Integrations → **Analytics ID** (`G-…`)
+- Settings → Integrations → **Google Ads conversion ID** (`AW-…`)
+
+Attribution is captured server-side by `CaptureLandingAttribution`, which is
+registered on this route only. A visitor is cookied **solely** when they
+arrive carrying `gclid`/`utm_*` — organic traffic leaves with nothing, because
+cookieing someone to learn nothing is not a trade worth making. Point a
+campaign at any other page and the middleware needs moving into the global web
+group.
 
 ---
 

@@ -26,6 +26,21 @@ class ListingDraft extends Model
 {
     use HasFactory;
 
+    /** Filled in fully by the owner at /list-your-property, plan and all. */
+    public const SOURCE_WIZARD = 'wizard';
+
+    /**
+     * The short sheet at /property-information: the essentials only, with a
+     * specialist following up to go over the options. Same review queue, same
+     * verification — the difference is only how much the owner typed.
+     */
+    public const SOURCE_SHEET = 'information_sheet';
+
+    public const SOURCES = [
+        self::SOURCE_WIZARD => 'Wizard',
+        self::SOURCE_SHEET => 'Information sheet',
+    ];
+
     protected $guarded = [];
 
     protected function casts(): array
@@ -77,6 +92,16 @@ class ListingDraft extends Model
             DraftStatus::Published->value,
             DraftStatus::Declined->value,
         ]);
+    }
+
+    public function scopeFromSheet(Builder $q): Builder
+    {
+        return $q->where('source', self::SOURCE_SHEET);
+    }
+
+    public function sourceLabel(): string
+    {
+        return self::SOURCES[$this->source] ?? 'Wizard';
     }
 
     public function scopeAwaitingVerification(Builder $q): Builder

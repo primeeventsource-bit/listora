@@ -54,15 +54,37 @@
             var btn = e.target.closest('button');
             if (!btn) return;
 
-            howSwitch.querySelectorAll('button').forEach(function (b) { b.classList.remove('on'); });
+            howSwitch.querySelectorAll('button').forEach(function (b) {
+                b.classList.remove('on');
+                b.setAttribute('aria-pressed', 'false');
+            });
             btn.classList.add('on');
+            btn.setAttribute('aria-pressed', 'true');
 
             var isOwner = btn.dataset.side === 'owner';
             if (owner) owner.hidden = !isOwner;
             if (traveler) traveler.hidden = isOwner;
 
             var shown = isOwner ? owner : traveler;
-            if (shown) shown.querySelectorAll('.reveal').forEach(function (el) { el.classList.add('in'); });
+            var hiddenSteps = isOwner ? traveler : owner;
+
+            // `is-active` carries the accent onto the four numbered cards;
+            // `is-switched` carries the entrance animation and is added only
+            // here, never server-side, so a first paint is never animated over
+            // the top of the scroll reveal.
+            if (hiddenSteps) hiddenSteps.classList.remove('is-active', 'is-switched');
+
+            if (shown) {
+                shown.querySelectorAll('.reveal').forEach(function (el) { el.classList.add('in'); });
+                shown.classList.add('is-active');
+
+                // Reflow between the remove and the add, or the browser
+                // collapses them into no change at all and the animation never
+                // re-runs when a visitor toggles back and forth.
+                shown.classList.remove('is-switched');
+                void shown.offsetWidth;
+                shown.classList.add('is-switched');
+            }
         });
     }
 
