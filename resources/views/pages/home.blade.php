@@ -27,8 +27,8 @@
 
         <form class="searchbar" action="{{ route('listings.index') }}" method="GET" role="search">
             <div class="fld">
-                <label for="q">Where</label>
-                <input type="text" id="q" name="q" placeholder="Destination, resort, or club" autocomplete="off">
+                <label for="q">Keyword</label>
+                <input type="text" id="q" name="q" placeholder="Resort, club, or listing" autocomplete="off">
             </div>
             <div class="fld">
                 <label for="kind">What</label>

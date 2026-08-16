@@ -34,7 +34,7 @@ class LegalDocumentRegistry
 {
     public const KIND_TOS = 'tos';
     public const KIND_PRIVACY = 'privacy';
-    public const KIND_MEMBER_AGREEMENT = 'member_agreement';
+    public const KIND_ADVERTISING_AGREEMENT = 'advertising_agreement';
 
     /**
      * Documents required to be accepted at registration. Privacy is
@@ -103,9 +103,9 @@ class LegalDocumentRegistry
             'version_label' => 'v3',
         ],
         [
-            'kind'          => self::KIND_MEMBER_AGREEMENT,
-            'view'          => 'legal.member-agreement',
-            'route'         => 'legal.member-agreement',
+            'kind'          => self::KIND_ADVERTISING_AGREEMENT,
+            'view'          => 'legal.advertising-agreement',
+            'route'         => 'legal.advertising-agreement',
             // v2 (2026-08-12): replaced with the counsel-supplied Advertising
             // Membership Agreement. The previous text described Listora as
             // the booking party holding guest funds in escrow — the opposite

@@ -27,9 +27,9 @@ class LegalController extends Controller
         return view('legal.privacy');
     }
 
-    public function memberAgreement(): View
+    public function advertisingAgreement(): View
     {
-        return view('legal.member-agreement');
+        return view('legal.advertising-agreement');
     }
 
     /**

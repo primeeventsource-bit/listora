@@ -1,0 +1,129 @@
+@extends('layouts.legal')
+
+@section('title', 'Privacy Policy — Listora')
+
+@section('content')
+<div class="wrap-sm legal-doc">
+
+    <h1>Privacy Policy</h1>
+    <p class="legal-meta">Version v3 · Effective 16 August 2026</p>
+
+    <h2>1. Who we are</h2>
+    <p>
+        Listora operates an advertising marketplace for vacation properties, resort club points,
+        and vacation weeks. Our headquarters are in the United States. For any privacy question,
+        write to help&#64;listora1.com.
+    </p>
+
+    <h2>2. What we collect</h2>
+    <p><strong>Information you give us.</strong> Your name, email address, phone number, and
+    password when you create an account. Listing details and photographs when you advertise.
+    The contents of inquiries, offers, and messages you send through the site.</p>
+
+    <p><strong>Ownership documentation.</strong> Deeds, club statements, and membership
+    certificates you provide for verification.</p>
+
+    <p><strong>Information collected automatically.</strong> IP address, browser and device type,
+    pages viewed, and the approximate location derived from your IP address. We record
+    authentication events — sign-in, sign-out, and failed attempts — with this information.</p>
+
+    <p><strong>What we do not collect.</strong> We do not collect or store card numbers, bank
+    account details, or any payment credentials, because no payment is processed through this
+    website.</p>
+
+    <h2>3. Why we use it</h2>
+    <ul>
+        <li>To operate your account and publish your listings.</li>
+        <li>To verify ownership before a listing is published.</li>
+        <li>To pass inquiries and offers to the relevant listing owner.</li>
+        <li>To detect and investigate fraud, abuse, and unauthorised account access.</li>
+        <li>To respond to support requests.</li>
+        <li>To send service messages about your listings, including term expiry notices.</li>
+    </ul>
+
+    <h2>4. Our lawful bases</h2>
+    <p>
+        We process personal data to perform our contract with you, to pursue our legitimate
+        interests in operating a trustworthy marketplace and preventing fraud, to comply with
+        legal obligations, and — for optional marketing email — with your consent.
+    </p>
+
+    <h2>5. What we share, and what we never do</h2>
+    <p>
+        When you send an inquiry or an offer, the listing owner receives your message and the
+        contact details you supplied. When an owner accepts an offer, contact details are
+        exchanged between the two of you.
+    </p>
+    <p>
+        We share data with service providers who host our infrastructure, send our email, and
+        provide geolocation and AI support-assistant functionality, under contract and only as
+        needed to provide those services. We disclose data where required by law.
+    </p>
+    <p>
+        <strong>We do not sell personal data, and we do not sell inquiries as sales leads.</strong>
+        We do not pass your contact details to third-party marketers.
+    </p>
+
+    <h2>6. The AI support assistant</h2>
+    <p>
+        The Help page assistant sends the text of your conversation to our AI provider to
+        generate a reply. Do not enter payment credentials or sensitive personal information into
+        it. Conversations are retained so we can follow up on support requests.
+    </p>
+
+    <h2>7. Owner contact details</h2>
+    <p>
+        A listing owner's email address and phone number are not displayed publicly on a listing.
+        They are shared with a specific person only when the owner replies or accepts an offer.
+    </p>
+
+    <h2>8. Retention</h2>
+    <p>
+        We keep account data for as long as your account is open. Listings, inquiries, and offers
+        are retained after they close as a record of what was agreed and to resolve later
+        disputes. Authentication and security records are retained for security investigation.
+        We delete or anonymise data when it is no longer needed for these purposes.
+    </p>
+
+    <h2>9. Your rights</h2>
+    <p>
+        Depending on where you live, you may have the right to access, correct, delete, port, or
+        restrict the processing of your personal data, and to object to processing based on
+        legitimate interests. You may withdraw marketing consent at any time.
+    </p>
+    <p>
+        To exercise any of these, write to help&#64;listora1.com. We may need to verify your
+        identity first.
+    </p>
+
+    <h2>10. Cookies</h2>
+    <p>
+        We use cookies necessary to keep you signed in and to secure form submissions, and a
+        local identifier so an anonymous support-chat conversation survives a page reload.
+    </p>
+
+    <h2>11. International transfers</h2>
+    <p>
+        We are based in the United States and your data may be processed there. Where we transfer
+        data from other regions we rely on appropriate safeguards.
+    </p>
+
+    <h2>12. Children</h2>
+    <p>
+        The service is not directed at children under 16 and we do not knowingly collect their
+        personal data.
+    </p>
+
+    <h2>13. Changes</h2>
+    <p>
+        We may update this policy. Each version is recorded with its own identifier and content
+        hash, and we will tell you about material changes.
+    </p>
+
+    <h2>14. Contact</h2>
+    <p>
+        Privacy questions and data-subject requests: help&#64;listora1.com.
+    </p>
+
+</div>
+@endsection
