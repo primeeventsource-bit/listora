@@ -171,8 +171,7 @@ advertising.
 Every plan: live for 12 full months · ownership verified before publishing ·
 direct messaging · appears in all search results · edit any time.
 
-**Sections:** The parts we don't charge extra for · What owners ask about the
-fee · closing CTA
+**Sections:** The parts we don't charge extra for · closing CTA
 
 **Renewal:** half price if a listing doesn't move within the year; free on
 Premier.

@@ -179,11 +179,6 @@
                 </div>
                 <input type="hidden" name="plan" id="planInput" value="{{ old('plan', request('plan', 'featured')) }}">
 
-                <div class="notice amber" style="margin-top:32px">
-                    Nothing is charged now. We verify your ownership documents first, show you the finished listing,
-                    and only take payment when you approve it for publishing.
-                </div>
-
                 <div style="margin-top:32px;display:flex;justify-content:space-between;gap:14px">
                     <button type="button" class="btn btn-outline btn-lg" data-back>Back</button>
                     <button type="button" class="btn btn-primary btn-lg" data-next>Continue</button>
@@ -225,17 +220,6 @@
                 </div>
             </div>
         </form>
-    </div>
-</section>
-
-<section class="band pad-sm">
-    <div class="wrap-sm">
-        @include('partials.faq', ['faqs' => [
-            ['What documents count as proof of ownership?', 'A recorded deed, a current club or membership statement showing your name and balance, or a membership certificate. A photo of the document is fine as long as your name, the resort, and the ownership details are legible.'],
-            ['How long does verification take?', 'One to two business days in almost every case. If your club is one we have not seen before it can take a day longer, and we will tell you rather than leave you waiting.'],
-            ['When am I charged?', 'After verification, once you have seen the finished listing and approved it for publishing. If we cannot verify your ownership, you are not charged at all.'],
-            ['Can I list more than one week or balance?', 'Yes — each one is its own listing so buyers can find exactly what they want. From your third listing onward, each is half price.'],
-        ]])
     </div>
 </section>
 

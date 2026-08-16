@@ -54,24 +54,6 @@
     </div>
 </section>
 
-<section>
-    <div class="wrap-sm">
-        <div class="sec-head reveal">
-            <span class="eyebrow">Pricing questions</span>
-            <h2>What owners ask about the fee</h2>
-        </div>
-
-        @include('partials.faq', ['faqs' => [
-            ['Is there really no commission?', 'None. Listora earns from listing fees and nothing else. We take no percentage of a rental payment or a transfer price, we do not charge a success fee, and we do not invoice you after a deal closes.'],
-            ['Do you charge per photo, per edit, or per inquiry?', 'No. Photos, edits, pauses, and inquiries are all included on every plan. The listing fee is the entire cost.'],
-            ['What happens after twelve months?', 'We email you before the listing expires. Essential and Featured renew at half price, Premier renews free. If you do nothing, the listing simply comes down — we never auto-charge a card.'],
-            ['Can I upgrade partway through?', 'Yes, and you only pay the difference. Upgrades take effect the same day and your original twelve-month window carries across unchanged.'],
-            ['Do you offer refunds?', 'If we cannot verify your ownership, you get a full refund and we tell you exactly what did not check out. Beyond that, a published listing is a delivered service, so we do not refund once it is live — but talk to us if something has gone wrong.'],
-            ['Is there a discount for multiple listings?', 'From three listings onward the third and each one after is half price on any plan. Email us and we will set it up rather than making you buy them separately.'],
-        ]])
-    </div>
-</section>
-
 <div class="immersive center">
     <img src="https://images.unsplash.com/photo-1545556124-500dc7c01f2c?auto=format&fit=crop&w=2200&h=1200&q=80" alt="" loading="lazy">
     <div class="wrap">

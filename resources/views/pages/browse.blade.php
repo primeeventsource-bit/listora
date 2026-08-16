@@ -26,7 +26,7 @@
                 <div class="fgroup">
                     <h4>Listing type</h4>
                     <label class="fopt {{ $filters['kind'] === 'all' ? 'checked' : '' }}">
-                        <input type="radio" name="kind" value="all" @checked($filters['kind'] === 'all')> Everything
+                        <input type="radio" name="kind" value="all" @checked($filters['kind'] === 'all')> All
                         <span class="c">{{ $facets['kind']->sum() }}</span>
                     </label>
                     @foreach (\App\Models\Listing::KINDS as $value => $label)
@@ -39,10 +39,6 @@
 
                 <div class="fgroup">
                     <h4>Rent or own</h4>
-                    <label class="fopt {{ $filters['mode'] === 'all' ? 'checked' : '' }}">
-                        <input type="radio" name="mode" value="all" @checked($filters['mode'] === 'all')> Either
-                        <span class="c">{{ $facets['mode']->sum() }}</span>
-                    </label>
                     <label class="fopt {{ $filters['mode'] === 'rent' ? 'checked' : '' }}">
                         <input type="radio" name="mode" value="rent" @checked($filters['mode'] === 'rent')> Available to rent
                         <span class="c">{{ $facets['mode']['rent'] ?? 0 }}</span>
@@ -55,10 +51,6 @@
 
                 <div class="fgroup">
                     <h4>Region</h4>
-                    <label class="fopt {{ $filters['region'] === 'all' ? 'checked' : '' }}">
-                        <input type="radio" name="region" value="all" @checked($filters['region'] === 'all')> Anywhere
-                        <span class="c">{{ $facets['region']->sum() }}</span>
-                    </label>
                     @foreach ($facets['region'] as $region => $count)
                         <label class="fopt {{ $filters['region'] === $region ? 'checked' : '' }}">
                             <input type="radio" name="region" value="{{ $region }}" @checked($filters['region'] === $region)> {{ $region }}

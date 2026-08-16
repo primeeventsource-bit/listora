@@ -85,7 +85,7 @@ class TrackingService
 
         // First-touch attribution capture.
         if ($visitorId) {
-            $this->capturePpcFirstTouch($request, $visitorId);
+            $this->captureFirstTouch($request, $visitorId);
         }
 
         // The route is anonymous (no auth:sanctum middleware) so $request->user()
@@ -104,7 +104,20 @@ class TrackingService
         );
     }
 
-    private function capturePpcFirstTouch(Request $request, string $visitorId): void
+    /**
+     * Record where a visitor came from, once, on the first request that says.
+     *
+     * Public because paid traffic lands on a rendered page, not on the API —
+     * a Google Ads click arrives at /browse with a `gclid` and nothing else
+     * asks about it. CaptureLandingAttribution calls this from the web
+     * middleware stack; recordFromRequest still calls it for API traffic.
+     *
+     * Deliberately not paired with a TrackingEvent row. Attribution is one
+     * fact per visitor; writing a hash-chained event per page view would put
+     * the marketing funnel into the same ledger as the security audit trail
+     * and make both harder to read.
+     */
+    public function captureFirstTouch(Request $request, string $visitorId): void
     {
         $utm = [
             'utm_source' => $request->input('utm_source'),
