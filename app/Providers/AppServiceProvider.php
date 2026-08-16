@@ -89,7 +89,10 @@ class AppServiceProvider extends ServiceProvider
                 );
             }
 
-            if (env('GEOIP_DISABLE_CLOUDFLARE', false)) {
+            // Read through config, never env() directly: `config:cache` runs on
+            // every Cloud deploy and makes env() return null outside config/,
+            // which would silently pin this to the Cloudflare branch forever.
+            if (config('services.maxmind.disable_cloudflare', false)) {
                 return new NoOpGeoIpService();
             }
 
