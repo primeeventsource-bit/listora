@@ -87,6 +87,31 @@ final class ExploreSeo
     }
 
     /**
+     * The visible H1, and it has to agree with title().
+     *
+     * Google Ads scores landing-page relevance partly on whether the page says
+     * what the ad said. Sending "vacation weeks in Hawaii" traffic to a page
+     * headed "Browse every listing" is the cheapest available way to depress
+     * Quality Score, and it is paid for on every click, not once.
+     */
+    public function heading(): string
+    {
+        if ($keyword = $this->keyword()) {
+            return sprintf('Listings matching “%s”', $keyword);
+        }
+
+        $subject = $this->subject();
+        $mode    = $this->modeFragment();
+        $region  = $this->regionFragment();
+
+        if (! $subject && ! $mode && ! $region) {
+            return 'Browse every listing';
+        }
+
+        return trim(($subject ?: 'Listings').$mode.$region);
+    }
+
+    /**
      * Leads with the count because a real number is the one thing a snippet
      * can say that a competitor's boilerplate cannot, then states the model
      * — the fee and the absent commission are the reason to click.

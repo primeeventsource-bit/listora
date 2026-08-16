@@ -1,14 +1,52 @@
 @extends('layouts.app')
 
-@section('title', 'Browse listings — Listora')
+@section('title', $seo->title())
+@section('meta', $seo->description())
+@section('robots', $seo->robots())
+
+@section('head')
+    <link rel="canonical" href="{{ $seo->canonical() }}">
+
+    @if ($listings->currentPage() > 1)
+        <link rel="prev" href="{{ $listings->previousPageUrl() }}">
+    @endif
+    @if ($listings->hasMorePages())
+        <link rel="next" href="{{ $listings->nextPageUrl() }}">
+    @endif
+
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Listora">
+    <meta property="og:url" content="{{ $seo->canonical() }}">
+    <meta property="og:title" content="{{ $seo->title() }}">
+    <meta property="og:description" content="{{ $seo->description() }}">
+    @if ($listings->count() && $listings->first()->photoUrl(0, 1200, 630))
+        <meta property="og:image" content="{{ $listings->first()->photoUrl(0, 1200, 630) }}">
+    @elseif (setting('seo.og_image_url'))
+        <meta property="og:image" content="{{ setting('seo.og_image_url') }}">
+    @endif
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ $seo->title() }}">
+    <meta name="twitter:description" content="{{ $seo->description() }}">
+
+    <script type="application/ld+json">{!! $seo->jsonLd() !!}</script>
+@endsection
+
+@push('analytics')
+    // Google Ads remarketing + GA4 merchandising for this facet. Fires with the
+    // listings actually rendered, so an audience built here matches what the
+    // visitor was shown rather than what the whole catalogue contains.
+    gtag('event', 'view_item_list', @json($seo->itemListPayload()));
+@endpush
 
 @section('content')
 
 <div class="page-head photo">
     <img class="bg" src="https://images.unsplash.com/photo-1520277872024-58b40679ddb4?auto=format&fit=crop&w=2000&h=800&q=75" alt="" loading="eager">
     <div class="wrap">
-        <span class="eyebrow">{{ $listings->total() }} live listings</span>
-        <h1>Browse every listing</h1>
+        <span class="eyebrow">{{ number_format($listings->total()) }} live {{ Str::plural('listing', $listings->total()) }}</span>
+        {{-- Facet-aware, and must stay in step with $seo->title() — see ExploreSeo::heading(). --}}
+        <h1>{{ $seo->heading() }}</h1>
         <p>Vacation properties, resort club points, and vacation weeks — all published and answered by the people who own them.</p>
     </div>
 </div>

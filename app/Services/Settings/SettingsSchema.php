@@ -177,7 +177,8 @@ final class SettingsSchema
             'integrations.twilio_sid' => ['integrations', 'string', '', 'Twilio SID', ['nullable', 'string', 'max:64']],
             'integrations.twilio_token' => ['integrations', 'encrypted', '', 'Twilio auth token', ['nullable', 'string', 'max:255'], null, false, true],
             'integrations.maxmind_license_key' => ['integrations', 'encrypted', '', 'MaxMind license key', ['nullable', 'string', 'max:255'], null, false, true],
-            'integrations.analytics_id' => ['integrations', 'string', '', 'Analytics ID', ['nullable', 'string', 'max:64'], null, true],
+            'integrations.analytics_id' => ['integrations', 'string', '', 'Analytics ID', ['nullable', 'string', 'max:64'], 'GA4 measurement ID (G-XXXXXXX). Blank loads no analytics at all.', true],
+            'integrations.google_ads_id' => ['integrations', 'string', '', 'Google Ads conversion ID', ['nullable', 'string', 'max:64'], 'AW-XXXXXXXXX. Enables remarketing audiences and conversion linking on paid landing pages.', true],
             'integrations.slack_alerts_webhook' => ['integrations', 'encrypted', '', 'Slack alerts webhook', ['nullable', 'string', 'max:512'], null, false, true],
 
             // ---------------------------------------------------------- seo

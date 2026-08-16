@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Listing;
+use App\Services\Seo\ExploreSeo;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 
@@ -21,17 +22,23 @@ class ListingController extends Controller
 
         $listings = $query->paginate(9)->withQueryString();
 
+        $filters = [
+            'q'      => $request->query('q'),
+            'kind'   => $request->query('kind', 'all'),
+            'mode'   => $request->query('mode', 'all'),
+            'region' => $request->query('region', 'all'),
+            'beds'   => $request->query('beds'),
+            'max'    => $request->query('max'),
+            'sort'   => $request->query('sort', 'recommended'),
+        ];
+
         return view('pages.browse', [
             'listings' => $listings,
-            'filters'  => [
-                'q'      => $request->query('q'),
-                'kind'   => $request->query('kind', 'all'),
-                'mode'   => $request->query('mode', 'all'),
-                'region' => $request->query('region', 'all'),
-                'beds'   => $request->query('beds'),
-                'max'    => $request->query('max'),
-                'sort'   => $request->query('sort', 'recommended'),
-            ],
+            'filters'  => $filters,
+            // Explore is the paid-traffic landing page, so its title, canonical,
+            // robots policy, and item payload are all derived per facet rather
+            // than being one fixed set of tags. See ExploreSeo.
+            'seo'      => new ExploreSeo($filters, $listings),
             'facets' => [
                 'kind'   => Listing::published()->selectRaw('kind, count(*) c')->groupBy('kind')->pluck('c', 'kind'),
                 'region' => Listing::published()->selectRaw('region, count(*) c')->groupBy('region')->orderBy('region')->pluck('c', 'region'),

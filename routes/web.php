@@ -25,6 +25,7 @@ use App\Http\Controllers\Owner\ListingController as OwnerListingController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\PressController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Middleware\CaptureLandingAttribution;
 use Illuminate\Support\Facades\Route;
 
 // ---------------------------------------------------------------------------
@@ -34,7 +35,14 @@ use Illuminate\Support\Facades\Route;
 // ---------------------------------------------------------------------------
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
-Route::get('/browse', [ListingController::class, 'index'])->name('listings.index');
+// Explore is the paid-search landing page, so it carries the attribution
+// middleware: a Google Ads click arrives here with a gclid and this is the
+// only chance to record it. Move CaptureLandingAttribution into the global
+// web group in bootstrap/app.php if campaigns start pointing anywhere else.
+Route::get('/browse', [ListingController::class, 'index'])
+    ->middleware(CaptureLandingAttribution::class)
+    ->name('listings.index');
+
 Route::get('/listing/{listing}', [ListingController::class, 'show'])->name('listings.show');
 
 // The inventory register: ten rows, no filters, no paging. Distinct from

@@ -1,6 +1,16 @@
 @extends('layouts.app', ['overPhoto' => true])
 
-@section('title', 'Listora — List. Connect. Explore.')
+@section('title', $seo->title())
+@section('meta', $seo->description())
+@section('robots', $seo->robots())
+
+@section('head')
+    <link rel="canonical" href="{{ $seo->canonical() }}">
+
+    {{-- Organization + WebSite. The SearchAction points at Explore, which is
+         where a query actually resolves. See App\Services\Seo\HomeSeo. --}}
+    <script type="application/ld+json">{!! $seo->jsonLd() !!}</script>
+@endsection
 
 @section('content')
 
