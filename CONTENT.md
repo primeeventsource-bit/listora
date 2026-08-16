@@ -78,6 +78,33 @@ filters — never show zero results with no way forward.
 
 ---
 
+## 2b. Inventory — `/inventory`
+`resources/views/pages/inventory.blade.php`
+
+**Headline:** Inventory
+
+**Purpose:** the register. What is on the books right now, as facts rather than
+photographs — one dense table read top to bottom.
+
+Deliberately **not** a second Explore. No filters, no paging, no photos: the
+ten most recently published listings and nothing else. A register long enough
+to need paging is just Explore with worse pictures.
+
+**Columns:** reference · listing · type · rent or own · detail · asking · plan
+
+**Ordered newest first**, never by `recommended`. Placement is something a plan
+buys on Explore; it has no business deciding what a register shows.
+
+**Required line, under the table:**
+> Every figure above is what the owner is asking, not a quote and not a total.
+
+A column of prices reads like a price list you can act on, so the limit is
+restated where the prices are — not left to the footer.
+
+Linked from the footer's **Explore** column, not the nav.
+
+---
+
 ## 3. Listing detail — `/listing/{slug}`
 `resources/views/pages/listing.blade.php`
 
@@ -269,8 +296,8 @@ answer inquiries.
 
 ## Footer
 
-**Explore:** Vacation Properties · Resort Club Points · Vacation Weeks ·
-Available to Rent · Available to Own
+**Explore:** Inventory · Vacation Properties · Resort Club Points · Vacation
+Weeks · Available to Rent · Available to Own
 
 **Advertise:** Create a Listing · Pricing · How It Works · Ownership
 Verification · Mobile Apps

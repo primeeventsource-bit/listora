@@ -37,6 +37,10 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/browse', [ListingController::class, 'index'])->name('listings.index');
 Route::get('/listing/{listing}', [ListingController::class, 'show'])->name('listings.show');
 
+// The inventory register: ten rows, no filters, no paging. Distinct from
+// /browse, which is the search surface — see PageController::inventory.
+Route::get('/inventory', [PageController::class, 'inventory'])->name('inventory');
+
 // Free-text message to an owner. Throttled because it sends mail on behalf of
 // an anonymous visitor.
 Route::post('/listing/{listing}/inquire', [InquiryController::class, 'store'])

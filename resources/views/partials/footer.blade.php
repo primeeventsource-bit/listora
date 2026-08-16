@@ -24,6 +24,7 @@
 
             <div>
                 <h4>Explore</h4>
+                <a href="{{ route('inventory') }}">Inventory</a>
                 <a href="{{ route('listings.index', ['kind' => 'home']) }}">Vacation Properties</a>
                 <a href="{{ route('listings.index', ['kind' => 'points']) }}">Resort Club Points</a>
                 <a href="{{ route('listings.index', ['kind' => 'weeks']) }}">Vacation Weeks</a>
