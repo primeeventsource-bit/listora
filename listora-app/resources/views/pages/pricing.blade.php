@@ -1,0 +1,85 @@
+@extends('layouts.app')
+
+@section('title', 'Pricing — one flat fee, no commission | Listora')
+
+@section('content')
+
+<div class="page-head plain">
+    <div class="wrap">
+        <span class="eyebrow">Pricing</span>
+        <h1>One fee. Twelve months. No cut of your deal.</h1>
+        <p>Every plan includes ownership verification, unlimited photos, unlimited edits, and direct messaging. The only difference between them is how visible your listing is.</p>
+    </div>
+</div>
+
+<section>
+    <div class="wrap">
+        @include('partials.tiers', ['plans' => $plans])
+
+        <p class="center muted" style="margin-top:34px;font-size:15px;max-width:60ch;margin-inline:auto">
+            Billed once per listing and valid for a full 12 months from the day it publishes.
+            Renew at half price on Essential and Featured, free on Premier.
+        </p>
+    </div>
+</section>
+
+<section class="band">
+    <div class="wrap">
+        <div class="sec-head center reveal">
+            <span class="eyebrow">What every plan includes</span>
+            <h2>The parts we don't charge extra for</h2>
+        </div>
+
+        <div class="grid g3" style="max-width:1060px;margin-inline:auto">
+            @php
+                $inc = [
+                    ['Ownership verification', 'Our team reviews your deed, club statement, or membership certificate before your listing publishes. Never an add-on.'],
+                    ['Unlimited photos', 'Up to twenty images on Essential and unlimited above it — with no per-photo charge on any plan.'],
+                    ['Unlimited edits', 'Change your price, dates, copy, or photos as often as you want for the whole twelve months.'],
+                    ['Direct messaging', 'Inquiries arrive in your inbox with your email address kept private until you reply.'],
+                    ['Pause any time', 'Booked for the season? Pause the listing and restart it later without losing days.'],
+                    ['No commission, ever', 'Whatever you agree with a traveler or buyer is entirely yours. We take no percentage at any stage.'],
+                ];
+            @endphp
+
+            @foreach ($inc as [$t, $d])
+                <div class="feature reveal">
+                    <span class="chip-icon sm">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 12.5l5 5L20 6.5"/></svg>
+                    </span>
+                    <div><h3>{{ $t }}</h3><p class="muted">{{ $d }}</p></div>
+                </div>
+            @endforeach
+        </div>
+    </div>
+</section>
+
+<section>
+    <div class="wrap-sm">
+        <div class="sec-head reveal">
+            <span class="eyebrow">Pricing questions</span>
+            <h2>What owners ask about the fee</h2>
+        </div>
+
+        @include('partials.faq', ['faqs' => [
+            ['Is there really no commission?', 'None. Listora earns from listing fees and nothing else. We take no percentage of a rental payment or a transfer price, we do not charge a success fee, and we do not invoice you after a deal closes.'],
+            ['Do you charge per photo, per edit, or per inquiry?', 'No. Photos, edits, pauses, and inquiries are all included on every plan. The listing fee is the entire cost.'],
+            ['What happens after twelve months?', 'We email you before the listing expires. Essential and Featured renew at half price, Premier renews free. If you do nothing, the listing simply comes down — we never auto-charge a card.'],
+            ['Can I upgrade partway through?', 'Yes, and you only pay the difference. Upgrades take effect the same day and your original twelve-month window carries across unchanged.'],
+            ['Do you offer refunds?', 'If we cannot verify your ownership, you get a full refund and we tell you exactly what did not check out. Beyond that, a published listing is a delivered service, so we do not refund once it is live — but talk to us if something has gone wrong.'],
+            ['Is there a discount for multiple listings?', 'From three listings onward the third and each one after is half price on any plan. Email us and we will set it up rather than making you buy them separately.'],
+        ]])
+    </div>
+</section>
+
+<div class="immersive center">
+    <img src="https://images.unsplash.com/photo-1545556124-500dc7c01f2c?auto=format&fit=crop&w=2200&h=1200&q=80" alt="" loading="lazy">
+    <div class="wrap">
+        <span class="eyebrow">Ready when you are</span>
+        <h2>Ten minutes now, twelve months of visibility</h2>
+        <p>Start your listing and pick a plan at the end — nothing is charged until you have seen exactly how it will look.</p>
+        <a href="{{ route('list.create') }}" class="btn btn-amber btn-lg">List Your Property</a>
+    </div>
+</div>
+
+@endsection
