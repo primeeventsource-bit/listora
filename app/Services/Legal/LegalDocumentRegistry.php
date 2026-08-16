@@ -1,0 +1,234 @@
+<?php
+
+namespace App\Services\Legal;
+
+use App\Models\TermsVersion;
+use Illuminate\Support\Facades\View;
+
+/**
+ * Source of truth for the four legal documents Listora publishes.
+ *
+ * Each document maps to:
+ *   - kind          → enum value used on terms_versions.kind
+ *   - view          → the Blade template the public legal page renders
+ *   - route         → named route the URL is generated from (resolves to public_url())
+ *   - version_label → human-readable label baked into the rendered HTML
+ *
+ * The registry's job is to:
+ *   1. Resolve the *canonical text* of each document — the rendered <main>
+ *      region, not the source Blade and not the whole page. What users read
+ *      is what gets hashed; the surrounding chrome (CSRF token, absolute
+ *      URLs) is excluded because it varies by environment and session
+ *      without the agreement changing. See canonicalText().
+ *   2. Idempotently materialise terms_versions rows via TermsVersion::forContent
+ *      so the deploy seeder is safe to re-run on every push.
+ *   3. Tell callers which versions are "current" for each kind, used by the
+ *      register form, the EnsureCurrentTermsAccepted middleware, and the
+ *      JSON versions endpoint.
+ *
+ * When counsel hands over the binding text, the placeholder Blade content is
+ * replaced; the next deploy materialises a *new* TermsVersion row (different
+ * SHA-256), and existing users will be required to re-accept.
+ */
+class LegalDocumentRegistry
+{
+    public const KIND_TOS = 'tos';
+    public const KIND_PRIVACY = 'privacy';
+    public const KIND_MEMBER_AGREEMENT = 'member_agreement';
+
+    /**
+     * Documents required to be accepted at registration. Privacy is
+     * informational under most regimes (you can't make someone "accept" the
+     * fact that you process their data — you have to be transparent about
+     * it), but we record acceptance anyway so the audit trail is uniform.
+     */
+    public const REGISTRATION_REQUIRED = [
+        self::KIND_TOS,
+        self::KIND_PRIVACY,
+    ];
+
+    /** @var array<int, array<string, string>> */
+    private const DOCUMENTS = [
+        [
+            'kind'          => self::KIND_TOS,
+            'view'          => 'legal.tos',
+            'route'         => 'legal.tos',
+            // v2 (2026-08-12): replaced the placeholder terms with the full
+            // counsel-supplied Terms and Conditions. A genuine change of the
+            // agreement, so existing users are required to re-accept — which
+            // is the correct outcome, not a side effect to suppress.
+            //
+            // v3 (2026-08-12): section 18 now names contact@listora.com and
+            // the registered office. A notice provision that does not say where
+            // notices go is not a provision, so this belongs inside the hashed
+            // agreement text and the re-acceptance it triggers is intended.
+            //
+            // v4 (2026-08-13): section 21 was "Guest Booking Terms" and told
+            // guests to review payment methods and cancellation terms "before
+            // confirming a booking" — describing a reservation flow Listora
+            // does not operate. Replaced with Offers and Direct Arrangements,
+            // which states what an offer is, that it reserves nothing and
+            // charges nothing, and that any resulting arrangement is between
+            // the traveler and the listing member alone.
+            //
+            // v5 (2026-08-13): the agreement said nothing about how Listora
+            // bills. Section 2.1 now sets out the two services actually sold —
+            // a recurring monthly host subscription, and a one-time fee for a
+            // 180-day managed member term that is explicitly not a recurring
+            // subscription — and sections 6, 7, 20 and 24 follow from it.
+            // Sections 7 and 24 previously promised guests a cancellation
+            // policy "displayed for the applicable property", for a payment
+            // Listora never took.
+            //
+            // v6 (2026-08-13): the host plan is a recurring 30-DAY
+            // subscription, not a monthly one. A 30-day cycle drifts against
+            // the calendar; describing it as monthly sets a renewal-date
+            // expectation the billing will not meet. Both services now use
+            // their proper names throughout: "180-Day Member Managed Listing
+            // Program" and "Host 30-Day Subscription".
+            'version_label' => 'v6',
+        ],
+        [
+            'kind'          => self::KIND_PRIVACY,
+            'view'          => 'legal.privacy',
+            'route'         => 'legal.privacy',
+            // v2 (2026-08-12): the data-subject request address was
+            // privacy@listora.com, a mailbox that does not exist — a GDPR/CCPA
+            // request sent there was silently lost. Now contact@listora.com,
+            // with the registered office added.
+            //
+            // v3 (2026-08-13): said we collect data to "complete bookings,
+            // process payments and refunds". We do neither — the only payments
+            // we process are property owners paying us for advertising.
+            'version_label' => 'v3',
+        ],
+        [
+            'kind'          => self::KIND_MEMBER_AGREEMENT,
+            'view'          => 'legal.member-agreement',
+            'route'         => 'legal.member-agreement',
+            // v2 (2026-08-12): replaced with the counsel-supplied Advertising
+            // Membership Agreement. The previous text described Listora as
+            // the booking party holding guest funds in escrow — the opposite
+            // of what this agreement says at 2.6.
+            'version_label' => 'v2',
+        ],
+    ];
+
+    /**
+     * Materialise (or refresh) all 4 documents into terms_versions.
+     * Idempotent — re-running with unchanged content is a no-op.
+     *
+     * @return array<int, TermsVersion>
+     */
+    public function materialiseAll(): array
+    {
+        return array_map(fn (array $d) => $this->materialise($d), self::DOCUMENTS);
+    }
+
+    /**
+     * Returns the current TermsVersion for each registered kind, in registration order.
+     *
+     * @return array<string, TermsVersion>  keyed by kind
+     */
+    public function currentVersions(): array
+    {
+        $out = [];
+        foreach (self::DOCUMENTS as $doc) {
+            $version = TermsVersion::currentFor($doc['kind']);
+            if ($version) {
+                $out[$doc['kind']] = $version;
+            }
+        }
+        return $out;
+    }
+
+    /**
+     * Returns the documents required at registration as TermsVersion rows.
+     *
+     * @return array<int, TermsVersion>
+     */
+    public function registrationRequired(): array
+    {
+        $current = $this->currentVersions();
+        $required = [];
+        foreach (self::REGISTRATION_REQUIRED as $kind) {
+            if (isset($current[$kind])) {
+                $required[] = $current[$kind];
+            }
+        }
+        return $required;
+    }
+
+    /**
+     * @return array<int, array<string, string>>
+     */
+    public function documents(): array
+    {
+        return self::DOCUMENTS;
+    }
+
+    /**
+     * Route name that publishes a given kind, or null if it is not registered.
+     *
+     * Static because TermsVersion::publicUrl() needs it to turn a stored row
+     * back into a link on the CURRENT host, and a model accessor should not
+     * have to resolve a service out of the container to answer that.
+     */
+    public static function routeNameFor(string $kind): ?string
+    {
+        foreach (self::DOCUMENTS as $doc) {
+            if ($doc['kind'] === $kind) {
+                return $doc['route'];
+            }
+        }
+
+        return null;
+    }
+
+    private function materialise(array $doc): TermsVersion
+    {
+        $rendered = View::make($doc['view'])->render();
+        $url = route($doc['route']);
+
+        return TermsVersion::forContent(
+            kind:         $doc['kind'],
+            content:      $this->canonicalText($rendered),
+            url:          $url,
+            versionLabel: $doc['version_label'],
+        );
+    }
+
+    /**
+     * The part of the rendered page that IS the agreement — the <main> region
+     * holding the title, effective date, version label, and body.
+     *
+     * Hashing the whole page looks more honest but is not: the surrounding
+     * chrome carries a per-session CSRF token and absolute route() URLs built
+     * from APP_URL. That made the hash environment-coupled — the same document
+     * hashed differently on each environment — and it meant that pointing the
+     * app at a real domain would silently mint a new version and force every
+     * existing user to re-accept terms that had not changed a word.
+     *
+     * The nav bar is not part of the contract. The document is.
+     */
+    private function canonicalText(string $renderedPage): string
+    {
+        $matched = preg_match(
+            '#<main class="legal-shell">(.*?)</main>#s',
+            $renderedPage,
+            $matches,
+        );
+
+        // Fail loudly rather than falling back to the full page: a silent
+        // fallback would reintroduce the environment coupling exactly when
+        // someone changes the layout, which is when nobody is looking for it.
+        if ($matched !== 1) {
+            throw new \RuntimeException(
+                'Legal document layout no longer exposes <main class="legal-shell">; '
+                .'cannot compute a stable content hash. Update '.self::class.'::canonicalText().'
+            );
+        }
+
+        return trim($matches[1]);
+    }
+}
