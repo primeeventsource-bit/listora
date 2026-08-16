@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Enums\ListingStatus;
 use App\Models\Listing;
 use App\Models\Resort;
 use Illuminate\Database\Seeder;
@@ -97,17 +98,34 @@ class ListoraSeeder extends Seeder
 
     private int $ref = 4100;
 
+
     public function run(): void
     {
         $resorts = $this->resorts();
 
         foreach ($this->listings() as $i => $row) {
+            $publishedAt = now()->subDays(random_int(1, 90));
+
             $row['reference']    = 'LST-'.(++$this->ref);
             $row['slug']         = Str::slug($row['title']).'-'.strtolower(substr($row['reference'], 4));
-            $row['published_at'] = now()->subDays(random_int(1, 90));
             $row['views']        = random_int(180, 4200);
             $row['saves']        = random_int(4, 190);
             $row['resort_id']    = $resorts[$row['resort_name']] ?? null;
+
+            // Publication takes BOTH axes — see Listing::scopePublished.
+            // `published_at` alone leaves the row at the column default of
+            // 'draft', which is invisible to browse, the home page, and the
+            // API. Setting only one here is why a freshly seeded site looks
+            // completely empty while the table clearly has rows in it.
+            $row['published_at'] = $publishedAt;
+            $row['status']       = ListingStatus::Active;
+
+            // Seeded listings are demo stock standing in for verified,
+            // paid-for ones, so they carry the term dates a real listing has.
+            // Without expires_at they would never appear in the "ending soon"
+            // views that operations relies on.
+            $row['verified_at']  = $publishedAt->copy()->subDays(2);
+            $row['expires_at']   = $publishedAt->copy()->addMonths(12);
 
             Listing::create($row);
         }
