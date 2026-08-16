@@ -5,10 +5,6 @@
             'No. Listora is an advertising marketplace, not a broker. You pay one flat fee to publish a listing and that is the only money we ever take. When you agree terms with a traveler or buyer, the full amount is yours.',
         ],
         [
-            'What does ownership verification involve?',
-            'Before a listing publishes, our team reviews your deed, club statement, or membership certificate and checks that it matches the details you entered — the resort, the week or points balance, the season, and the usage year. It usually takes one to two business days, and we come back to you directly if anything does not line up.',
-        ],
-        [
             'How do people contact me?',
             'Inquiries arrive in your Listora inbox and by email. Your address stays private until you reply. We never sell inquiries as leads, never pass your details to a third party, and never call you about your own listing.',
         ],

@@ -44,18 +44,12 @@
                 <h2 style="font-size:30px;margin-bottom:10px">What are you advertising?</h2>
                 <p class="muted" style="margin-bottom:28px">Each type has its own fields, because a beach house and a points balance need to be described very differently.</p>
 
-                <div class="choices" id="kindChoices">
+                {{-- One choice left, so the three-up grid would render it a
+                     third of the width with two empty columns beside it. --}}
+                <div class="choices" id="kindChoices" style="grid-template-columns:1fr">
                     <button type="button" class="choice {{ old('kind', 'home') === 'home' ? 'on' : '' }}" data-kind="home">
                         <h4>Vacation Home or Villa</h4>
                         <p>A house, condo, cabin, or villa that you own outright.</p>
-                    </button>
-                    <button type="button" class="choice {{ old('kind') === 'points' ? 'on' : '' }}" data-kind="points">
-                        <h4>Resort Club Points</h4>
-                        <p>A points balance in a club or collection you belong to.</p>
-                    </button>
-                    <button type="button" class="choice {{ old('kind') === 'weeks' ? 'on' : '' }}" data-kind="weeks">
-                        <h4>Vacation Week</h4>
-                        <p>A fixed or floating week at a resort you own at.</p>
                     </button>
                 </div>
                 <input type="hidden" name="kind" id="kindInput" value="{{ old('kind', 'home') }}">

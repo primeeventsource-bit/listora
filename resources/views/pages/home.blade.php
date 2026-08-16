@@ -274,8 +274,6 @@
                 $why = [
                     ['One flat fee. No commission.', 'You pay to advertise, not to transact. When you rent your week or transfer your points, the full amount is yours. We never take a percentage and never ask for one later.',
                         '<path d="M12 2v20M17 6H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>'],
-                    ['Ownership verified before publishing', 'We check every deed, club statement, and membership certificate against the listing details. Nothing goes live unverified — which is why users trust what they read here.',
-                        '<path d="M12 3l8 3.5v5c0 5-3.4 8.8-8 10-4.6-1.2-8-5-8-10v-5L12 3z"/><path d="M9 12l2 2 4-4"/>'],
                     ['Direct contact, always', 'Messages go straight between the two of you. No sales team on the line, no lead resold to three other companies, no callback you never asked for.',
                         '<path d="M21 11.5a8.4 8.4 0 0 1-9 8.4L3 21l1.1-3.4A8.4 8.4 0 1 1 21 11.5z"/>'],
                     ['Points and weeks explained properly', 'A points balance means nothing without context. Every club listing shows what the points actually buy — unit size, season, and how far the balance stretches.',

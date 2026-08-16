@@ -76,12 +76,12 @@ final class ExploreSeo
         }
 
         if (! $subject && ! $mode && ! $region) {
-            return 'Browse every listing — Listora';
+            return 'Vacation Properties — Listora';
         }
 
         return trim(sprintf(
             '%s%s%s — Listora',
-            $subject ?: 'Vacation Properties, Club Points & Weeks',
+            $subject ?: 'Vacation Properties',
             $mode,
             $region,
         ));
@@ -105,11 +105,14 @@ final class ExploreSeo
         $mode    = $this->modeFragment();
         $region  = $this->regionFragment();
 
+        // Vacation properties are the only kind offered, so the unfiltered page
+        // and ?kind=home now say the same thing — which is correct rather than
+        // redundant. A facet page still names its own facet.
         if (! $subject && ! $mode && ! $region) {
-            return 'Browse every listing';
+            return 'Vacation Properties';
         }
 
-        return trim(($subject ?: 'Listings').$mode.$region);
+        return trim(($subject ?: 'Vacation Properties').$mode.$region);
     }
 
     /**
@@ -126,7 +129,7 @@ final class ExploreSeo
         $total = $this->listings->total();
 
         $what = trim(
-            ($this->subject() ?: 'Vacation properties, resort club points and vacation weeks')
+            ($this->subject() ?: 'Vacation properties')
             .$this->modeFragment(titleCase: false)
             .$this->regionFragment()
         );

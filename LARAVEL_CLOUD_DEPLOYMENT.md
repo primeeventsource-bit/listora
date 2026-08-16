@@ -206,7 +206,41 @@ outside config files. Do not add `db:seed` to a recurring deploy — see below.
 
    Run it once. It is not idempotent for listings — repeated runs duplicate
    them.
-6. Check health:
+
+   This also seeds **RBAC** — the 44 permissions and 5 system roles. That part
+   *is* idempotent and can be re-run on its own after a release that adds
+   permissions:
+
+   ```bash
+   php artisan db:seed --class=RbacSeeder --force
+   ```
+
+   Until it has run, `Role::configured()` is false and every granular
+   `permission:` check on the console falls back to a binary "is this user an
+   admin" test. Seeding flips that over permanently.
+
+6. **Create the master admin.** Nothing seeds an account — the console has no
+   users until you make one, by design:
+
+   ```bash
+   php artisan listora:make-admin
+   ```
+
+   Prompts for name, email and password. Nothing is written to the repository
+   and no default credential exists, so it differs on every environment.
+
+   For unattended provisioning, pass `--email` and `--name` and put the
+   password in `LISTORA_ADMIN_PASSWORD`. Avoid `--password`: an argument is
+   visible in `ps` and lands in shell history.
+
+   Re-running against an existing address **promotes** that account rather than
+   creating a second one. `--admin` makes a plain Admin instead of a Super
+   Admin — an Admin runs the console day to day but cannot create, edit, or
+   assign roles, which is what stops one minting itself a super admin.
+
+   Sign in at `/login`; `/admin` and `/dashboard` both land on the console.
+
+7. Check health:
 
    ```
    GET /up      Laravel's shallow check — 200 if the app boots

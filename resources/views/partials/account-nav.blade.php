@@ -6,12 +6,27 @@
     $links = [['dashboard', 'Overview']];
 
     if ($user?->isStaff()) {
-        $links[] = ['admin.drafts.index', 'Review queue'];
-        $links[] = ['admin.listings.index', 'Listings'];
-        $links[] = ['admin.offers.index', 'Offers'];
-        $links[] = ['admin.inbox.index', 'Inbox'];
-        $links[] = ['admin.users.index', 'Users'];
-        $links[] = ['admin.settings.index', 'Settings'];
+        // Gated on the same permission each route requires, now that RbacSeeder
+        // has made those checks real. Before RBAC was seeded every check fell
+        // back to "is admin", so a Listing Specialist was shown Users and
+        // Settings and got a 403 on both — which the comment above says is
+        // worse than no link, and was true the whole time.
+        $staffLinks = [
+            ['admin.drafts.index',   'Review queue', 'drafts.view'],
+            ['admin.listings.index', 'Listings',     'listings.view'],
+            ['admin.offers.index',   'Offers',       'offers.view'],
+            ['admin.inbox.index',    'Inbox',        'inbox.view'],
+            ['admin.users.index',    'Users',        'users.view'],
+            ['admin.roles.index',    'Roles',        'roles.view'],
+            ['admin.settings.index', 'Settings',     'settings.view'],
+            ['admin.audit.index',    'Activity log', 'audit.view'],
+        ];
+
+        foreach ($staffLinks as [$route, $label, $permission]) {
+            if ($user->hasPermission($permission)) {
+                $links[] = [$route, $label];
+            }
+        }
     } else {
         $links[] = ['owner.listings.index', 'My listings'];
         $links[] = ['owner.offers.index', 'Offers'];

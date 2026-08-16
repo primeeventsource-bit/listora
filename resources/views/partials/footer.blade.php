@@ -26,8 +26,6 @@
                 <h4>Explore</h4>
                 <a href="{{ route('inventory') }}">Inventory</a>
                 <a href="{{ route('listings.index', ['kind' => 'home']) }}">Vacation Properties</a>
-                <a href="{{ route('listings.index', ['kind' => 'points']) }}">Resort Club Points</a>
-                <a href="{{ route('listings.index', ['kind' => 'weeks']) }}">Vacation Weeks</a>
                 <a href="{{ route('listings.index', ['mode' => 'rent']) }}">Available to Rent</a>
                 <a href="{{ route('listings.index', ['mode' => 'own']) }}">Available to Own</a>
             </div>
@@ -37,7 +35,6 @@
                 <a href="{{ route('list.create') }}">Create a Listing</a>
                 <a href="{{ route('pricing') }}">Pricing</a>
                 <a href="{{ route('how') }}">How It Works</a>
-                <a href="{{ route('how') }}#verification">Ownership Verification</a>
                 <a href="{{ route('apps') }}">Mobile Apps</a>
             </div>
 

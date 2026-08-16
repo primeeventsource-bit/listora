@@ -28,7 +28,18 @@
             </div>
 
             <div class="nav-actions">
-                <a href="{{ route('listings.index') }}" class="btn btn-outline btn-sm hide-sm">Sign In</a>
+                {{--
+                    This pointed at route('listings.index') — the Sign In button
+                    sent people to the browse page, so the site had no working
+                    way in at all. Signed-in visitors get their dashboard here
+                    instead; offering "Sign In" to someone already signed in is
+                    the other half of the same mistake.
+                --}}
+                @auth
+                    <a href="{{ route('dashboard') }}" class="btn btn-outline btn-sm hide-sm">Dashboard</a>
+                @else
+                    <a href="{{ route('login') }}" class="btn btn-outline btn-sm hide-sm">Sign In</a>
+                @endauth
                 <a href="{{ route('list.create') }}" class="btn btn-primary btn-sm">Get Started</a>
                 <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
@@ -44,5 +55,13 @@
     @foreach ($nav as [$route, $label])
         <a href="{{ route($route) }}">{{ $label }}</a>
     @endforeach
+
+    {{-- The desktop button carries `hide-sm`, so without these a phone had no
+         way to sign in at all. --}}
+    @auth
+        <a href="{{ route('dashboard') }}">Dashboard</a>
+    @else
+        <a href="{{ route('login') }}">Sign In</a>
+    @endauth
     <a href="{{ route('list.create') }}">Get Started</a>
 </div>

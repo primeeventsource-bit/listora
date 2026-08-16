@@ -187,7 +187,8 @@ advertising.
 - *Listing fees. That's the whole business model.*
 - *Before you list* — what to have ready (deed, club statement, or membership
   certificate)
-- `#verification` anchor — linked from the footer and from Help
+- `#verification` anchor — the footer link to it was removed; the section
+  itself stays, and Help still refers to verification
 
 ---
 
@@ -329,11 +330,10 @@ answer inquiries.
 
 ## Footer
 
-**Explore:** Inventory · Vacation Properties · Resort Club Points · Vacation
-Weeks · Available to Rent · Available to Own
+**Explore:** Inventory · Vacation Properties · Available to Rent · Available to
+Own
 
-**Advertise:** Create a Listing · Pricing · How It Works · Ownership
-Verification · Mobile Apps
+**Advertise:** Create a Listing · Pricing · How It Works · Mobile Apps
 
 **Company:** About Listora · Our Promise · **Help & Contact** · Safe & Secure ·
 Terms & Privacy

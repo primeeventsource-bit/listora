@@ -4,10 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Enums\DraftStatus;
 use App\Enums\ListingStatus;
+use App\Models\AdminAuditLog;
+use App\Models\ContactMessage;
 use App\Models\Inquiry;
 use App\Models\Listing;
 use App\Models\ListingDraft;
 use App\Models\Offer;
+use App\Models\User;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 
@@ -27,7 +30,7 @@ class DashboardController extends Controller
         $user = $request->user();
 
         if ($user->isStaff()) {
-            return $this->staff();
+            return $this->staff($request);
         }
 
         // "Owns a listing" is asked of the data, not of the role column. An
@@ -38,19 +41,112 @@ class DashboardController extends Controller
         return $hasListings ? $this->owner($request) : $this->traveler($request);
     }
 
-    private function staff(): View
+    /**
+     * The operations console home.
+     *
+     * Every tile is gated on the permission its destination requires, and the
+     * query behind it only runs if the viewer holds that permission. The old
+     * version rendered a fixed five tiles for anyone who passed isStaff(), so
+     * a role without `listings.view` was shown a live listing count and a link
+     * to its own 403 — it leaked the number and then refused the page.
+     *
+     * Counting only what will be shown also keeps a Listing Specialist's
+     * dashboard from running the four queries behind modules they cannot open.
+     */
+    private function staff(Request $request): View
     {
+        $user = $request->user();
+
+        $can = fn (string $permission) => $user->hasPermission($permission);
+
+        $expiryWindow = now()->addDays((int) setting('listings.expiry_warning_days', 30));
+
+        $tiles = [];
+
+        if ($can('drafts.view')) {
+            $tiles[] = [
+                'label' => 'Awaiting verification',
+                'value' => ListingDraft::query()->awaitingVerification()->count(),
+                'url' => route('admin.drafts.index'),
+                'tone' => 'urgent',
+            ];
+            $tiles[] = [
+                'label' => 'Verified, ready to publish',
+                'value' => ListingDraft::query()->where('status', DraftStatus::Verified)->count(),
+                'url' => route('admin.drafts.index', ['status' => 'verified']),
+                'tone' => null,
+            ];
+        }
+
+        if ($can('listings.view')) {
+            $tiles[] = [
+                'label' => 'Live listings',
+                'value' => Listing::query()->where('status', ListingStatus::Active)->count(),
+                'url' => route('admin.listings.index'),
+                'tone' => null,
+            ];
+            $tiles[] = [
+                'label' => 'Terms ending soon',
+                'value' => Listing::query()
+                    ->where('status', ListingStatus::Active)
+                    ->whereNotNull('expires_at')
+                    ->where('expires_at', '<=', $expiryWindow)
+                    ->count(),
+                'url' => route('admin.listings.index'),
+                'tone' => 'warn',
+            ];
+        }
+
+        if ($can('offers.view')) {
+            $tiles[] = [
+                'label' => 'Open offers',
+                'value' => Offer::query()->open()->count(),
+                'url' => route('admin.offers.index'),
+                'tone' => null,
+            ];
+        }
+
+        // The inbox counts existed in InboxController and were never surfaced
+        // anywhere a person lands, so unanswered questions sat behind a tab
+        // nobody had a reason to click.
+        if ($can('inbox.view')) {
+            $tiles[] = [
+                'label' => 'Questions unanswered',
+                'value' => ContactMessage::query()->where('status', ContactMessage::STATUS_NEW)->count(),
+                'url' => route('admin.inbox.index'),
+                'tone' => 'urgent',
+            ];
+        }
+
+        if ($can('users.view')) {
+            $tiles[] = [
+                'label' => 'Accounts',
+                'value' => User::query()->count(),
+                'url' => route('admin.users.index'),
+                'tone' => null,
+            ];
+        }
+
+        if ($can('audit.view')) {
+            $tiles[] = [
+                'label' => 'Logged changes (7d)',
+                'value' => AdminAuditLog::query()->where('occurred_at', '>=', now()->subDays(7))->count(),
+                'url' => route('admin.audit.index'),
+                'tone' => null,
+            ];
+        }
+
         return view('dashboard-admin', [
-            'draftsAwaiting' => ListingDraft::query()->awaitingVerification()->count(),
-            'draftsVerified' => ListingDraft::query()->where('status', DraftStatus::Verified)->count(),
-            'listingsLive' => Listing::query()->where('status', ListingStatus::Active)->count(),
-            'listingsExpiring' => Listing::query()
-                ->where('status', ListingStatus::Active)
-                ->whereNotNull('expires_at')
-                ->where('expires_at', '<=', now()->addDays((int) setting('listings.expiry_warning_days', 30)))
-                ->count(),
-            'offersOpen' => Offer::query()->open()->count(),
-            'recentDrafts' => ListingDraft::query()->open()->latest()->limit(10)->get(),
+            'tiles' => $tiles,
+            // The queue is the console's reason for existing, but only for
+            // someone who can work it.
+            'recentDrafts' => $can('drafts.view')
+                ? ListingDraft::query()->open()->latest()->limit(10)->get()
+                : collect(),
+            'canSeeDrafts' => $can('drafts.view'),
+            'recentActivity' => $can('audit.view')
+                ? AdminAuditLog::query()->with('actor:id,name')->latest('occurred_at')->limit(8)->get()
+                : collect(),
         ]);
     }
 

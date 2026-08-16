@@ -82,13 +82,20 @@ class ExplorePageSeoTest extends TestCase
         $this->assertLessThanOrEqual(160, mb_strlen($description));
     }
 
-    public function test_the_unfiltered_page_keeps_its_generic_heading(): void
+    /**
+     * Vacation properties are the only kind offered, so the unfiltered page
+     * names them outright rather than saying "browse every listing". The
+     * heading and the title still have to agree.
+     */
+    public function test_the_unfiltered_page_names_vacation_properties(): void
     {
         $this->publish();
 
         $this->get('/browse')
             ->assertOk()
-            ->assertSee('<h1>Browse every listing</h1>', false);
+            ->assertSee('<h1>Vacation Properties</h1>', false)
+            ->assertSee('<title>Vacation Properties — Listora</title>', false)
+            ->assertSee('Browse and inquire.', false);
     }
 
     // ------------------------------------------------------------- canonical

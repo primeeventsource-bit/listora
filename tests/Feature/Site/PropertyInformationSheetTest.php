@@ -124,15 +124,6 @@ class PropertyInformationSheetTest extends TestCase
             ->assertSee('Information sheet');
     }
 
-    /** Contact details are all this form takes, so it says what happens to them. */
-    public function test_it_states_no_payment_and_no_lead_reselling(): void
-    {
-        $this->get('/property-information')
-            ->assertOk()
-            ->assertSee('never ask you for card or bank details', false)
-            ->assertSee('never resold as a lead', false);
-    }
-
     public function test_the_home_page_step_links_to_it(): void
     {
         $this->get('/')

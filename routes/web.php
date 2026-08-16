@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AuditLogController;
 use App\Http\Controllers\Admin\DraftController as AdminDraftController;
 use App\Http\Controllers\Admin\EmailTemplateController;
 use App\Http\Controllers\Admin\FeatureFlagController;
@@ -36,13 +37,16 @@ use Illuminate\Support\Facades\Route;
 // ---------------------------------------------------------------------------
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
-// Explore is the paid-search landing page, so it carries the attribution
-// middleware: a Google Ads click arrives here with a gclid and this is the
-// only chance to record it. Move CaptureLandingAttribution into the global
-// web group in bootstrap/app.php if campaigns start pointing anywhere else.
-Route::get('/browse', [ListingController::class, 'index'])
-    ->middleware(CaptureLandingAttribution::class)
-    ->name('listings.index');
+// CaptureLandingAttribution is NOT declared here. It is already in the global
+// web group (bootstrap/app.php), so every page captures attribution — which is
+// what campaigns actually need: ads point at /, /pricing and
+// /list-your-property at least as often as at /browse, and a click that lands
+// anywhere else would otherwise be dropped.
+//
+// Declaring it on this route as well was a no-op. Laravel deduplicates
+// identical middleware, so it ran once either way — but it read as though
+// Explore were the only page covered, which is the opposite of the truth.
+Route::get('/browse', [ListingController::class, 'index'])->name('listings.index');
 
 Route::get('/listing/{listing}', [ListingController::class, 'show'])->name('listings.show');
 
@@ -83,7 +87,14 @@ Route::get('/about', [PageController::class, 'about'])->name('about');
 // indexed, and a 404 on the page people reach for when they need help is the
 // worst possible dead end. The POST target stays put so the form on the Help
 // page has somewhere to submit.
-Route::permanentRedirect('/contact', '/help#ask')->name('contact.show');
+// GET only, deliberately. Route::permanentRedirect registers EVERY verb, so an
+// ANY /contact redirect sits in the POST bucket alongside the real handler
+// below. It only works today because Laravel keys routes by method+uri and the
+// later registration overwrites the earlier one — reorder these two lines and
+// the Help page's question form silently starts 301-ing instead of saving,
+// with no error anywhere. Scoping the redirect to GET removes the collision
+// rather than relying on declaration order to resolve it.
+Route::get('/contact', fn () => redirect('/help#ask', 301))->name('contact.show');
 Route::post('/contact', [ContactController::class, 'store'])
     ->middleware('throttle:10,1')->name('contact.store');
 
@@ -121,9 +132,12 @@ Route::get('/legal/tos', [LegalController::class, 'tos'])->name('legal.tos');
 // given verbally. 301s rather than second routes rendering the same view:
 // /legal/tos stays the single canonical URL, which matters because it is the
 // address recorded on every terms_acceptance row.
-Route::permanentRedirect('/terms', '/legal/tos')->name('terms');
-Route::permanentRedirect('/terms-and-conditions', '/legal/tos');
-Route::permanentRedirect('/privacy', '/legal/privacy');
+// GET only, for the same reason as /contact above: permanentRedirect answers
+// every verb, and a 301 in response to a POST is meaningless anyway. Nothing
+// competes for these URLs today, which is exactly when to close the door.
+Route::get('/terms', fn () => redirect('/legal/tos', 301))->name('terms');
+Route::get('/terms-and-conditions', fn () => redirect('/legal/tos', 301));
+Route::get('/privacy', fn () => redirect('/legal/privacy', 301));
 Route::get('/legal/privacy', [LegalController::class, 'privacy'])->name('legal.privacy');
 Route::get('/legal/advertising-agreement', [LegalController::class, 'advertisingAgreement'])->name('legal.advertising-agreement');
 Route::get('/legal/versions', [LegalController::class, 'versions'])->name('legal.versions');
@@ -188,6 +202,16 @@ Route::middleware(['auth'])
     ->prefix('admin')
     ->name('admin.')
     ->group(function () {
+        // /admin had no index and returned a 404, so the console could only be
+        // reached by knowing to go to /dashboard. It is the address people type
+        // and the one that ends up in bookmarks and runbooks, so it resolves to
+        // the staff overview rather than being a dead end.
+        //
+        // A redirect rather than a second view: DashboardController already
+        // decides which dashboard a user gets from what they are, and a
+        // duplicate admin home would be a second thing to keep in step with it.
+        Route::get('/', fn () => redirect()->route('dashboard'))->name('index');
+
         // Admin user management. Every state-changing action writes to
         // admin_audit_logs via AdminAuditLogService.
         Route::get('users', [UserController::class, 'index'])->middleware('permission:users.view')->name('users.index');
@@ -228,6 +252,15 @@ Route::middleware(['auth'])
         // Cross-platform inquiry/offer register. Read-only: responding is the
         // listing owner's action and lives on the owner dashboard.
         Route::get('offers', [AdminOfferController::class, 'index'])->middleware('permission:offers.view')->name('offers.index');
+
+        // The read half of the audit trail. AdminAuditLogService has been
+        // writing a row for every privileged change since the table shipped
+        // and nothing could read them, so the compliance log was write-only.
+        //
+        // No store, update, or destroy — deliberately. An audit trail an admin
+        // can amend is not evidence of anything, so there is no route to try.
+        Route::get('audit', [AuditLogController::class, 'index'])->middleware('permission:audit.view')->name('audit.index');
+        Route::get('audit/{entry}', [AuditLogController::class, 'show'])->middleware('permission:audit.view')->name('audit.show');
 
         // Everything the public forms produce. Without this the /contact form
         // and support tickets would be write-only.

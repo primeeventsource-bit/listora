@@ -47,7 +47,7 @@
         <span class="eyebrow">{{ number_format($listings->total()) }} live {{ Str::plural('listing', $listings->total()) }}</span>
         {{-- Facet-aware, and must stay in step with $seo->title() — see ExploreSeo::heading(). --}}
         <h1>{{ $seo->heading() }}</h1>
-        <p>Vacation properties, resort club points, and vacation weeks — all published and answered by the people who own them.</p>
+        <p>Browse and inquire.</p>
     </div>
 </div>
 
@@ -67,7 +67,14 @@
                         <input type="radio" name="kind" value="all" @checked($filters['kind'] === 'all')> All
                         <span class="c">{{ $facets['kind']->sum() }}</span>
                     </label>
+                    {{--
+                        Only vacation properties are offered as a filter. Club
+                        points and weeks are hidden here, NOT removed from the
+                        catalogue — see the note in the page copy below and
+                        Listing::KINDS, which still defines all three.
+                    --}}
                     @foreach (\App\Models\Listing::KINDS as $value => $label)
+                        @continue($value !== \App\Models\Listing::KIND_HOME)
                         <label class="fopt {{ $filters['kind'] === $value ? 'checked' : '' }}">
                             <input type="radio" name="kind" value="{{ $value }}" @checked($filters['kind'] === $value)> {{ $label }}
                             <span class="c">{{ $facets['kind'][$value] ?? 0 }}</span>

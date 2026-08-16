@@ -12,6 +12,11 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call([
+            // First: everything downstream authorises against these, and while
+            // the tables are empty Role::configured() is false and every
+            // granular permission check falls back to a binary "is admin".
+            // Seeding does not create any account — use `listora:make-admin`.
+            RbacSeeder::class,
             ListoraSeeder::class,
             // The support assistant answers policy questions only from these
             // articles, so an unseeded help centre leaves it with nothing to

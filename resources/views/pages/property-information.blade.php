@@ -110,18 +110,6 @@
                 @error('phone')<span class="err">{{ $message }}</span>@enderror
             </div>
 
-            {{--
-                Stated at the point of submission, not buried in the footer. This
-                form asks for contact details and nothing else, and someone who
-                has been called by a lead-reseller before is entitled to know
-                which of those two things is about to happen.
-            --}}
-            <div class="notice amber">
-                No account, no payment, and no obligation. Listora takes no payment on this
-                site and will never ask you for card or bank details. Your details go to our
-                team and are never resold as a lead.
-            </div>
-
             <button type="submit" class="btn btn-primary btn-lg">Send my information sheet</button>
 
             <p class="muted" style="margin-top:22px">
