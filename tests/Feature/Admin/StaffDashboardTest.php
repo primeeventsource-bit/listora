@@ -75,7 +75,8 @@ class StaffDashboardTest extends TestCase
         $specialist = $this->staff(UserRole::ListingSpecialist);
         $html = $this->actingAs($specialist)->get('/dashboard')->assertOk()->getContent();
 
-        preg_match_all('#<a href="([^"]*/admin/[^"]*)" class="stat#', $html, $m);
+        // The href and class attributes sit on separate lines in the template.
+        preg_match_all('#<a href="([^"]*/admin/[^"]*)"\s+class="stat#s', $html, $m);
 
         $this->assertNotEmpty($m[1], 'The specialist should see at least one tile.');
 

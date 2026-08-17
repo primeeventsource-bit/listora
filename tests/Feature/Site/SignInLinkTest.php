@@ -63,4 +63,49 @@ class SignInLinkTest extends TestCase
     {
         $this->get('/login')->assertOk();
     }
+
+    // ---------------------------------------------------------------- sign out
+
+    public function test_a_signed_in_user_is_offered_sign_out_on_the_public_site(): void
+    {
+        $user = User::factory()->create(['email_verified_at' => now()]);
+
+        $this->actingAs($user)
+            ->get('/')
+            ->assertOk()
+            ->assertSee('Sign out');
+    }
+
+    /**
+     * A form, not a link. A GET sign-out can be fired by any <img> on any page
+     * — including one in a listing description someone else wrote — and would
+     * log people out at random.
+     */
+    public function test_sign_out_posts_and_carries_a_csrf_token(): void
+    {
+        $user = User::factory()->create(['email_verified_at' => now()]);
+
+        $html = $this->actingAs($user)->get('/')->assertOk()->getContent();
+
+        $this->assertMatchesRegularExpression(
+            '#<form method="POST" action="'.preg_quote(route('logout'), '#').'"#',
+            $html,
+        );
+        $this->assertStringNotContainsString('<a href="'.route('logout').'"', $html);
+    }
+
+    public function test_sign_out_actually_ends_the_session(): void
+    {
+        $user = User::factory()->create(['email_verified_at' => now()]);
+
+        $this->actingAs($user)->post(route('logout'))->assertRedirect();
+
+        $this->assertGuest();
+        $this->get('/')->assertOk()->assertSee('Sign In');
+    }
+
+    public function test_a_guest_is_not_offered_sign_out(): void
+    {
+        $this->get('/')->assertOk()->assertDontSee('Sign out');
+    }
 }

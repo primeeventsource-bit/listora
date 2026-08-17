@@ -37,10 +37,18 @@
                 --}}
                 @auth
                     <a href="{{ route('dashboard') }}" class="btn btn-outline btn-sm hide-sm">Dashboard</a>
+
+                    {{-- A form, not a link: logout is a POST and must carry the
+                         CSRF token. A GET sign-out can be triggered by any image
+                         tag on any page and would log people out at random. --}}
+                    <form method="POST" action="{{ route('logout') }}" class="nav-signout">
+                        @csrf
+                        <button type="submit" class="btn btn-ghost btn-sm">Sign out</button>
+                    </form>
                 @else
                     <a href="{{ route('login') }}" class="btn btn-outline btn-sm hide-sm">Sign In</a>
+                    <a href="{{ route('list.create') }}" class="btn btn-primary btn-sm">Get Started</a>
                 @endauth
-                <a href="{{ route('list.create') }}" class="btn btn-primary btn-sm">Get Started</a>
                 <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
                         <path d="M3 6h18M3 12h18M3 18h18"/>
@@ -60,8 +68,12 @@
          way to sign in at all. --}}
     @auth
         <a href="{{ route('dashboard') }}">Dashboard</a>
+        <form method="POST" action="{{ route('logout') }}">
+            @csrf
+            <button type="submit" class="btn-link">Sign out</button>
+        </form>
     @else
         <a href="{{ route('login') }}">Sign In</a>
+        <a href="{{ route('list.create') }}">Get Started</a>
     @endauth
-    <a href="{{ route('list.create') }}">Get Started</a>
 </div>

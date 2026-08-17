@@ -19,6 +19,7 @@
             ['admin.users.index',    'Users',        'users.view'],
             ['admin.roles.index',    'Roles',        'roles.view'],
             ['admin.settings.index', 'Settings',     'settings.view'],
+            ['admin.reports.index',  'Reports',      'reports.view'],
             ['admin.audit.index',    'Activity log', 'audit.view'],
         ];
 

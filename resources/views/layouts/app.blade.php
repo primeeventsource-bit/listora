@@ -16,8 +16,11 @@
 @php($indexingAllowed = (bool) setting('seo.robots_index', true))
 <meta name="robots" content="{{ $indexingAllowed ? trim($__env->yieldContent('robots', 'index, follow')) : 'noindex, follow' }}">
 
-{{-- Per-page canonical, Open Graph, and JSON-LD. --}}
+{{-- Per-page canonical, Open Graph, and JSON-LD.
+     `@yield` for pages that define one block; `@stack` for partials and
+     components that need to contribute a tag without owning the section. --}}
 @yield('head')
+@stack('head')
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

@@ -143,6 +143,11 @@ section.pad-sm{padding:64px 0}
 .nav-links a:hover::after,.nav-links a.is-active::after{right:0}
 .nav-links a.is-active{color:var(--teal)}
 .nav-actions{display:flex;align-items:center;gap:10px;flex-shrink:0}
+/* Sign out has to be a form (POST + CSRF), so it needs to sit in the flex row
+   like the buttons either side of it rather than as a block. */
+.nav-actions form{display:flex;margin:0}
+.mobile-nav form{margin:0}
+.mobile-nav .btn-link{padding:14px 0;font:inherit;font-weight:600}
 .burger{display:none;padding:9px;color:var(--navy)}
 @media(max-width:1060px){
   .nav-links{display:none}

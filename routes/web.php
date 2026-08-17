@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\FeatureFlagController;
 use App\Http\Controllers\Admin\InboxController;
 use App\Http\Controllers\Admin\ListingController as AdminListingController;
 use App\Http\Controllers\Admin\OfferController as AdminOfferController;
+use App\Http\Controllers\Admin\ReportsController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\SettingsController;
 use App\Http\Controllers\Admin\UserController;
@@ -252,6 +253,12 @@ Route::middleware(['auth'])
         // Cross-platform inquiry/offer register. Read-only: responding is the
         // listing owner's action and lives on the owner dashboard.
         Route::get('offers', [AdminOfferController::class, 'index'])->middleware('permission:offers.view')->name('offers.index');
+
+        // Traffic, geography, and paid attribution. Read-only: everything is
+        // derived at request time from the append-only tracking_events table,
+        // so there is no rollup to drift out of step with the source.
+        Route::get('reports', [ReportsController::class, 'index'])->middleware('permission:reports.view')->name('reports.index');
+        Route::get('reports/export', [ReportsController::class, 'export'])->middleware('permission:reports.export')->name('reports.export');
 
         // The read half of the audit trail. AdminAuditLogService has been
         // writing a row for every privileged change since the table shipped

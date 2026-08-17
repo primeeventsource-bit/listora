@@ -148,6 +148,27 @@ your space lives elsewhere:
 With both credentials blank the tracer is never built and every span helper
 becomes a no-op. Tracing cannot take down the thing it observes.
 
+### Mapbox — optional
+
+Powers the basemap behind the visitor map on **Admin → Reports**.
+
+```bash
+MAPBOX_ACCESS_TOKEN=pk.xxxxxxxx
+# Optional. Defaults to mapbox://styles/mapbox/light-v11
+MAPBOX_STYLE=
+```
+
+`MAPBOX_API_KEY` and `MAPBOX_TOKEN` are also accepted, so an existing
+deployment does not render a blank map because of a name. The canonical one is
+`MAPBOX_ACCESS_TOKEN`.
+
+Use a **public** (`pk.*`) token — it is sent to the browser by design. Restrict
+it by URL in the Mapbox dashboard rather than treating it as a secret. Never
+put a secret (`sk.*`) token here.
+
+Unset is a supported state: the reports page falls back to a plotted grid with
+the same pins and the same numbers, and makes no third-party call at all.
+
 ### GeoIP and ops alerts — optional
 
 ```env

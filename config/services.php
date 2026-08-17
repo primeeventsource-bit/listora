@@ -59,6 +59,33 @@ return [
         'disable_cloudflare' => env('GEOIP_DISABLE_CLOUDFLARE', false),
     ],
 
+    /*
+    | Mapbox — the basemap behind the visitor map on Admin -> Reports.
+    |
+    | Unset is a supported state: the reports page falls back to a plotted
+    | grid with the same pins and the same numbers, so local dev and CI never
+    | need a token and never call out to a third party. Only the basemap tiles
+    | are missing, not the data.
+    |
+    | Three env names are accepted because the token may already be set under
+    | any of them, and Mapbox's own docs use all three across products. The
+    | canonical one is MAPBOX_ACCESS_TOKEN; the others are read so an existing
+    | deployment does not silently render a blank map because of a name.
+    |
+    | This is a public (pk.*) token — it is sent to the browser by design, and
+    | should be URL-restricted in the Mapbox dashboard rather than kept secret.
+    | Never put a secret (sk.*) token here.
+    */
+    'mapbox' => [
+        'token' => env('MAPBOX_ACCESS_TOKEN')
+            ?: env('MAPBOX_API_KEY')
+            ?: env('MAPBOX_TOKEN'),
+
+        // Style and default view, so changing the look is a config edit rather
+        // than a template one.
+        'style' => env('MAPBOX_STYLE', 'mapbox://styles/mapbox/light-v11'),
+    ],
+
     'slack' => [
         // Ops alerts. Unset binds NoOpSlackNotifier so dev and CI run clean.
         'ops_webhook_url' => env('SLACK_OPS_WEBHOOK_URL'),

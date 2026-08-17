@@ -1,11 +1,21 @@
 name: Tests
 
 on:
+  # This shipped as the stock Laravel skeleton workflow, triggering on `master`
+  # and `*.x` — neither of which exists in this repository. The result was that
+  # the suite never ran on a push to `main` or to `production`: every deploy
+  # this project has ever made went out with no CI gate in front of it.
+  #
+  # `production` is listed so a merge into it is verified on the way to a
+  # release, not after one.
   push:
     branches:
-      - master
-      - '*.x'
+      - main
+      - production
   pull_request:
+    branches:
+      - main
+      - production
   schedule:
     - cron: '0 0 * * *'
 

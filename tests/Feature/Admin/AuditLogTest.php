@@ -33,6 +33,21 @@ class AuditLogTest extends TestCase
         ]);
     }
 
+    /**
+     * Just the results table.
+     *
+     * Every distinct action also appears in the filter dropdown — which is
+     * correct, it is how you filter to an old action then widen the dates —
+     * so a bare assertDontSee on an action name proves nothing about whether
+     * the row was actually excluded.
+     */
+    private function resultsTable(string $html): string
+    {
+        preg_match('#<tbody>(.*?)</tbody>#s', $html, $m);
+
+        return $m[1] ?? '';
+    }
+
     private function logSomething(User $actor, string $action = 'listing.publish'): AdminAuditLog
     {
         return AdminAuditLogService::log(
@@ -78,22 +93,26 @@ class AuditLogTest extends TestCase
         $this->logSomething($admin, 'listing.publish');
         AdminAuditLogService::log($other, 'user.deactivate', null, ['reference' => 'ZZZ-OTHER']);
 
-        $this->actingAs($admin)
+        $byAction = $this->resultsTable($this->actingAs($admin)
             ->get(route('admin.audit.index', ['action' => 'user.deactivate']))
-            ->assertOk()
-            ->assertSee('user.deactivate')
-            ->assertDontSee('listing.publish');
+            ->assertOk()->getContent());
 
-        $this->actingAs($admin)
+        $this->assertStringContainsString('user.deactivate', $byAction);
+        $this->assertStringNotContainsString('listing.publish', $byAction);
+
+        $byActor = $this->resultsTable($this->actingAs($admin)
             ->get(route('admin.audit.index', ['actor' => $other->id]))
-            ->assertOk()
-            ->assertSee('ZZZ-OTHER');
+            ->assertOk()->getContent());
 
-        $this->actingAs($admin)
+        $this->assertStringContainsString('ZZZ-OTHER', $byActor);
+        $this->assertStringNotContainsString('LST-D-4H2K9M', $byActor);
+
+        $byText = $this->resultsTable($this->actingAs($admin)
             ->get(route('admin.audit.index', ['q' => 'ZZZ-OTHER', 'days' => 'all']))
-            ->assertOk()
-            ->assertSee('ZZZ-OTHER')
-            ->assertDontSee('LST-D-4H2K9M');
+            ->assertOk()->getContent());
+
+        $this->assertStringContainsString('ZZZ-OTHER', $byText);
+        $this->assertStringNotContainsString('LST-D-4H2K9M', $byText);
     }
 
     /** An unbounded audit view is the one screen guaranteed to slow every day. */
@@ -104,15 +123,15 @@ class AuditLogTest extends TestCase
         $old = $this->logSomething($admin, 'ancient.action');
         $old->forceFill(['occurred_at' => now()->subMonths(6)])->save();
 
-        $this->actingAs($admin)
-            ->get(route('admin.audit.index'))
-            ->assertOk()
-            ->assertDontSee('ancient.action');
+        $default = $this->resultsTable($this->actingAs($admin)
+            ->get(route('admin.audit.index'))->assertOk()->getContent());
 
-        $this->actingAs($admin)
-            ->get(route('admin.audit.index', ['days' => 'all']))
-            ->assertOk()
-            ->assertSee('ancient.action');
+        $this->assertStringNotContainsString('ancient.action', $default);
+
+        $widened = $this->resultsTable($this->actingAs($admin)
+            ->get(route('admin.audit.index', ['days' => 'all']))->assertOk()->getContent());
+
+        $this->assertStringContainsString('ancient.action', $widened);
     }
 
     // ------------------------------------------------------------ authorisation
