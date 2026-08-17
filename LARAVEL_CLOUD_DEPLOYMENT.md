@@ -68,6 +68,34 @@ git push origin production
 **Never push directly to `production`.** Verification is its own step, not
 something to bundle into a release commit.
 
+### If a push to `main` deploys production
+
+Then an environment is tracking the wrong branch. Nothing in this repository
+decides that — **the branch is set per environment in the Laravel Cloud
+dashboard**, so it cannot be fixed by a commit. Check it directly:
+
+1. Laravel Cloud → the **production** environment → **Settings → Source
+   Control**. The branch must read `production`. If it reads `main`, every
+   push to dev has been deploying production, and the two-environment split
+   has been decorative.
+2. Laravel Cloud → the **dev** environment → same screen. Branch must read
+   `main`.
+3. If only one environment exists, that is the problem: create the second and
+   give it its **own** database cluster and Redis instance. Sharing them is
+   worse than having one environment, because it looks separated and is not.
+
+Confirm from the CLI which commit each branch is on before releasing — if they
+are identical, dev is not being used as a gate:
+
+```bash
+git fetch origin
+git log --oneline origin/production..origin/main   # what dev has that prod does not
+```
+
+A healthy repository has dev **ahead** of production between releases. Two
+branches sitting on the same commit means work is reaching production without
+being verified anywhere first.
+
 **Never share credentials between environments.** Separate clusters and
 separate `APP_KEY`s are what stop a leaked dev secret from reaching production
 data.
