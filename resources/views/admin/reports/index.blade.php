@@ -1,7 +1,6 @@
-@extends('layouts.app')
+@extends('layouts.console')
 
 @section('title', 'Reports — Listora')
-@section('robots', 'noindex, nofollow')
 
 @push('head')
     @if ($mapboxToken)
@@ -11,7 +10,6 @@
 
 @section('content')
 
-@include('partials.account-nav')
 
 <div class="page-head">
     <div class="wrap">

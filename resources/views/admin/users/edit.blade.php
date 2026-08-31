@@ -1,10 +1,9 @@
-@extends('layouts.app')
+@extends('layouts.console')
 
 @section('title', 'Edit '.$user->name.' — Listora')
 
 @section('content')
 
-@include('partials.account-nav')
 
 <div class="page-head">
     <div class="wrap-sm">

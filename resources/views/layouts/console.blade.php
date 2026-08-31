@@ -19,6 +19,23 @@
     $can = fn (string $p) => $u && $u->hasPermission($p);
     $initials = collect(explode(' ', trim($u?->name ?? '?')))
         ->filter()->take(2)->map(fn ($w) => mb_strtoupper(mb_substr($w, 0, 1)))->implode('');
+
+    /*
+     | Screens carried over from the public layout title themselves
+     | "Users — Listora", because that layout rendered the brand nowhere else.
+     | This one appends the brand itself, so the suffix is stripped rather
+     | than each of nineteen views being edited to drop it - otherwise every
+     | tab reads "Users — Listora · Listora".
+     |
+     | The cleaned value also stands in for the breadcrumb, so a screen that
+     | sets no @section('crumb') names itself in the topbar instead of
+     | claiming to be the Dashboard.
+     */
+    $pageTitle = trim(preg_replace(
+        '/\s*[—–-]\s*Listora\s*$/u',
+        '',
+        trim($__env->yieldContent('title', 'Console'))
+    ));
 @endphp
 <!DOCTYPE html>
 <html lang="en">
@@ -26,7 +43,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="csrf-token" content="{{ csrf_token() }}">
-<title>@yield('title', 'Console') &middot; Listora</title>
+<title>{{ $pageTitle }} &middot; Listora</title>
 {{-- The console is never indexed. Not narrowable by child views. --}}
 <meta name="robots" content="noindex, nofollow, noarchive">
 <meta name="theme-color" content="#0D1B2A">
@@ -133,7 +150,7 @@
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                      stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
             </button>
-            <div class="c-top__crumb"><b>@yield('crumb', 'Dashboard')</b></div>
+            <div class="c-top__crumb"><b>@yield('crumb', $pageTitle)</b></div>
             <div class="c-top__actions">
                 <a href="{{ url('/') }}" class="c-btn c-btn--ghost c-btn--sm" target="_blank" rel="noopener">View site</a>
                 <form method="POST" action="{{ route('logout') }}">

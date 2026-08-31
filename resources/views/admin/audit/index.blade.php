@@ -1,11 +1,9 @@
-@extends('layouts.app')
+@extends('layouts.console')
 
 @section('title', 'Activity log — Listora')
-@section('robots', 'noindex, nofollow')
 
 @section('content')
 
-@include('partials.account-nav')
 
 <div class="page-head">
     <div class="wrap">
