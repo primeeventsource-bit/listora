@@ -98,6 +98,35 @@ class AdEventRecordingTest extends TestCase
         $this->assertSame('newsletter', $event->utm_source);
     }
 
+    /**
+     * The funnel step an advertiser is actually paying for: a view became an
+     * inquiry. Recorded after the inquiry is stored, so the owner never loses
+     * a message because the analytics write failed.
+     */
+    public function test_submitting_an_inquiry_records_the_funnel_step(): void
+    {
+        $listing = $this->advertisedListing();
+
+        $this->post("/listing/{$listing->slug}/inquire", [
+            'name' => 'Dana Reeve',
+            'email' => 'dana@example.test',
+            'message' => 'Is the week of the 14th still available to advertise against?',
+        ])->assertRedirect();
+
+        $event = AdEvent::query()
+            ->where('event_type', AdEventType::InquirySubmitted->value)
+            ->latest('id')
+            ->first();
+
+        $this->assertNotNull($event, 'The inquiry should have produced a funnel event.');
+        $this->assertSame($listing->id, $event->listing_id);
+        $this->assertSame($listing->owner->ad_number, $event->ad_number);
+
+        // And the inquiry itself still exists — the analytics is a side
+        // effect, never a precondition.
+        $this->assertDatabaseHas('inquiries', ['listing_id' => $listing->id, 'email' => 'dana@example.test']);
+    }
+
     public function test_the_advertisers_index_page_records_a_view(): void
     {
         $listing = $this->advertisedListing();

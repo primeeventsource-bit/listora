@@ -100,6 +100,33 @@
 
 <div class="c-card" style="margin-bottom:16px">
     <div class="c-card__h">
+        <h2 class="c-card__t">Engagement</h2>
+        <span class="c-card__link" style="color:var(--c-ink-3);cursor:default">How far people got</span>
+    </div>
+    <div class="c-card__b--flush">
+        @php $funnelTop = max(1, $funnel[0]['count'] ?? 1); @endphp
+        <table class="c-table">
+            <tbody>
+                @foreach ($funnel as $step)
+                    <tr>
+                        <td style="width:230px">{{ $step['label'] }}</td>
+                        <td>
+                            {{-- A bar, not a chart library: one number relative to
+                                 the step above it is the entire message. --}}
+                            <div style="background:var(--c-surface-2);border-radius:var(--c-r-pill);height:9px;overflow:hidden">
+                                <div style="width:{{ round(($step['count'] / $funnelTop) * 100, 1) }}%;height:100%;background:var(--c-teal)"></div>
+                            </div>
+                        </td>
+                        <td class="c-table__num" style="width:90px">{{ number_format($step['count']) }}</td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="c-card" style="margin-bottom:16px">
+    <div class="c-card__h">
         <h2 class="c-card__t">Where your traffic came from</h2>
         <span class="c-card__link" style="color:var(--c-ink-3);cursor:default">Approximate</span>
     </div>

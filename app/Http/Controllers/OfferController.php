@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\AdEventType;
 use App\Http\Requests\StoreOfferRequest;
 use App\Models\Listing;
 use App\Models\Offer;
+use App\Services\Advertising\AdEventRecorder;
 use App\Services\Offers\OfferService;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
@@ -21,7 +23,10 @@ use RuntimeException;
  */
 class OfferController extends Controller
 {
-    public function __construct(private readonly OfferService $offers)
+    public function __construct(
+        private readonly OfferService $offers,
+        private readonly AdEventRecorder $recorder,
+    )
     {
     }
 
@@ -36,6 +41,10 @@ class OfferController extends Controller
             buyer: $request->user(),
             request: $request,
         );
+
+        // Recorded after submission, so a failure to record cannot cost the
+        // buyer their offer.
+        $this->recorder->record($request, AdEventType::OfferSubmitted, $listing);
 
         return back()->with(
             'sent',

@@ -85,6 +85,7 @@ class PerformanceController extends Controller
                 'offers' => $this->countOffers($user->id, $from, $to, $listingId),
             ],
 
+            'funnel' => $this->funnel($events),
             'points' => $this->mapPoints($events),
             'places' => $this->places($events),
             'sources' => $this->sources($views),
@@ -177,6 +178,40 @@ class PerformanceController extends Controller
             ->sortByDesc('events')
             ->values()
             ->all();
+    }
+
+    /**
+     * The engagement funnel, as counts per step.
+     *
+     * Steps with no events are kept rather than dropped. A funnel that hides
+     * its empty stages reads as though those stages do not exist - and "nobody
+     * got as far as an offer" is the single most useful thing this panel can
+     * tell an advertiser.
+     *
+     * @return array<int, array{label:string, count:int}>
+     */
+    private function funnel(Collection $events): array
+    {
+        $counts = $events->groupBy(fn ($e) => $e->event_type?->value)->map->count();
+
+        $steps = [
+            'Advertisement viewed' => [AdEventType::AdView, AdEventType::ListingView],
+            'Inquiry or offer started' => [AdEventType::InquiryStarted, AdEventType::OfferStarted],
+            'Inquiry submitted' => [AdEventType::InquirySubmitted],
+            'Offer submitted' => [AdEventType::OfferSubmitted],
+            'Conversation started' => [AdEventType::MessageStarted],
+        ];
+
+        $out = [];
+
+        foreach ($steps as $label => $types) {
+            $out[] = [
+                'label' => $label,
+                'count' => collect($types)->sum(fn (AdEventType $t) => (int) $counts->get($t->value, 0)),
+            ];
+        }
+
+        return $out;
     }
 
     /** Top places as a list, which is what the map is actually saying. */

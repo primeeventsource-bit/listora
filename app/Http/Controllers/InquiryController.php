@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\AdEventType;
 use App\Models\Listing;
+use App\Services\Advertising\AdEventRecorder;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
@@ -14,6 +16,10 @@ use Illuminate\Http\Request;
  */
 class InquiryController extends Controller
 {
+    public function __construct(private readonly AdEventRecorder $recorder)
+    {
+    }
+
     public function store(Request $request, Listing $listing): RedirectResponse
     {
         // A paused or expired listing must not still be collecting messages
@@ -31,6 +37,11 @@ class InquiryController extends Controller
         ]);
 
         $listing->inquiries()->create($data + ['ip_address' => $request->ip()]);
+
+        // The funnel step that matters most to an advertiser: a view became an
+        // inquiry. Recorded after the inquiry is stored, so a failure to
+        // record cannot cost the owner the message itself.
+        $this->recorder->record($request, AdEventType::InquirySubmitted, $listing);
 
         return back()->with('sent', "Your message is on its way to {$listing->owner_name}. "
             .'Replies come straight to your inbox — Listora never sits in the middle of the conversation.');
