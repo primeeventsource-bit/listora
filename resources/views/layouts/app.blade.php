@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="csrf-token" content="{{ csrf_token() }}">
 <title>@yield('title', 'Listora — List. Connect. Explore.')</title>
-<meta name="description" content="@yield('meta', 'Listora is the modern platform to advertise vacation properties, resort club points, and vacation weeks — and connect directly with interested users. One flat fee, no commission ever.')">
+<meta name="description" content="@yield('meta', 'Listora is the modern platform to advertise vacation properties — and connect directly with interested users. One flat fee, no commission ever.')">
 <meta name="theme-color" content="#009D9A">
 
 {{--

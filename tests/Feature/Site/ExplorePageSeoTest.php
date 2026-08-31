@@ -27,6 +27,26 @@ class ExplorePageSeoTest extends TestCase
 {
     use RefreshDatabase;
 
+    /**
+     * These tests exercise Explore's SEO output for the vacation-week
+     * category, which is currently withheld from the public site while payment
+     * underwriting is in progress. The flag is turned on here so they keep
+     * testing the SEO behaviour they were written for rather than silently
+     * becoming tests of the category policy - which has its own file, in
+     * TimeshareCategoryVisibilityTest.
+     */
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        \App\Models\FeatureFlag::query()->updateOrCreate(
+            ['key' => 'timeshare_categories'],
+            ['enabled' => true, 'scope' => 'global', 'rollout_pct' => 100],
+        );
+
+        \Illuminate\Support\Facades\Cache::flush();
+    }
+
     private function publish(array $attributes = []): Listing
     {
         return Listing::factory()->create($attributes + [

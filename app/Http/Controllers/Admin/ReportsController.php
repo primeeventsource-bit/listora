@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\AdEvent;
 use App\Models\PpcVisitor;
 use App\Models\TrackingEvent;
 use Illuminate\Http\Request;
@@ -53,17 +54,31 @@ class ReportsController extends Controller
 
         $events = $this->eventsSince($since);
 
+        /*
+         | Geography comes from ad_events, not tracking_events.
+         |
+         | tracking_events only ever records a visit that arrived carrying
+         | attribution parameters - a paid click - so on a site not yet running
+         | campaigns it is empty, and the map was empty with it. ad_events
+         | records every visit to an advertising or listing page, which is what
+         | this panel is asking about.
+         |
+         | The other panels still read tracking_events: they are about
+         | attribution and surfaces, which is what that table is for.
+         */
+        $adEvents = $this->adEventsSince($since);
+
         return view('admin.reports.index', [
             'days' => $days,
             'windows' => self::WINDOWS,
             'truncated' => $events->count() >= self::MAX_ROWS,
-            'totals' => $this->totals($events, $since),
+            'totals' => $this->totals($events, $adEvents, $since),
             'daily' => $this->daily($events, $since, $days),
             'byType' => $this->byType($events),
             'bySurface' => $this->bySurface($events),
-            'countries' => $this->countries($events),
-            'cities' => $this->cities($events),
-            'points' => $this->mapPoints($events),
+            'countries' => $this->countries($adEvents),
+            'cities' => $this->cities($adEvents),
+            'points' => $this->mapPoints($adEvents),
             'anonymised' => $this->anonymised($events),
             'campaigns' => $this->campaigns($since),
             'mapboxToken' => config('services.mapbox.token'),
@@ -81,7 +96,7 @@ class ReportsController extends Controller
         $days = (int) $request->query('days', 30);
         $days = array_key_exists($days, self::WINDOWS) ? $days : 30;
 
-        $rows = $this->countries($this->eventsSince(Carbon::now()->subDays($days)->startOfDay()));
+        $rows = $this->countries($this->adEventsSince(Carbon::now()->subDays($days)->startOfDay()));
 
         $filename = 'listora-traffic-by-country-'.Carbon::now()->format('Y-m-d').'.csv';
 
@@ -114,12 +129,33 @@ class ReportsController extends Controller
             ->get(['id', 'event_type', 'visitor_id', 'surface', 'metadata', 'occurred_at']);
     }
 
-    private function totals(Collection $events, Carbon $since): array
+    /**
+     * Advertising visits in the window, for the geography panels.
+     *
+     * ad_events stores geography in columns rather than JSON, so this could be
+     * aggregated in SQL. It is not, yet, because the panels below are shared
+     * with the tracking_events shape and the same MAX_ROWS ceiling applies
+     * honestly to both - the page still says when it truncates.
+     */
+    private function adEventsSince(Carbon $since): Collection
+    {
+        return AdEvent::query()
+            ->where('occurred_at', '>=', $since)
+            ->latest('occurred_at')
+            ->limit(self::MAX_ROWS)
+            ->get(['id', 'visitor_id', 'geo_city', 'geo_region', 'geo_country', 'geo_lat', 'geo_lng', 'occurred_at']);
+    }
+
+    private function totals(Collection $events, Collection $adEvents, Carbon $since): array
     {
         return [
             'events' => $events->count(),
             'visitors' => $events->pluck('visitor_id')->filter()->unique()->count(),
-            'countries' => $events->map(fn ($e) => data_get($e->metadata, 'geo.country'))->filter()->unique()->count(),
+            // Counted from the same rows the map and the country table are
+            // drawn from. Reading it off tracking_events instead would report
+            // zero countries beside a map showing pins, which reads as a bug
+            // in the map.
+            'countries' => $adEvents->pluck('geo_country')->filter()->unique()->count(),
             'attributed' => PpcVisitor::query()->where('first_seen_at', '>=', $since)->count(),
         ];
     }
@@ -167,7 +203,7 @@ class ReportsController extends Controller
         $total = max(1, $events->count());
 
         return $events
-            ->groupBy(fn ($e) => data_get($e->metadata, 'geo.country') ?: 'Unknown')
+            ->groupBy(fn ($e) => $e->geo_country ?: 'Unknown')
             ->map(fn (Collection $group, string $country) => [
                 'country' => $country,
                 'events' => $group->count(),
@@ -183,8 +219,8 @@ class ReportsController extends Controller
     private function cities(Collection $events): array
     {
         return $events
-            ->filter(fn ($e) => filled(data_get($e->metadata, 'geo.city')))
-            ->groupBy(fn ($e) => data_get($e->metadata, 'geo.city').'|'.data_get($e->metadata, 'geo.country'))
+            ->filter(fn ($e) => filled($e->geo_city))
+            ->groupBy(fn ($e) => $e->geo_city.'|'.$e->geo_country)
             ->map(function (Collection $group, string $key) {
                 [$city, $country] = explode('|', $key);
 
@@ -209,9 +245,8 @@ class ReportsController extends Controller
     private function mapPoints(Collection $events): array
     {
         return $events
-            ->filter(fn ($e) => filled(data_get($e->metadata, 'geo.latitude')) && filled(data_get($e->metadata, 'geo.longitude')))
-            ->groupBy(fn ($e) => round((float) data_get($e->metadata, 'geo.latitude'), 3)
-                .','.round((float) data_get($e->metadata, 'geo.longitude'), 3))
+            ->filter(fn ($e) => filled($e->geo_lat) && filled($e->geo_lng))
+            ->groupBy(fn ($e) => round((float) $e->geo_lat, 3).','.round((float) $e->geo_lng, 3))
             ->map(function (Collection $group, string $key) {
                 [$lat, $lng] = array_map('floatval', explode(',', $key));
                 $first = $group->first();
@@ -221,8 +256,9 @@ class ReportsController extends Controller
                     'lng' => $lng,
                     'events' => $group->count(),
                     'label' => trim(implode(', ', array_filter([
-                        data_get($first->metadata, 'geo.city'),
-                        data_get($first->metadata, 'geo.country'),
+                        $first->geo_city,
+                        $first->geo_region,
+                        $first->geo_country,
                     ]))) ?: 'Unknown',
                 ];
             })

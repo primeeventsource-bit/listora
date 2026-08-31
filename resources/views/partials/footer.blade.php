@@ -7,8 +7,7 @@
                     <span class="wordmark" style="color:#fff">List<span class="o" style="color:var(--teal-light)">o</span>ra</span>
                 </a>
                 <p style="max-width:36ch;margin-top:16px">
-                    The modern platform to advertise vacation properties, resort club points, and vacation
-                    weeks — and connect directly with interested users. One flat fee. No commission, ever.
+                    The modern platform to advertise vacation properties — and connect directly with interested users. One flat fee. No commission, ever.
                 </p>
                 <div style="margin-top:10px">
                     <a class="store" href="{{ route('apps') }}">

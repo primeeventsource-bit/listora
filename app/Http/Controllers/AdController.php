@@ -89,6 +89,13 @@ class AdController extends Controller
      */
     public function legacy(Request $request, Listing $listing): View|RedirectResponse
     {
+        // Route-model binding resolves by slug and never touches
+        // Listing::published(), so without this a listing in a withheld
+        // category stays reachable at its own address. A category hidden
+        // everywhere except by direct link is not hidden - and a direct link
+        // is exactly what a reviewer follows.
+        abort_unless(Listing::published()->whereKey($listing->getKey())->exists(), 404);
+
         $ownerNumber = $listing->owner?->ad_number;
 
         if ($ownerNumber && $listing->ad_number) {

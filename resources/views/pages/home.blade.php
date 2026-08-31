@@ -14,6 +14,18 @@
 
 @section('content')
 
+@php
+    // Points and vacation-week categories are withheld from the public site
+    // while payment underwriting is in progress. Same flag as
+    // Listing::scopePublished, and the same fail-closed default, so the copy
+    // and the catalogue can never disagree about what is on offer.
+    $showTimeshare = feature('timeshare_categories', null, false);
+
+    $offeredKinds = $showTimeshare
+        ? \App\Models\Listing::KINDS
+        : array_intersect_key(\App\Models\Listing::KINDS, [\App\Models\Listing::KIND_HOME => true]);
+@endphp
+
 {{-- ============================== HERO ============================== --}}
 <section class="hero on-photo">
     <div class="hero-media">
@@ -23,11 +35,10 @@
     </div>
 
     <div class="wrap">
-        <span class="eyebrow">Vacation Properties &middot; Resort Club Points &middot; Vacation Weeks</span>
+        <span class="eyebrow">{{ $showTimeshare ? 'Vacation Properties &middot; Resort Club Points &middot; Vacation Weeks' : 'Vacation Properties' }}</span>
         <h1>List More.<br>Reach More.<br><span class="accent">Explore More.</span></h1>
         <p class="lead">
-            The modern platform to advertise vacation properties, resort club points, and vacation
-            weeks — and connect directly with interested users. One flat fee. No commission, ever.
+            The modern platform to advertise vacation properties — and connect directly with interested users. One flat fee. No commission, ever.
         </p>
 
         <div class="hero-cta">
@@ -44,7 +55,7 @@
                 <label for="kind">What</label>
                 <select id="kind" name="kind">
                     <option value="all">Anything</option>
-                    @foreach (\App\Models\Listing::KINDS as $value => $label)
+                    @foreach ($offeredKinds as $value => $label)
                         <option value="{{ $value }}">{{ $label }}</option>
                     @endforeach
                 </select>
@@ -123,21 +134,29 @@
 <section>
     <div class="wrap">
         <div class="sec-head center reveal">
-            <span class="eyebrow">Three ways to list</span>
+            <span class="eyebrow">{{ $showTimeshare ? 'Three ways to list' : 'How it works' }}</span>
             <h2>Advertise exactly what you hold</h2>
-            <p>A property, a points balance, or a week on the calendar — each one gets its own fields, its own audience, and its own place to be found.</p>
+            <p>
+                @if ($showTimeshare)
+                    A property, a points balance, or a week on the calendar — each one gets its own
+                    fields, its own audience, and its own place to be found.
+                @else
+                    Your property gets its own page, its own audience, and a permanent address you
+                    can put on anything.
+                @endif
+            </p>
         </div>
 
-        <div class="grid g3">
+        <div class="grid {{ $showTimeshare ? 'g3' : 'g1' }}">
             @php
-                $cats = [
+                $cats = array_values(array_filter([
                     ['home',   'Vacation Properties', 'Advertise your property and get connected with interested travelers.',
                         '<path d="M3 10.5 12 3l9 7.5V21H3z"/><path d="M9.5 21v-6h5v6"/>'],
-                    ['points', 'Resort Club Points',  'List your available points and connect with potential buyers.',
-                        '<path d="M12 3l2.7 5.8 6.3.8-4.6 4.3 1.2 6.3L12 17.2 6.4 20.2l1.2-6.3L3 9.6l6.3-.8L12 3z"/>'],
-                    ['weeks',  'Vacation Weeks',      'Advertise your available weeks and reach more interested users.',
-                        '<rect x="3" y="4.5" width="18" height="16" rx="2.5"/><path d="M3 9.5h18M8 2.5v4M16 2.5v4"/>'],
-                ];
+                    $showTimeshare ? ['points', 'Resort Club Points',  'List your available points and connect with potential buyers.',
+                        '<path d="M12 3l2.7 5.8 6.3.8-4.6 4.3 1.2 6.3L12 17.2 6.4 20.2l1.2-6.3L3 9.6l6.3-.8L12 3z"/>'] : null,
+                    $showTimeshare ? ['weeks',  'Vacation Weeks',      'Advertise your available weeks and reach more interested users.',
+                        '<rect x="3" y="4.5" width="18" height="16" rx="2.5"/><path d="M3 9.5h18M8 2.5v4M16 2.5v4"/>'] : null,
+                ]));
             @endphp
 
             @foreach ($cats as [$key, $label, $blurb, $icon])

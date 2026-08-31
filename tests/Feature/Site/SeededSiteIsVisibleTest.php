@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Site;
 
+use App\Enums\ListingStatus;
 use App\Models\Listing;
 use Database\Seeders\ListoraSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -31,11 +32,22 @@ class SeededSiteIsVisibleTest extends TestCase
         $total = Listing::count();
         $this->assertGreaterThan(0, $total, 'The seeder produced no listings at all.');
 
+        // Asserted on the two columns rather than through scopePublished,
+        // which now also withholds the points and vacation-week categories
+        // while payment underwriting is in progress. The failure this guards
+        // is a seeder that sets one of these and not the other, producing rows
+        // that exist and appear nowhere.
         $this->assertSame(
             $total,
+            Listing::query()->where('status', ListingStatus::Active->value)->whereNotNull('published_at')->count(),
+            'Seeded listings are not live — check that the seeder sets BOTH status and published_at.',
+        );
+
+        // And the categories that are on offer do reach the public scope.
+        $this->assertSame(
+            Listing::query()->where('kind', Listing::KIND_HOME)->count(),
             Listing::published()->count(),
-            'Seeded listings are not visible to scopePublished — check that the seeder sets '
-            .'BOTH status and published_at.',
+            'Vacation properties should all be publicly visible.',
         );
     }
 

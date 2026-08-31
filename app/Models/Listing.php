@@ -93,10 +93,35 @@ class Listing extends Model
      * term began. A listing whose order lapsed goes Expired while keeping
      * its published_at, which is how renewal restores it without re-dating.
      */
+    /**
+     * Everything the public may see.
+     *
+     * The category restriction lives here rather than in each controller
+     * because `published()` is the single gate every public surface goes
+     * through - browse, the home page, the inventory register, the advertising
+     * URLs, structured data, and the API. Filtering at each call site would
+     * mean one forgotten query publishing exactly what this is meant to
+     * withhold.
+     *
+     * Points and vacation-week categories are hidden while
+     * `timeshare_categories` is off. This is a payment-underwriting posture,
+     * not a product decision: those categories are assessed as high risk, and
+     * the flag exists so they can be turned back on in Settings the moment
+     * that is settled, without a deploy.
+     *
+     * Fails CLOSED - note the `false` default, the opposite of the convention
+     * elsewhere in this codebase. A missing flag row must hide the categories,
+     * because the cost of wrongly showing them is a failed underwriting review
+     * and the cost of wrongly hiding them is a switch someone flips back on.
+     */
     public function scopePublished(Builder $q): Builder
     {
         return $q->where('status', ListingStatus::Active->value)
-            ->whereNotNull('published_at');
+            ->whereNotNull('published_at')
+            ->unless(
+                feature('timeshare_categories', null, false),
+                fn (Builder $w) => $w->where('kind', self::KIND_HOME),
+            );
     }
 
     public function scopeKind(Builder $q, ?string $kind): Builder

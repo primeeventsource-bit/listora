@@ -2,13 +2,16 @@
 
 namespace Tests\Feature\Admin;
 
+use App\Enums\AdEventType;
 use App\Enums\Surface;
 use App\Enums\UserRole;
+use App\Models\AdEvent;
 use App\Models\PpcVisitor;
 use App\Models\TrackingEvent;
 use App\Models\User;
 use Database\Seeders\RbacSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Str;
 use Tests\TestCase;
 
 /**
@@ -48,15 +51,41 @@ class ReportsTest extends TestCase
         return $m[1] ?? '';
     }
 
+    /**
+     * A visit, recorded in both places the reports page now reads.
+     *
+     * tracking_events carries the attribution and surface panels; the
+     * geography panels moved to ad_events, because tracking_events only ever
+     * holds visits that arrived with attribution parameters and the map was
+     * therefore empty on a site not yet running campaigns.
+     *
+     * Written to both from one helper so a test still describes one visit,
+     * rather than every case having to know which table each panel reads.
+     */
     private function event(array $geo, string $type = 'page_view', ?string $visitor = null, int $daysAgo = 1): TrackingEvent
     {
+        $visitorId = $visitor ?? 'visitor-'.uniqid();
+        $occurredAt = now()->subDays($daysAgo);
+
+        AdEvent::create([
+            'event_uuid' => (string) Str::uuid(),
+            'event_type' => AdEventType::ListingView->value,
+            'visitor_id' => $visitorId,
+            'ip_address' => '198.51.100.7',
+            'geo_city' => $geo['city'] ?? null,
+            'geo_country' => $geo['country'] ?? null,
+            'geo_lat' => $geo['latitude'] ?? null,
+            'geo_lng' => $geo['longitude'] ?? null,
+            'occurred_at' => $occurredAt,
+        ]);
+
         return TrackingEvent::create([
             'event_type' => $type,
-            'visitor_id' => $visitor ?? 'visitor-'.uniqid(),
+            'visitor_id' => $visitorId,
             'surface' => Surface::Web->value,
             'ip_address' => '198.51.100.7',
             'metadata' => ['geo' => $geo],
-            'occurred_at' => now()->subDays($daysAgo),
+            'occurred_at' => $occurredAt,
         ]);
     }
 
