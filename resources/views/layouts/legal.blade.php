@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="{{ asset('css/listora.css') }}">
+<link rel="stylesheet" href="{{ asset_v('css/listora.css') }}">
 <link rel="icon" href="{{ asset('img/favicon.svg') }}" type="image/svg+xml">
 </head>
 <body>
@@ -36,6 +36,6 @@
 
 @include('partials.footer')
 
-<script src="{{ asset('js/listora.js') }}" defer></script>
+<script src="{{ asset_v('js/listora.js') }}" defer></script>
 </body>
 </html>
