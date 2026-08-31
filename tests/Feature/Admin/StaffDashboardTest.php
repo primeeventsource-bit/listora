@@ -76,7 +76,9 @@ class StaffDashboardTest extends TestCase
         $html = $this->actingAs($specialist)->get('/dashboard')->assertOk()->getContent();
 
         // The href and class attributes sit on separate lines in the template.
-        preg_match_all('#<a href="([^"]*/admin/[^"]*)"\s+class="stat#s', $html, $m);
+        // `c-tile` is the console design system's tile; it was `stat` while the
+        // dashboard rendered inside the public marketing layout.
+        preg_match_all('#<a href="([^"]*/admin/[^"]*)"\s+class="c-tile#s', $html, $m);
 
         $this->assertNotEmpty($m[1], 'The specialist should see at least one tile.');
 

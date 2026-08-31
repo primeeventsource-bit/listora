@@ -46,7 +46,7 @@
         <div class="steps" id="stepsTraveler" hidden>
             <div class="step reveal"><span class="n">01</span><div>
                 <h3>Search by what you want</h3>
-                <p>Filter by destination, region, unit size, rent or own. Club points listings show what the balance actually books — unit size, season, and how far it stretches at that resort — so you're comparing trips rather than numbers you can't interpret.</p>
+                <p>Filter by destination, region, unit size, rent or own. Club points listings show what the balance actually covers — unit size, season, and how far it stretches at that resort — so you're comparing like for like rather than numbers you can't interpret.</p>
             </div></div>
             <div class="step reveal"><span class="n">02</span><div>
                 <h3>Read a listing written by a person</h3>

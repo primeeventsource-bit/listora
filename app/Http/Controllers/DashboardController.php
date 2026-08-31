@@ -147,6 +147,17 @@ class DashboardController extends Controller
             'recentActivity' => $can('audit.view')
                 ? AdminAuditLog::query()->with('actor:id,name')->latest('occurred_at')->limit(8)->get()
                 : collect(),
+            // Listing performance cards. Ordered by views rather than recency
+            // because the question this answers is "what is the advertising
+            // actually doing", not "what changed last".
+            'topListings' => $can('listings.view')
+                ? Listing::query()
+                    ->where('status', ListingStatus::Active)
+                    ->withCount(['offers', 'inquiries'])
+                    ->orderByDesc('views')
+                    ->limit(8)
+                    ->get()
+                : collect(),
         ]);
     }
 

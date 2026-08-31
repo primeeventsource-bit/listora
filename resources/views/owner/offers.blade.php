@@ -56,7 +56,7 @@
                         @if ($offer->arrive && $offer->depart)
                             <p class="muted">
                                 {{ $offer->arrive->format('j M Y') }} – {{ $offer->depart->format('j M Y') }}
-                                @if ($offer->guests) · {{ $offer->guests }} guests @endif
+                                @if ($offer->guests) · {{ $offer->guests }} occupants @endif
                             </p>
                         @endif
 

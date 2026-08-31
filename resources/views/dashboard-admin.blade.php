@@ -1,149 +1,181 @@
-@extends('layouts.app')
+{{--
+    Console home.
 
-@section('title', 'Operations — Listora')
-@section('robots', 'noindex, nofollow')
+    Rebuilt on layouts.console. The previous version rendered inside the
+    public marketing layout, so the console opened with the site header, the
+    site footer, and a 78px nav bar that scrolled away - a logged-in web page
+    rather than a tool.
+
+    The information architecture is answer-first: the tiles say what needs a
+    person, the queue and the activity feed say what is happening, and the
+    listing cards say what the advertising is actually doing. Tiles are still
+    built in DashboardController from what this viewer can open, so a role
+    without listings.view is not shown the live listing count and a link to
+    its own 403.
+--}}
+@extends('layouts.console')
+
+@section('title', 'Operations')
+@section('crumb', 'Dashboard')
 
 @section('content')
 
-@include('partials.account-nav')
-
-<div class="page-head">
-    <div class="wrap">
-        <span class="eyebrow">Operations</span>
-        <h1>What needs you today</h1>
+<div class="c-head">
+    <div>
+        <h1 class="c-head__t">What needs you today</h1>
+        <p class="c-head__s">Advertising operations for {{ config('listora.brand.domain') }}</p>
+    </div>
+    <div class="c-head__actions">
+        @can('reports.view')
+            <a href="{{ route('admin.reports.index') }}" class="c-btn c-btn--sm">Performance</a>
+        @endcan
+        @can('listings.view')
+            <a href="{{ route('admin.listings.index') }}" class="c-btn c-btn--primary c-btn--sm">Manage listings</a>
+        @endcan
     </div>
 </div>
 
-<section class="pad-sm">
-    <div class="wrap">
-        {{--
-            Tiles are built in DashboardController from what this viewer can
-            actually open. The previous version rendered a fixed five for
-            anyone who passed isStaff(), so a role without listings.view was
-            shown the live listing count and a link to its own 403 — it leaked
-            the number, then refused the page.
-        --}}
-        @if (empty($tiles))
-            <div class="empty">
-                <h3 style="font-size:24px;margin-bottom:10px">Nothing is assigned to you yet</h3>
-                <p>
-                    Your account is staff, but holds no module permissions. A super admin can
-                    grant them under Roles &amp; Permissions.
-                </p>
-            </div>
-        @else
-            <div class="stat-row">
-                @foreach ($tiles as $tile)
-                    <a href="{{ $tile['url'] }}"
-                       class="stat {{ $tile['value'] > 0 && $tile['tone'] ? 'stat-'.$tile['tone'] : '' }}">
-                        <span class="stat-n tnum">{{ number_format($tile['value']) }}</span>
-                        <span class="stat-l">{{ $tile['label'] }}</span>
-                    </a>
-                @endforeach
-            </div>
-        @endif
+@if (empty($tiles))
+    <div class="c-card">
+        <div class="c-empty">
+            <h3>Nothing is assigned to you yet</h3>
+            <p>
+                Your account is staff, but holds no module permissions. A super admin can
+                grant them under Roles &amp; permissions.
+            </p>
+        </div>
     </div>
-</section>
+@else
+    <div class="c-tiles">
+        @foreach ($tiles as $tile)
+            <a href="{{ $tile['url'] }}"
+               class="c-tile {{ $tile['value'] > 0 && $tile['tone'] ? 'c-tile--'.$tile['tone'] : '' }}">
+                <span class="c-tile__l">{{ $tile['label'] }}</span>
+                <span class="c-tile__v">{{ number_format($tile['value']) }}</span>
+            </a>
+        @endforeach
+    </div>
+@endif
 
-@if ($canSeeDrafts)
-    <section class="pad-sm">
-        <div class="wrap">
-            <div class="section-head">
-                <h2>Review queue</h2>
-                <p class="muted">
-                    Drafts are invisible to the public until ownership is verified — that is the
-                    promise every plan makes, so nothing here is waiting on the site, it is waiting
-                    on us.
-                </p>
+<div class="c-grid c-grid--32">
+
+    @if ($canSeeDrafts)
+        <div class="c-card">
+            <div class="c-card__h">
+                <h2 class="c-card__t">Review queue</h2>
+                <a href="{{ route('admin.drafts.index') }}" class="c-card__link">See all</a>
             </div>
 
             @if ($recentDrafts->isEmpty())
-                <p class="muted">Nothing outstanding. The queue is clear.</p>
+                <div class="c-empty">
+                    <h3>The queue is clear</h3>
+                    <p>Nothing is waiting on verification. Submissions appear here as owners send them.</p>
+                </div>
             @else
-                <div class="table-wrap">
-                    <table class="data-table">
+                <div class="c-card__b--flush c-scroll">
+                    <table class="c-table">
                         <thead>
                             <tr>
                                 <th scope="col">Reference</th>
-                                <th scope="col">Owner</th>
-                                <th scope="col">What</th>
-                                <th scope="col">Plan</th>
+                                <th scope="col">Advertiser</th>
+                                <th scope="col">Property</th>
                                 <th scope="col">Status</th>
                                 <th scope="col">Submitted</th>
-                                <th scope="col"></th>
+                                <th scope="col"><span class="sr-only">Action</span></th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($recentDrafts as $draft)
                                 <tr>
+                                    <td><strong>{{ $draft->reference }}</strong></td>
                                     <td>
-                                        <code>{{ $draft->reference }}</code>
-                                        @if ($draft->source === \App\Models\ListingDraft::SOURCE_SHEET)
-                                            <div style="margin-top:6px"><span class="pill pill-off">Information sheet</span></div>
-                                        @endif
+                                        {{ $draft->owner_name }}
+                                        <div class="c-table__muted">{{ $draft->owner_email }}</div>
                                     </td>
-                                    <td>{{ $draft->owner_name }}<br><span class="muted">{{ $draft->owner_email }}</span></td>
                                     <td>{{ $draft->resort_name ?: $draft->club_name ?: $draft->city ?: '—' }}</td>
-                                    <td>{{ $draft->plan?->label() ?? '—' }}</td>
-                                    <td><span class="pill">{{ $draft->status?->label() }}</span></td>
-                                    <td class="muted">{{ $draft->created_at?->diffForHumans() }}</td>
-                                    <td><a href="{{ route('admin.drafts.show', $draft) }}" class="btn btn-outline btn-sm">Review</a></td>
+                                    <td><span class="c-pill c-pill--pending">{{ $draft->status?->label() }}</span></td>
+                                    <td class="c-table__muted">{{ $draft->created_at?->diffForHumans() }}</td>
+                                    <td class="c-table__num">
+                                        <a href="{{ route('admin.drafts.show', $draft) }}" class="c-btn c-btn--sm">Review</a>
+                                    </td>
                                 </tr>
                             @endforeach
                         </tbody>
                     </table>
                 </div>
-
-                <p style="margin-top:22px">
-                    <a href="{{ route('admin.drafts.index') }}" class="btn btn-outline">See the whole queue</a>
-                </p>
             @endif
         </div>
-    </section>
-@endif
+    @endif
 
-@if ($recentActivity->isNotEmpty())
-    <section class="pad-sm">
-        <div class="wrap">
-            <div class="section-head">
-                <h2>Recent activity</h2>
-                <p class="muted">The last few privileged changes made in the console.</p>
+    @if ($recentActivity->isNotEmpty())
+        <div class="c-card">
+            <div class="c-card__h">
+                <h2 class="c-card__t">Recent activity</h2>
+                <a href="{{ route('admin.audit.index') }}" class="c-card__link">Activity log</a>
             </div>
-
-            <div class="table-wrap">
-                <table class="data-table">
-                    <thead>
-                        <tr>
-                            <th scope="col">When</th>
-                            <th scope="col">Who</th>
-                            <th scope="col">Action</th>
-                            <th scope="col">Subject</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($recentActivity as $entry)
-                            <tr>
-                                <td class="muted" style="white-space:nowrap">{{ $entry->occurred_at?->diffForHumans() }}</td>
-                                <td>{{ $entry->actor?->name ?? 'Deleted user' }}</td>
-                                <td><code>{{ $entry->action }}</code></td>
-                                <td>
-                                    @if ($entry->subject_type)
-                                        {{ class_basename($entry->subject_type) }} <span class="muted">#{{ $entry->subject_id }}</span>
-                                    @else
-                                        <span class="muted">—</span>
-                                    @endif
-                                </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
-
-            <p style="margin-top:22px">
-                <a href="{{ route('admin.audit.index') }}" class="btn btn-outline">Open the activity log</a>
-            </p>
+            <ul class="c-feed">
+                @foreach ($recentActivity as $entry)
+                    <li>
+                        <span class="c-feed__dot {{ str_contains($entry->action, 'delete') || str_contains($entry->action, 'deactivate') ? 'c-feed__dot--amber' : '' }}"></span>
+                        <span class="c-feed__txt">
+                            <span class="c-feed__who">{{ $entry->actor?->name ?? 'Deleted user' }}</span>
+                            {{ str_replace(['.', '_'], ' ', $entry->action) }}
+                            @if ($entry->subject_type)
+                                <span class="c-table__muted">{{ class_basename($entry->subject_type) }} #{{ $entry->subject_id }}</span>
+                            @endif
+                        </span>
+                        <span class="c-feed__when">{{ $entry->occurred_at?->diffForHumans(short: true) }}</span>
+                    </li>
+                @endforeach
+            </ul>
         </div>
-    </section>
+    @endif
+
+</div>
+
+@if ($topListings->isNotEmpty())
+    <div style="margin-top:22px">
+        <div class="c-head">
+            <div>
+                <h2 class="c-head__t" style="font-size:17px">Advertising performance</h2>
+                <p class="c-head__s">Live listings, busiest first.</p>
+            </div>
+            <div class="c-head__actions">
+                <a href="{{ route('admin.listings.index') }}" class="c-btn c-btn--sm">All listings</a>
+            </div>
+        </div>
+
+        <div class="c-lcards">
+            @foreach ($topListings as $listing)
+                @php
+                    $photo = is_array($listing->photos) ? ($listing->photos[0] ?? null) : null;
+                @endphp
+                <a href="{{ route('admin.listings.edit', $listing) }}" class="c-lcard">
+                    <div class="c-lcard__img" @if ($photo) style="background-image:url('{{ $photo }}')" @endif>
+                        <span class="c-pill c-pill--live c-lcard__pill">Live</span>
+                    </div>
+                    <div class="c-lcard__b">
+                        <h3 class="c-lcard__t">{{ $listing->title }}</h3>
+                        <span class="c-lcard__loc">{{ collect([$listing->city, $listing->state])->filter()->implode(', ') ?: $listing->resort_name }}</span>
+                        <div class="c-lcard__stats">
+                            <span class="c-lcard__stat">
+                                <span class="c-lcard__sv">{{ number_format($listing->views) }}</span>
+                                <span class="c-lcard__sl">Views</span>
+                            </span>
+                            <span class="c-lcard__stat">
+                                <span class="c-lcard__sv">{{ number_format($listing->inquiries_count) }}</span>
+                                <span class="c-lcard__sl">Inquiries</span>
+                            </span>
+                            <span class="c-lcard__stat">
+                                <span class="c-lcard__sv">{{ number_format($listing->offers_count) }}</span>
+                                <span class="c-lcard__sl">Offers</span>
+                            </span>
+                        </div>
+                    </div>
+                </a>
+            @endforeach
+        </div>
+    </div>
 @endif
 
 @endsection

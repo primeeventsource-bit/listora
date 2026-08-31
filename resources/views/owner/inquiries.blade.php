@@ -42,7 +42,7 @@
                         @if ($inquiry->arrive && $inquiry->depart)
                             <p class="muted">
                                 {{ $inquiry->arrive->format('j M Y') }} – {{ $inquiry->depart->format('j M Y') }}
-                                @if ($inquiry->guests) · {{ $inquiry->guests }} guests @endif
+                                @if ($inquiry->guests) · {{ $inquiry->guests }} occupants @endif
                             </p>
                         @endif
 

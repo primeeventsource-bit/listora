@@ -148,7 +148,7 @@
 
                 <div class="field">
                     <label for="description">Describe it</label>
-                    <textarea id="description" name="description" placeholder="What makes it worth the trip? Which weeks are best? What do you leave for guests?">{{ old('description') }}</textarea>
+                    <textarea id="description" name="description" placeholder="What makes it worth advertising? Which weeks are best? What do you leave for visitors?">{{ old('description') }}</textarea>
                 </div>
 
                 <div style="margin-top:32px;display:flex;justify-content:space-between;gap:14px">

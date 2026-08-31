@@ -2,6 +2,9 @@
 
 namespace App\Providers;
 
+use App\Models\ContactMessage;
+use App\Models\ListingDraft;
+use App\Models\Offer;
 use App\Models\User;
 use App\Observability\Tracing;
 use App\Services\GeoIp\CachedGeoIpService;
@@ -22,6 +25,7 @@ use App\Support\PermissionCatalog;
 use Illuminate\Contracts\Cache\Repository as CacheRepository;
 use Illuminate\Http\Client\Factory as HttpFactory;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -108,6 +112,40 @@ class AppServiceProvider extends ServiceProvider
         // causes the listener to fire twice for each auth event.
 
         $this->registerPermissionGates();
+        $this->composeConsoleNav();
+    }
+
+    /**
+     * Counts for the console nav badges.
+     *
+     * A composer rather than per-controller variables, because the rail is on
+     * every console screen and a badge that appeared only on the dashboard
+     * would read as "nothing is waiting" everywhere else. Each count is gated
+     * on the same permission as the link it sits on, so a viewer who cannot
+     * open the queue is not told how long it is.
+     *
+     * Zero renders as null, not 0 — a badge showing "0" is noise, and the
+     * absence of a badge already says the same thing.
+     */
+    private function composeConsoleNav(): void
+    {
+        View::composer('layouts.console', function ($view) {
+            $user = auth()->user();
+
+            if (! $user) {
+                return;
+            }
+
+            $count = fn (string $permission, callable $query) => $user->hasPermission($permission)
+                ? ($query() ?: null)
+                : null;
+
+            $view->with([
+                'navDrafts' => $count('drafts.view', fn () => ListingDraft::query()->awaitingVerification()->count()),
+                'navInquiries' => $count('inbox.view', fn () => ContactMessage::query()->where('status', ContactMessage::STATUS_NEW)->count()),
+                'navOffers' => $count('offers.view', fn () => Offer::query()->open()->count()),
+            ]);
+        });
     }
 
     /**

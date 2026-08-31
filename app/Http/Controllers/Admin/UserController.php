@@ -163,7 +163,7 @@ class UserController extends Controller
             ipAddress: $request->ip(),
         );
 
-        return back()->with('success', "Deactivated {$user->email}. Their bookings and history are preserved.");
+        return back()->with('success', "Deactivated {$user->email}. Their inquiries, offers, and history are preserved.");
     }
 
     public function reactivate(Request $request, User $user): RedirectResponse
