@@ -52,6 +52,7 @@
                     ],
                     'My advertising' => [
                         ['owner.listings.index', 'My listings', 'building', null],
+                        ['owner.performance', 'Performance', 'chart', null],
                     ],
                     'Interest' => [
                         ['owner.inquiries.index', 'Inquiries', 'chat', $memberInquiries ?? null],
@@ -64,6 +65,7 @@
                 $icons = [
                     'grid'     => '<rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/>',
                     'building' => '<path d="M4 21V6a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v15"/><path d="M14 10h5a1 1 0 0 1 1 1v10"/><path d="M2 21h20"/><path d="M8 9h2M8 13h2M8 17h2"/>',
+                    'chart'    => '<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>',
                     'chat'     => '<path d="M20 12a7 7 0 0 1-7 7H8l-4 3v-4.5A7 7 0 0 1 4 12v-1a7 7 0 0 1 7-7h2a7 7 0 0 1 7 7z"/>',
                     'tag'      => '<path d="M3 11V5a2 2 0 0 1 2-2h6l9 9-8 8z"/><circle cx="7.5" cy="7.5" r="1.5"/>',
                     'cog'      => '<circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M19.1 4.9L17 7M7 17l-2.1 2.1"/>',

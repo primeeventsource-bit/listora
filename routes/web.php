@@ -25,6 +25,7 @@ use App\Http\Controllers\ListingWizardController;
 use App\Http\Controllers\NewsletterSubscriptionController;
 use App\Http\Controllers\OfferController;
 use App\Http\Controllers\Owner\ListingController as OwnerListingController;
+use App\Http\Controllers\Owner\PerformanceController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\PressController;
 use App\Http\Controllers\ProfileController;
@@ -199,6 +200,12 @@ Route::middleware(['auth', 'terms.current'])
         Route::post('listings/{listing}/resume', [OwnerListingController::class, 'resume'])->name('listings.resume');
 
         Route::get('inquiries', [OwnerListingController::class, 'inquiries'])->name('inquiries.index');
+
+        // Advertising performance: what the member's advertising is doing, and
+        // roughly where the traffic is coming from. Reads ad_events through
+        // AdEvent::forMember(), which scopes to this advertiser's own listings
+        // and drops the visitor IP at the SQL level.
+        Route::get('performance', [PerformanceController::class, 'index'])->name('performance');
 
         Route::get('offers', [OfferController::class, 'index'])->name('offers.index');
         Route::post('offers/{offer}/accept', [OfferController::class, 'accept'])->name('offers.accept');
