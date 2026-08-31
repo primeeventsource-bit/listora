@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdController;
+use App\Http\Controllers\Admin\AdvertisingTraceController;
 use App\Http\Controllers\Admin\AuditLogController;
 use App\Http\Controllers\Admin\DraftController as AdminDraftController;
 use App\Http\Controllers\Admin\EmailTemplateController;
@@ -290,6 +291,16 @@ Route::middleware(['auth'])
         // Traffic, geography, and paid attribution. Read-only: everything is
         // derived at request time from the append-only tracking_events table,
         // so there is no rollup to drift out of step with the source.
+        // Advertising traffic in full, including visitor IP addresses. Gated
+        // on its own permission rather than reports.view: the privacy policy
+        // restricts addresses to administrators for security investigation,
+        // and folding that into "can see reporting" would break the promise
+        // through a role assignment nobody thought of as a privacy decision.
+        Route::get('advertising', [AdvertisingTraceController::class, 'index'])
+            ->middleware('permission:advertising.trace')->name('advertising.index');
+        Route::get('advertising/member/{user}', [AdvertisingTraceController::class, 'member'])
+            ->middleware('permission:advertising.trace')->name('advertising.member');
+
         Route::get('reports', [ReportsController::class, 'index'])->middleware('permission:reports.view')->name('reports.index');
         Route::get('reports/export', [ReportsController::class, 'export'])->middleware('permission:reports.export')->name('reports.export');
 

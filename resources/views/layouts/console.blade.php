@@ -89,6 +89,7 @@
                     ],
                     'Insight' => [
                         ['admin.reports.index', 'Performance', 'chart', 'reports.view', null],
+                        ['admin.advertising.index', 'Ad traffic', 'pulse', 'advertising.trace', null],
                         ['admin.audit.index', 'Activity', 'pulse', 'audit.view', null],
                     ],
                     'System' => [

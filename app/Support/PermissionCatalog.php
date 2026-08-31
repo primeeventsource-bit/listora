@@ -107,6 +107,18 @@ final class PermissionCatalog
         'reports.view' => ['reports', 'View Reports', 'See operational and financial reporting.'],
         'reports.export' => ['reports', 'Export Reports', 'Download report data.'],
 
+        /*
+        | Deliberately separate from reports.view.
+        |
+        | The advertising traffic log carries full visitor IP addresses, and
+        | the privacy policy promises they are restricted to administrators
+        | for security and fraud investigation. Folding that into "can see
+        | reporting" would hand every reporting role a visitor surveillance
+        | tool, and the promise would be broken by a role assignment nobody
+        | thought of as a privacy decision.
+        */
+        'advertising.trace' => ['reports', 'Trace Advertising Traffic', 'Search advertising visits and see full visitor IP addresses. Restricted: this is personal data.'],
+
         // --- Inbox: what the public forms produce ----------------------
         'inbox.view' => ['inbox', 'View Contact & Support Requests', 'Read messages from /contact, support tickets, and job applications.'],
         'inbox.manage' => ['inbox', 'Work Requests', 'Mark requests handled, assign them, and record outcomes.'],
