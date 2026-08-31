@@ -59,6 +59,15 @@
 
 .c-shell{display:grid;grid-template-columns:var(--c-rail) 1fr;min-height:100vh}
 
+/*
+ | The mobile scrim. Hidden here, in the base rules, and not only inside the
+ | narrow-viewport media query - it is the first child of .c-shell, so an
+ | unstyled .c-scrim becomes a visible grid item occupying column one. That
+ | pushes the rail into the 1fr column and wraps the content onto a row of its
+ | own underneath it.
+ */
+.c-scrim{position:fixed;inset:0;background:rgba(13,27,42,.45);z-index:55;display:none}
+
 .c-rail{
   background:var(--c-navy);
   color:#C7D2DC;
@@ -276,6 +285,5 @@ a.c-tile:hover{border-color:var(--c-line-2);box-shadow:var(--c-sh);transform:tra
   .c-shell[data-nav="open"] .c-rail{transform:none}
   .c-burger{display:inline-flex}
   .c-body{padding:15px}
-  .c-scrim{position:fixed;inset:0;background:rgba(13,27,42,.45);z-index:55;display:none}
   .c-shell[data-nav="open"] .c-scrim{display:block}
 }
