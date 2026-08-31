@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Models\ContactMessage;
+use App\Models\Inquiry;
 use App\Models\ListingDraft;
 use App\Models\Offer;
 use App\Models\User;
@@ -113,6 +114,29 @@ class AppServiceProvider extends ServiceProvider
 
         $this->registerPermissionGates();
         $this->composeConsoleNav();
+        $this->composeMemberNav();
+    }
+
+    /**
+     * Counts for the member rail.
+     *
+     * Scoped to listings the viewer owns, never to totals — an advertiser is
+     * shown what is waiting on them and nothing about anyone else's demand.
+     */
+    private function composeMemberNav(): void
+    {
+        View::composer('layouts.member', function ($view) {
+            $user = auth()->user();
+
+            if (! $user) {
+                return;
+            }
+
+            $view->with([
+                'memberInquiries' => Inquiry::query()->forListingsOwnedBy($user->id)->unread()->count() ?: null,
+                'memberOffers' => Offer::query()->forListingsOwnedBy($user->id)->open()->count() ?: null,
+            ]);
+        });
     }
 
     /**
