@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\UserRole;
+use App\Support\AdNumber;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -211,5 +212,23 @@ class User extends Authenticatable
     public function loginSessions(): HasMany
     {
         return $this->hasMany(LoginSession::class);
+    }
+
+    /**
+     * Every account gets its advertising number at creation.
+     *
+     * On the model rather than in a controller because accounts are made from
+     * several places - registration, listora:make-admin, the admin console,
+     * seeders and tests - and a number assigned in only some of them would
+     * leave accounts that cannot be advertised for or reported on, discovered
+     * much later and one at a time.
+     */
+    protected static function booted(): void
+    {
+        static::creating(function (User $user): void {
+            if (empty($user->ad_number)) {
+                $user->ad_number = AdNumber::for(static::class);
+            }
+        });
     }
 }

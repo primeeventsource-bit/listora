@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Enums\ListingStatus;
 use App\Enums\PlanTier;
+use App\Support\AdNumber;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -261,5 +262,23 @@ class Listing extends Model
     public function getRouteKeyName(): string
     {
         return 'slug';
+    }
+
+    /**
+     * Every listing gets its own advertising number at creation.
+     *
+     * Separate from the advertiser's member number: the member number says
+     * whose advertising account this is and outlives any one property, the
+     * listing number says which property. A public advertising URL carries
+     * both, so a row in a report identifies the advertiser and the listing
+     * without a join.
+     */
+    protected static function booted(): void
+    {
+        static::creating(function (Listing $listing): void {
+            if (empty($listing->ad_number)) {
+                $listing->ad_number = AdNumber::for(static::class);
+            }
+        });
     }
 }
