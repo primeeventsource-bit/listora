@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Enums\AdEventType;
 use App\Http\Requests\StoreOfferRequest;
+use App\Models\Conversation;
 use App\Models\Listing;
 use App\Models\Offer;
 use App\Services\Advertising\AdEventRecorder;
+use App\Services\Messaging\ConversationService;
 use App\Services\Offers\OfferService;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
@@ -14,7 +16,7 @@ use Illuminate\Http\Request;
 use RuntimeException;
 
 /**
- * Buyer-side submission and owner-side resolution of offers.
+ * Visitor-side submission and owner-side resolution of offers.
  *
  * Owner scoping runs through Offer::scopeForListingsOwnedBy, which joins
  * `listings.owner_id` rather than reading the denormalised `owner_user_id`
@@ -26,6 +28,7 @@ class OfferController extends Controller
     public function __construct(
         private readonly OfferService $offers,
         private readonly AdEventRecorder $recorder,
+        private readonly ConversationService $conversations,
     )
     {
     }
@@ -43,8 +46,16 @@ class OfferController extends Controller
         );
 
         // Recorded after submission, so a failure to record cannot cost the
-        // buyer their offer.
+        // visitor their offer.
         $this->recorder->record($request, AdEventType::OfferSubmitted, $listing);
+
+        // Open the thread the two of them will use. Created empty rather than
+        // seeded with the offer text: the offer already has its own record and
+        // its own screen, and copying it into a message would give the owner
+        // the same words twice in two places that can then disagree.
+        if ($buyer = $request->user()) {
+            $this->conversations->between($listing, $buyer, Conversation::FROM_OFFER);
+        }
 
         return back()->with(
             'sent',

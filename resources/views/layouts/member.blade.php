@@ -46,22 +46,32 @@
 
         <nav class="c-nav" aria-label="My account">
             @php
-                $groups = [
+                /*
+                 | The advertising sections are only shown to someone who
+                 | actually advertises. A visitor uses this same shell for
+                 | their messages, and a rail offering them "My listings" and
+                 | "Performance" would be four dead ends and an invitation to
+                 | wonder what they had missed.
+                 */
+                $groups = array_filter([
                     'Overview' => [
                         ['dashboard', 'Dashboard', 'grid', null],
                     ],
-                    'My advertising' => [
+                    'My advertising' => ($memberAdvertises ?? false) ? [
                         ['owner.listings.index', 'My listings', 'building', null],
                         ['owner.performance', 'Performance', 'chart', null],
-                    ],
-                    'Interest' => [
+                    ] : [],
+                    'Interest' => ($memberAdvertises ?? false) ? [
                         ['owner.inquiries.index', 'Inquiries', 'chat', $memberInquiries ?? null],
                         ['owner.offers.index', 'Offers', 'tag', $memberOffers ?? null],
+                    ] : [],
+                    'Conversations' => [
+                        ['messages.index', 'Messages', 'chat', $memberMessages ?? null],
                     ],
                     'Account' => [
                         ['profile.edit', 'Profile &amp; settings', 'cog', null],
                     ],
-                ];
+                ]);
                 $icons = [
                     'grid'     => '<rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/>',
                     'building' => '<path d="M4 21V6a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v15"/><path d="M14 10h5a1 1 0 0 1 1 1v10"/><path d="M2 21h20"/><path d="M8 9h2M8 13h2M8 17h2"/>',

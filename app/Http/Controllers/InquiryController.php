@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Enums\AdEventType;
+use App\Models\Conversation;
 use App\Models\Listing;
 use App\Services\Advertising\AdEventRecorder;
+use App\Services\Messaging\ConversationService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
@@ -16,8 +18,10 @@ use Illuminate\Http\Request;
  */
 class InquiryController extends Controller
 {
-    public function __construct(private readonly AdEventRecorder $recorder)
-    {
+    public function __construct(
+        private readonly AdEventRecorder $recorder,
+        private readonly ConversationService $conversations,
+    ) {
     }
 
     public function store(Request $request, Listing $listing): RedirectResponse
@@ -42,6 +46,14 @@ class InquiryController extends Controller
         // inquiry. Recorded after the inquiry is stored, so a failure to
         // record cannot cost the owner the message itself.
         $this->recorder->record($request, AdEventType::InquirySubmitted, $listing);
+
+        // A signed-in visitor gets a thread; a guest does not, because there
+        // is no account to carry their half of it. That is the brief's step 2
+        // rather than a limitation - a conversation needs two people who can
+        // both come back to it.
+        if ($visitor = $request->user()) {
+            $this->conversations->between($listing, $visitor, Conversation::FROM_INQUIRY);
+        }
 
         return back()->with('sent', "Your message is on its way to {$listing->owner_name}. "
             .'Replies come straight to your inbox — Listora never sits in the middle of the conversation.');

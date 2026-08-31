@@ -48,7 +48,7 @@
                 <label for="description">Description</label>
                 <textarea id="description" name="description" rows="10" maxlength="12000" required>{{ old('description', $listing->description) }}</textarea>
                 <span class="field-hint">
-                    What a buyer actually needs to know — the resort, what the week or points
+                    What a visitor actually needs to know — the resort, what the week or points
                     realistically book, and anything ongoing like maintenance fees.
                 </span>
             </div>

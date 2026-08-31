@@ -17,7 +17,7 @@
     <div class="wrap">
         <div class="switch reveal" id="howSwitch">
             <button class="on" data-side="owner">For owners</button>
-            <button data-side="traveler">For travelers &amp; buyers</button>
+            <button data-side="traveler">For visitors</button>
         </div>
 
         <div class="steps" id="stepsOwner">

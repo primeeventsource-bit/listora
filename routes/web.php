@@ -25,6 +25,7 @@ use App\Http\Controllers\ListingController;
 use App\Http\Controllers\ListingWizardController;
 use App\Http\Controllers\NewsletterSubscriptionController;
 use App\Http\Controllers\OfferController;
+use App\Http\Controllers\MessageController;
 use App\Http\Controllers\Owner\ListingController as OwnerListingController;
 use App\Http\Controllers\Owner\PerformanceController;
 use App\Http\Controllers\PageController;
@@ -207,7 +208,30 @@ Route::middleware(['auth', 'terms.current'])
         // AdEvent::forMember(), which scopes to this advertiser's own listings
         // and drops the visitor IP at the SQL level.
         Route::get('performance', [PerformanceController::class, 'index'])->name('performance');
+    });
 
+// ---------------------------------------------------------------------------
+// Messages: the peer-to-peer conversation between a listing's owner and an
+// interested visitor.
+//
+// Outside the owner. group because both sides use it. A visitor who has never
+// advertised anything still needs their half of the thread, and naming these
+// owner.messages would be wrong from the visitor's side of every conversation.
+// ---------------------------------------------------------------------------
+Route::middleware(['auth', 'terms.current'])
+    ->prefix('account/messages')
+    ->name('messages.')
+    ->group(function () {
+        Route::get('/', [MessageController::class, 'index'])->name('index');
+        Route::get('{conversation}', [MessageController::class, 'show'])->name('show');
+        Route::post('{conversation}', [MessageController::class, 'store'])
+            ->middleware('throttle:20,1')->name('store');
+    });
+
+Route::middleware(['auth', 'terms.current'])
+    ->prefix('account')
+    ->name('owner.')
+    ->group(function () {
         Route::get('offers', [OfferController::class, 'index'])->name('offers.index');
         Route::post('offers/{offer}/accept', [OfferController::class, 'accept'])->name('offers.accept');
         Route::post('offers/{offer}/decline', [OfferController::class, 'decline'])->name('offers.decline');

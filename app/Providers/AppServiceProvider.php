@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Models\ContactMessage;
 use App\Models\Inquiry;
+use App\Models\Listing;
 use App\Models\ListingDraft;
 use App\Models\Offer;
 use App\Models\User;
@@ -14,6 +15,7 @@ use App\Services\GeoIp\GeoIpService;
 use App\Services\GeoIp\MaxMindGeoIpService;
 use App\Services\GeoIp\NoOpGeoIpService;
 use App\Services\Help\DatabaseHelpArticleSearch;
+use App\Services\Messaging\ConversationService;
 use App\Services\Help\HelpArticleSearch;
 use App\Services\Notifications\HttpSlackNotifier;
 use App\Services\Notifications\NoOpSlackNotifier;
@@ -132,9 +134,21 @@ class AppServiceProvider extends ServiceProvider
                 return;
             }
 
+            // Whether this viewer advertises at all decides which half of the
+            // rail exists. Asked of the data rather than the role column, so
+            // a traveler account that later advertises gets the advertising
+            // sections without anyone remembering to change their role.
+            $advertises = Listing::query()->ownedBy($user->id)->exists();
+
             $view->with([
-                'memberInquiries' => Inquiry::query()->forListingsOwnedBy($user->id)->unread()->count() ?: null,
-                'memberOffers' => Offer::query()->forListingsOwnedBy($user->id)->open()->count() ?: null,
+                'memberAdvertises' => $advertises,
+                'memberInquiries' => $advertises
+                    ? (Inquiry::query()->forListingsOwnedBy($user->id)->unread()->count() ?: null)
+                    : null,
+                'memberOffers' => $advertises
+                    ? (Offer::query()->forListingsOwnedBy($user->id)->open()->count() ?: null)
+                    : null,
+                'memberMessages' => app(ConversationService::class)->unreadCountFor($user) ?: null,
             ]);
         });
     }
