@@ -54,9 +54,24 @@ return [
     | `disable_cloudflare` to skip straight to the no-op.
     */
     'maxmind' => [
-        'mmdb_path' => env('MAXMIND_MMDB_PATH'),
+        /*
+        | Defaults to where listora:geoip-update installs the database, so an
+        | environment that runs that command in its build gets city-level
+        | geolocation without also having to set a path. The binding only uses
+        | it when the file is actually readable, so the default is inert until
+        | the database exists.
+        */
+        'mmdb_path' => env('MAXMIND_MMDB_PATH', storage_path('app/geoip/GeoLite2-City.mmdb')),
         'anonymous_mmdb_path' => env('MAXMIND_ANONYMOUS_MMDB_PATH'),
         'disable_cloudflare' => env('GEOIP_DISABLE_CLOUDFLARE', false),
+
+        /*
+        | GeoLite2 is free but licensed: it requires an account and a licence
+        | key, and MaxMind's terms do not allow redistributing the database.
+        | So it is downloaded at build time rather than committed - which also
+        | keeps a 60MB binary that goes stale every week out of the repository.
+        */
+        'license_key' => env('MAXMIND_LICENSE_KEY'),
     ],
 
     /*

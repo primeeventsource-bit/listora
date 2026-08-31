@@ -12,7 +12,7 @@ non-obvious settings are what they are.
 | | |
 |---|---|
 | Framework | Laravel **12** |
-| PHP | **8.3+** (`composer.json` requires `^8.3`) |
+| PHP | **8.2+** (`composer.json` requires `^8.2`; CI tests 8.2, 8.3 and 8.4) |
 | Database | MySQL 8 |
 | Cache / queue | Redis |
 | Auth | Breeze (web sessions) + Sanctum (API tokens, `/api/v1`) |
@@ -197,11 +197,41 @@ put a secret (`sk.*`) token here.
 Unset is a supported state: the reports page falls back to a plotted grid with
 the same pins and the same numbers, and makes no third-party call at all.
 
-### GeoIP and ops alerts — optional
+### GeoIP — required for a useful advertising map
 
 ```env
-MAXMIND_MMDB_PATH=            # unset falls back to Cloudflare headers, then no-op
+MAXMIND_LICENSE_KEY=          # MaxMind account → Manage Licence Keys
+MAXMIND_MMDB_PATH=            # only to override where the database is installed
 MAXMIND_ANONYMOUS_MMDB_PATH=
+```
+
+And add to the **build** command, after `composer install`:
+
+```bash
+php artisan listora:geoip-update
+```
+
+> **Unset is not a neutral state here.** `GeoIpService` falls back to
+> Cloudflare's request headers, and `cf-ipcity`, `cf-region`, `cf-iplatitude`
+> and `cf-iplongitude` are **Cloudflare Pro and above** — Laravel Cloud's
+> bundled Cloudflare passes only `cf-ipcountry`. Every visitor then resolves
+> to their country's geographic centroid, so the advertising map shows one pin
+> per country (every US visitor stacked at 39.8283, -98.5795, a field in
+> Kansas) and `geo_city` and `geo_region` are never populated at all.
+
+GeoLite2 is free, but MaxMind's licence forbids redistributing the database,
+so it is downloaded at build time rather than committed — which also keeps a
+60MB binary that goes stale weekly out of the repository.
+
+**Build, not deploy.** Containers are rebuilt per release, so the file has to
+be baked into the image; downloading at deploy time would refetch it on every
+container start and lose it on the next. The command fails soft, so a missing
+key or a MaxMind outage degrades geolocation rather than failing the build.
+Pass `--strict` if you would rather the build stop.
+
+### Ops alerts — optional
+
+```env
 SLACK_OPS_WEBHOOK_URL=        # unset = NoOpSlackNotifier
 ```
 
@@ -305,7 +335,12 @@ outside config files. Do not add `db:seed` to a recurring deploy — see below.
 ## Assets
 
 Pages load static CSS and JS from `public/` via `asset()`. There is no build
-step on the critical path, and no page currently renders `@vite`.
+step on the critical path, and no **routed** page renders `@vite`.
+
+`resources/views/welcome.blade.php` does render it, but nothing routes to it —
+`/` goes to `HomeController`. There is no `public/build` manifest, so the
+moment anything routes to that view it will 500 with "Vite manifest not
+found". Delete it or build assets before wiring it up.
 
 `package.json`, `vite.config.js`, and Tailwind are present but vestigial. If
 Laravel Cloud runs `npm run build`, that is harmless.
@@ -323,8 +358,25 @@ having passed every check locally.
 The app must be at the repository root. Confirm `composer.json`, `artisan`,
 and `public/index.php` are at the top level, not inside a subdirectory.
 
+**"The [composer.lock] and [composer.json] files could not be found"**
+The environment has a **base directory** set — almost certainly `listora-app`,
+from before `fd7e42d` moved the app to the repository root. Nothing in this
+repository can fix it: Laravel Cloud → the environment → **Settings**, in the
+build or source-control section, clear the **Base Directory** field so it is
+empty (the repository root). Confirm the files really are committed at the top
+level first:
+
+```bash
+git ls-tree --name-only origin/production | grep composer
+```
+
+This failure is quiet in the worst way. The build fails, the *last successful*
+build keeps serving, and the site carries on running code from before the
+problem started — so the symptom is "our changes aren't appearing", not "the
+deploy is broken". Check **Deploys** before assuming a caching problem.
+
 **Deploy fails on `composer install`**
-Check the PHP version is 8.3 or higher. `^8.3` is a hard requirement.
+Check the PHP version is 8.2 or higher. `^8.2` is the constraint in `composer.json`.
 
 **Site loads but sessions or logins do not persist**
 `CACHE_STORE` (not `CACHE_DRIVER`) must be `redis`, and a cache resource must
