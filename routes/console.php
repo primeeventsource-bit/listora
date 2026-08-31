@@ -13,3 +13,13 @@ Artisan::command('inspire', function () {
 // must read EXPIRED at 19:30 the next day, not at the top of the next hour.
 // withoutOverlapping guards against a long sweep colliding with the next tick.
 Schedule::command('offers:expire')->everyMinute()->withoutOverlapping();
+
+// Retention for advertising traffic records. Section 8 of the privacy policy
+// promises 24 months, including the IP addresses recorded with them — this is
+// what makes that promise true rather than decorative, so it is not optional
+// and must not be removed without changing the published policy first.
+//
+// Daily rather than hourly: the window is measured in months, so the exact
+// minute a row crosses the line does not matter, and a single daily pass
+// keeps the delete volume predictable.
+Schedule::command('listora:prune-ad-events')->dailyAt('03:20')->withoutOverlapping();

@@ -24,8 +24,15 @@
     certificates you provide for verification.</p>
 
     <p><strong>Information collected automatically.</strong> IP address, browser and device type,
-    pages viewed, and the approximate location derived from your IP address. We record
-    authentication events — sign-in, sign-out, and failed attempts — with this information.</p>
+    operating system, pages viewed, the page or advertisement that referred you, any campaign
+    tags in the link you followed, a session identifier, and the approximate location derived
+    from your IP address. We record authentication events — sign-in, sign-out, and failed
+    attempts — with this information, and we record visits to advertisement and listing pages.</p>
+
+    <p><strong>About approximate location.</strong> Location is estimated from your IP address
+    against a geolocation database. It identifies a city and region near the network you are
+    connecting through, which is often not the place you are actually in and is never a street
+    address, a precise position, or a live location. We store and display it only as approximate.</p>
 
     <p><strong>What we do not collect.</strong> We do not collect or store card numbers, bank
     account details, or any payment credentials, because no payment is processed through this
@@ -38,6 +45,16 @@
         <li>To pass inquiries and offers to the relevant listing owner.</li>
         <li>To detect and investigate fraud, abuse, and unauthorised account access.</li>
         <li>To respond to support requests.</li>
+        <li>
+            To measure how advertisements on this site perform — how many people viewed a
+            listing, roughly where they were, what kind of device they used, and which campaign
+            or referring site brought them — and to show that performance to the advertiser
+            whose listing it was.
+        </li>
+        <li>
+            To evidence to an advertiser that the advertising they paid for was published and
+            reachable by the public for the period agreed.
+        </li>
         <li>To send service messages about your listings, including term expiry notices.</li>
     </ul>
 
@@ -55,9 +72,26 @@
         exchanged between the two of you.
     </p>
     <p>
+        <strong>Advertisers see traffic to their own listings.</strong> If you visit a listing,
+        the advertiser of that listing can see that the visit happened and, for that visit, the
+        approximate city and region, the device type and browser, and the campaign or referring
+        site it came from. They see this only for their own advertisements.
+    </p>
+    <p>
+        <strong>Advertisers never see your IP address.</strong> It is recorded, but it is
+        restricted to our own administrators for security and fraud investigation, and it is not
+        available on any screen an advertiser can reach. Advertisers are not told who you are:
+        they see a visit, not a visitor.
+    </p>
+    <p>
+        If you are signed in when you view a listing, we associate that visit with your account
+        so that we can investigate abuse and answer your own data requests accurately. That
+        association is visible to our administrators and is not shown to the advertiser.
+    </p>
+    <p>
         We share data with service providers who host our infrastructure, send our email, and
-        provide geolocation and AI support-assistant functionality, under contract and only as
-        needed to provide those services. We disclose data where required by law.
+        provide geolocation, mapping, and AI support-assistant functionality, under contract and
+        only as needed to provide those services. We disclose data where required by law.
     </p>
     <p>
         <strong>We do not sell personal data, and we do not sell inquiries as sales leads.</strong>
@@ -83,6 +117,13 @@
         are retained after they close as a record of what was agreed and to resolve later
         disputes. Authentication and security records are retained for security investigation.
         We delete or anonymise data when it is no longer needed for these purposes.
+    </p>
+    <p>
+        <strong>Advertising traffic records</strong> — the visits described in section 2 — are
+        kept for <strong>24 months</strong> and then deleted, including the IP address recorded
+        with them. They exist to report performance to an advertiser, to show that advertising
+        ran during its term, and to investigate abuse, and 24 months covers a full advertising
+        term with room to answer a question about it afterwards.
     </p>
 
     <h2>9. Your rights</h2>

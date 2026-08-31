@@ -100,7 +100,24 @@ class LegalDocumentRegistry
             // v3 (2026-08-13): said we collect data to "complete bookings,
             // process payments and refunds". We do neither — the only payments
             // we process are property owners paying us for advertising.
-            'version_label' => 'v3',
+            //
+            // v4 (2026-08-31): advertising traffic measurement. The categories
+            // collected were already disclosed — IP, device, pages viewed,
+            // approximate location — but three things about them were not.
+            // The purpose: measuring advertising performance and evidencing
+            // that advertising ran. The disclosure: an advertiser now sees the
+            // approximate city, region, device and source of visits to their
+            // own listings, which is a disclosure to a third party and had no
+            // sentence anywhere. And the boundary: they never see the IP, and
+            // a signed-in visit is associated with the account for our own
+            // administrators but not shown to them.
+            //
+            // Also adds the retention period — 24 months for the records,
+            // including the IP addresses in them. Enforced by
+            // listora:prune-ad-events on the daily schedule. If that command
+            // is removed, this section becomes a false statement to every
+            // visitor.
+            'version_label' => 'v4',
         ],
         [
             'kind'          => self::KIND_ADVERTISING_AGREEMENT,
