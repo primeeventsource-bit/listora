@@ -254,7 +254,7 @@ final class ExploreSeo
             ->map(fn (Listing $listing, int $i) => [
                 '@type'    => 'ListItem',
                 'position' => $offset + $i + 1,
-                'url'      => route('listings.show', $listing),
+                'url'      => $listing->publicUrl(),
                 'name'     => $listing->title,
             ])
             ->all();

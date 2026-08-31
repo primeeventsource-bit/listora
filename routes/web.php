@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdController;
 use App\Http\Controllers\Admin\AuditLogController;
 use App\Http\Controllers\Admin\DraftController as AdminDraftController;
 use App\Http\Controllers\Admin\EmailTemplateController;
@@ -49,7 +50,32 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 // Explore were the only page covered, which is the opposite of the truth.
 Route::get('/browse', [ListingController::class, 'index'])->name('listings.index');
 
-Route::get('/listing/{listing}', [ListingController::class, 'show'])->name('listings.show');
+// ---------------------------------------------------------------------------
+// Public advertising URLs.
+//
+//   /ad/{member}            an advertiser's live listings
+//   /ad/{member}/{listing}  one advertised property
+//
+// Canonical. Both numbers are YYYYMMDDHHMM, so the address itself identifies
+// whose advertising this is and which property, which is what makes it usable
+// in a report or printed on something.
+//
+// Constrained to twelve digits so these cannot shadow another /ad/* route
+// added later, and so a malformed number 404s at the router rather than
+// reaching a query.
+// ---------------------------------------------------------------------------
+Route::get('/ad/{adNumber}', [AdController::class, 'member'])
+    ->where('adNumber', '\d{12}')
+    ->name('ad.member');
+
+Route::get('/ad/{adNumber}/{listingNumber}', [AdController::class, 'show'])
+    ->where(['adNumber' => '\d{12}', 'listingNumber' => '\d{12}'])
+    ->name('ad.show');
+
+// The previous public address. Kept and redirected permanently rather than
+// removed: a listing URL is the sort of thing that gets shared, bookmarked,
+// and printed, and one that stops resolving is worse than an extra route.
+Route::get('/listing/{listing}', [AdController::class, 'legacy'])->name('listings.show');
 
 // The inventory register: ten rows, no filters, no paging. Distinct from
 // /browse, which is the search surface — see PageController::inventory.

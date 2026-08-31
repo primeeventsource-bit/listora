@@ -22,7 +22,7 @@
 
     <div class="card-body">
         <span class="card-loc">{{ $listing->location }}</span>
-        <h3><a href="{{ route('listings.show', $listing) }}" class="stretch">{{ $listing->title }}</a></h3>
+        <h3><a href="{{ $listing->publicUrl() }}" class="stretch">{{ $listing->title }}</a></h3>
 
         <p class="card-fact">
             <b>{{ $listing->key_fact }}</b>

@@ -45,7 +45,7 @@
                                     <span class="muted">{{ $offer->kind?->label() }}</span></td>
                                 <td>
                                     @if ($offer->listing)
-                                        <a href="{{ route('listings.show', $offer->listing) }}">{{ $offer->listing->title }}</a>
+                                        <a href="{{ $offer->listing->publicUrl() }}">{{ $offer->listing->title }}</a>
                                     @else <span class="muted">removed</span> @endif
                                 </td>
                                 <td>{{ $offer->name }}<br><span class="muted">{{ $offer->email }}</span></td>

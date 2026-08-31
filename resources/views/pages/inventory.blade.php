@@ -75,7 +75,7 @@
                                 </td>
 
                                 <td>
-                                    <a href="{{ route('listings.show', $listing) }}" style="font-weight:600">{{ $listing->title }}</a>
+                                    <a href="{{ $listing->publicUrl() }}" style="font-weight:600">{{ $listing->title }}</a>
                                     <div style="color:var(--slate);font-size:13.5px;margin-top:4px">
                                         {{ $listing->location }}
                                         @if ($listing->resort_name)

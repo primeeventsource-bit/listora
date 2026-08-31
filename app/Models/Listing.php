@@ -265,6 +265,35 @@ class Listing extends Model
     }
 
     /**
+     * Where this listing publicly lives.
+     *
+     * One method rather than route('listings.show', $listing) at ten call
+     * sites: that route is now a permanent redirect to the canonical
+     * advertising URL, so every internal link through it would cost visitors
+     * an extra round trip and hand search engines a redirect where a direct
+     * link belongs.
+     *
+     * Falls back to the legacy address when either number is missing, so a
+     * row that predates the columns still links somewhere real rather than
+     * throwing while building a URL.
+     */
+    public function publicUrl(): string
+    {
+        $ownerNumber = $this->relationLoaded('owner')
+            ? $this->owner?->ad_number
+            : $this->owner()->value('ad_number');
+
+        if (! $ownerNumber || ! $this->ad_number) {
+            return route('listings.show', $this);
+        }
+
+        return route('ad.show', [
+            'adNumber' => $ownerNumber,
+            'listingNumber' => $this->ad_number,
+        ]);
+    }
+
+    /**
      * Every listing gets its own advertising number at creation.
      *
      * Separate from the advertiser's member number: the member number says

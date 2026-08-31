@@ -68,8 +68,53 @@ class SeededSiteIsVisibleTest extends TestCase
         // show first, or this asserts against a page it was never on.
         $listing = Listing::published()->sorted(null)->first();
 
+        // Seeded listings carry no owner_id, so they have no member
+        // advertising number and keep the legacy address. That is the
+        // fallback working, not a defect - and it is why this asserts the
+        // listing's own publicUrl() rather than a hard-coded prefix.
+        // A prefix, not this listing's URL: the home page shows featured
+        // listings, which are not necessarily the one browse would lead with.
         $this->get('/')->assertOk()->assertSee('/listing/', false);
         $this->get('/browse')->assertOk()->assertSee($listing->title, false);
-        $this->get('/listing/'.$listing->slug)->assertOk();
+        $this->get($listing->publicUrl())->assertOk();
+    }
+
+    /**
+     * An owned listing lives at the advertising URL, and the old address
+     * redirects there permanently.
+     *
+     * A listing URL is the kind of thing that gets shared, bookmarked and
+     * printed. /listing/{slug} was public for the site's whole life before
+     * advertising numbers existed, so it redirects rather than 404ing - and
+     * permanently matters, because a 302 would leave search engines indexing
+     * the old address indefinitely.
+     */
+    public function test_an_owned_listing_lives_at_its_advertising_url(): void
+    {
+        $owner = \App\Models\User::factory()->create();
+        $listing = Listing::factory()->create(['owner_id' => $owner->id]);
+
+        $canonical = "/ad/{$owner->ad_number}/{$listing->ad_number}";
+
+        $this->assertSame(url($canonical), $listing->publicUrl());
+        $this->get($canonical)->assertOk()->assertSee($listing->title, false);
+
+        $this->get('/listing/'.$listing->slug)
+            ->assertStatus(301)
+            ->assertRedirect($listing->publicUrl());
+    }
+
+    /**
+     * The number pair is the address. A listing that exists but belongs to a
+     * different advertiser must 404 rather than redirect to its real URL -
+     * correcting it would let anyone map listings to members by trying pairs.
+     */
+    public function test_a_listing_under_the_wrong_advertiser_is_not_found(): void
+    {
+        $owner = \App\Models\User::factory()->create();
+        $stranger = \App\Models\User::factory()->create();
+        $listing = Listing::factory()->create(['owner_id' => $owner->id]);
+
+        $this->get("/ad/{$stranger->ad_number}/{$listing->ad_number}")->assertNotFound();
     }
 }

@@ -40,7 +40,7 @@
                         @foreach ($listings as $listing)
                             <tr>
                                 <td>
-                                    <a href="{{ route('listings.show', $listing) }}">{{ $listing->title }}</a><br>
+                                    <a href="{{ $listing->publicUrl() }}">{{ $listing->title }}</a><br>
                                     <span class="muted">{{ $listing->location }}</span>
                                 </td>
                                 <td>

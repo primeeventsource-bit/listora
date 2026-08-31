@@ -43,7 +43,7 @@
 
                         <h3>
                             @if ($offer->listing)
-                                <a href="{{ route('listings.show', $offer->listing) }}">{{ $offer->listing->title }}</a>
+                                <a href="{{ $offer->listing->publicUrl() }}">{{ $offer->listing->title }}</a>
                             @else
                                 <span class="muted">Listing removed</span>
                             @endif

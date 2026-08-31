@@ -63,7 +63,7 @@
 
                 @if ($draft->listing)
                     <div class="notice">
-                        <p>Published as <a href="{{ route('listings.show', $draft->listing) }}">{{ $draft->listing->title }}</a>.</p>
+                        <p>Published as <a href="{{ $draft->listing->publicUrl() }}">{{ $draft->listing->title }}</a>.</p>
                     </div>
                 @else
                     {{-- Verification first, publication second. The publish button is
