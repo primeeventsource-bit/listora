@@ -47,11 +47,19 @@ class AdEventRecorder
             // Deliberately swallowed. See the class docblock: the advertisement
             // outranks the record of it. Logged so a silent gap is still
             // discoverable rather than merely silent.
-            Log::warning('Ad event not recorded', [
-                'event_type' => $type->value,
-                'listing_id' => $listing?->id,
-                'exception' => $e->getMessage(),
-            ]);
+            //
+            // The reason goes in the message, not only in the context. The
+            // first failure here reached the log as "Ad event not recorded"
+            // with every context field rendered null, which said that
+            // something broke and nothing about what - and the recorder's own
+            // design means there is no other symptom to work from.
+            Log::warning(sprintf(
+                'Ad event not recorded [%s, listing %s]: %s: %s',
+                $type->value,
+                $listing?->id ?? '-',
+                $e::class,
+                $e->getMessage(),
+            ));
 
             return null;
         }
@@ -100,9 +108,13 @@ class AdEventRecorder
             'ip_address' => $ip,
             'ip_hash' => $ip ? hash('sha256', $ip.'|'.config('app.key')) : null,
 
-            'geo_city' => $geo->city,
-            'geo_region' => $geo->region,
-            'geo_country' => $geo->country,
+            // Bounded to their columns. These are third-party strings from a
+            // GeoIP database, so their length is not ours to assume - and an
+            // oversized value is rejected outright by MySQL in strict mode
+            // while passing silently on the SQLite the tests run against.
+            'geo_city' => $this->clip($geo->city, 128),
+            'geo_region' => $this->clip($geo->region, 128),
+            'geo_country' => $this->clip($geo->country, 2),
             'geo_lat' => $geo->latitude,
             'geo_lng' => $geo->longitude,
 
@@ -113,6 +125,14 @@ class AdEventRecorder
 
             'occurred_at' => now(),
         ]);
+    }
+
+    /** Bound a value to its column, or null if there is nothing to store. */
+    private function clip(?string $value, int $max): ?string
+    {
+        $value = trim((string) $value);
+
+        return $value === '' ? null : mb_substr($value, 0, $max);
     }
 
     private function param(Request $request, string $key, int $max): ?string
