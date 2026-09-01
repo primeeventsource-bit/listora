@@ -40,8 +40,8 @@ class HelpArticleSeeder extends Seeder
                 'audience' => HelpAudience::All,
                 'category' => 'getting-started',
                 'title' => 'What Listora is — and what it is not',
-                'summary' => 'Listora advertises vacation properties, resort club points, and vacation weeks. It is not a broker, an agency, or a booking site.',
-                'search_keywords' => 'what is listora, broker, agency, booking, commission, marketplace, advertise',
+                'summary' => 'Listora advertises vacation properties. It is not a broker, an agency, or a booking site.',
+                'search_keywords' => 'what is listora, broker, agency, commission, advertising platform, advertise',
                 'body' => <<<'TXT'
 Listora is an advertising marketplace. Owners pay one flat fee to publish a listing for twelve months, and travelers and buyers browse those listings and contact the owner directly.
 
@@ -138,9 +138,9 @@ TXT,
                 'body' => <<<'TXT'
 Before a listing publishes, our team reviews your documentation and checks that it matches what you entered.
 
-For a vacation property that usually means a deed or title. For club points it means a current club statement showing your balance. For a week it means the membership certificate or a statement showing the resort, week number, season, and usage year.
+For a vacation property that usually means a deed or title, or another document showing the property is yours to advertise. For a property you manage on an owner’s behalf, we ask for written authority from the owner. For a membership certificate or a statement showing the resort, week number, season, and usage year.
 
-We are checking that the resort matches, the week or points balance matches, and the season and usage year match. These are the facts a buyer compares options on, so a listing that overstates any of them is worse than no listing at all.
+We are checking that the property matches, the location matches, and the availability matches. These are the facts a visitor compares options on, so a listing that overstates any of them is worse than no listing at all.
 
 It usually takes one to two business days. If something does not line up we contact you directly and explain what we need — a decline always comes with a reason.
 
@@ -155,7 +155,7 @@ TXT,
                 'summary' => 'It means our team checked the owner\'s documentation against the listing details before it published.',
                 'search_keywords' => 'verified badge, trust, scam, legitimate, real, safe, confirmed',
                 'body' => <<<'TXT'
-Every listing on Listora is checked before it publishes. Our team reviews the owner's deed, club statement, or membership certificate and confirms that the resort, the week or points balance, the season, and the usage year all match what the listing claims.
+Every listing on Listora is checked before it publishes. Our team reviews the owner's ownership documents and confirms that the property, the location, and the availability all match what the listing claims.
 
 That is a meaningful check, and it is worth being precise about what it does and does not cover.
 
@@ -178,7 +178,7 @@ TXT,
                 'body' => <<<'TXT'
 There are two ways to reach an owner, and the difference is simply whether you name a price.
 
-An inquiry is a message with a question — about availability, the resort, what the points realistically book, anything you need to know. No price attached.
+An inquiry is a message with a question — about availability, the property, the location, anything you need to know. No price attached.
 
 An offer names an amount. Everything else works the same way.
 

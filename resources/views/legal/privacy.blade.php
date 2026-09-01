@@ -10,8 +10,8 @@
 
     <h2>1. Who we are</h2>
     <p>
-        Listora operates an advertising marketplace for vacation properties, resort club points,
-        and vacation weeks. Our headquarters are in the United States. For any privacy question,
+        Listora operates an advertising platform for vacation properties. Our headquarters are in
+        the United States. For any privacy question,
         write to help&#64;listora1.com.
     </p>
 

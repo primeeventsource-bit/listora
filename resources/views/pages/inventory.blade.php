@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Inventory — Listora')
+@section('title', 'Advertised properties — Listora')
 @section('meta', 'The current Listora inventory: the vacation properties owners are advertising right now, listed as facts. Contact any owner directly. Listora advertises only — no bookings, no commission.')
 
 @section('content')
@@ -8,7 +8,7 @@
 <div class="page-head plain">
     <div class="wrap">
         <span class="eyebrow">{{ number_format($total) }} live {{ Str::plural('listing', $total) }}</span>
-        <h1>Inventory</h1>
+        <h1>Advertised properties</h1>
         <p>
             What owners are advertising right now, written down plainly. Ten most recently
             published below — every one verified before it went up, and every one answered

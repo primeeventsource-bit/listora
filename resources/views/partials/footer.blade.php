@@ -26,7 +26,7 @@
 
             <div>
                 <h4>Explore</h4>
-                <a href="{{ route('inventory') }}">Inventory</a>
+                <a href="{{ route('inventory') }}">Advertised properties</a>
                 <a href="{{ route('listings.index', ['kind' => 'home']) }}">Vacation Properties</a>
                 <a href="{{ route('listings.index', ['mode' => 'rent']) }}">Available to Rent</a>
                 <a href="{{ route('listings.index', ['mode' => 'own']) }}">Available to Own</a>

@@ -10,8 +10,8 @@
 
     <h2>1. What Listora is</h2>
     <p>
-        Listora is an advertising marketplace for vacation properties, resort club points, and
-        vacation weeks. Owners pay a flat fee to publish a listing for a fixed term. Travelers
+        Listora is an advertising platform for vacation properties. Owners pay a flat fee to
+        publish a listing for a fixed term. Visitors
         and buyers browse those listings and contact owners directly.
     </p>
 
@@ -54,7 +54,7 @@
         Before a listing is published we review documentation supplied by the owner — a deed,
         club statement, or membership certificate — and check that it matches the details in the
         listing. Verification confirms that the person advertising holds what they claim to hold,
-        and that the stated resort, week or points balance, season, and usage year match the
+        and that the stated property, location, and availability match the
         documentation as at the date of review.
     </p>
     <p>

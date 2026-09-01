@@ -334,9 +334,9 @@
     <div class="wrap">
         <div class="grid g3">
             @foreach ([
-                ['I\'d listed my week in three other places and got nothing but calls from companies wanting money up front. Here I paid once, a real family messaged me in nine days, and that was that.', 'DM', 'Denise M.', 'Advertiser · Hilton Head, SC'],
-                ['The club points listings actually tell you what the points get you. I booked a two-bedroom in Maui for a week at roughly half what the resort quoted me directly.', 'RT', 'Raymond T.', 'Traveler · Denver, CO'],
-                ['Verification took two days and they caught that my club had renumbered my season. Fixing it before publishing probably saved me a very awkward conversation.', 'AP', 'Angela P.', 'Advertiser · Orlando, FL'],
+                ['I\'d advertised my place in three other spots and got nothing but calls from companies wanting money up front. Here I paid once, a real family messaged me in nine days, and that was that.', 'DM', 'Denise M.', 'Advertiser · Hilton Head, SC'],
+                ['The listings actually tell you what you are getting. I messaged the owner in Maui, we agreed dates in a day, and there was nobody in the middle taking a cut.', 'RT', 'Raymond T.', 'Traveler · Denver, CO'],
+                ['Verification took two days and they caught that my listing had the wrong availability on it. Fixing that before publishing probably saved me a very awkward conversation.', 'AP', 'Angela P.', 'Advertiser · Orlando, FL'],
             ] as [$text, $ini, $name, $role])
                 <div class="quote reveal">
                     <div class="stars" aria-label="5 out of 5">★★★★★</div>

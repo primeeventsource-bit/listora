@@ -86,7 +86,15 @@ class LegalDocumentRegistry
             // expectation the billing will not meet. Both services now use
             // their proper names throughout: "180-Day Member Managed Listing
             // Program" and "Host 30-Day Subscription".
-            'version_label' => 'v6',
+            //
+            // v7 (2026-09-01): the platform is described as an advertising platform for
+            // vacation properties. The previous text named resort club points and
+            // vacation weeks as categories on offer; those are withheld from the
+            // public site while payment underwriting is in progress, and a
+            // contract must not describe a service the site does not present.
+            // Verification language follows: property, location and availability
+            // rather than resort, week, points balance, season and usage year.
+            'version_label' => 'v7',
         ],
         [
             'kind'          => self::KIND_PRIVACY,
@@ -117,7 +125,13 @@ class LegalDocumentRegistry
             // listora:prune-ad-events on the daily schedule. If that command
             // is removed, this section becomes a false statement to every
             // visitor.
-            'version_label' => 'v4',
+            //
+            // v5 (2026-09-01): same category change as the Terms. Section 1 described
+            // an advertising marketplace for club points and vacation weeks; it now
+            // describes an advertising platform for vacation properties. No change
+            // to what is collected, shared, or retained - only to what the service
+            // is said to be.
+            'version_label' => 'v5',
         ],
         [
             'kind'          => self::KIND_ADVERTISING_AGREEMENT,
@@ -127,7 +141,14 @@ class LegalDocumentRegistry
             // Membership Agreement. The previous text described Listora as
             // the booking party holding guest funds in escrow — the opposite
             // of what this agreement says at 2.6.
-            'version_label' => 'v2',
+            //
+            // v3 (2026-09-01): scope and warranties follow the same change. The
+            // agreement applied to a property, a club points package, or a vacation
+            // week; it now applies to a vacation property. The accuracy warranty
+            // named the resort, week, points balance, season and usage year, and
+            // now names the property, location, inclusions, dates and costs -
+            // the facts a visitor actually relies on.
+            'version_label' => 'v3',
         ],
     ];
 

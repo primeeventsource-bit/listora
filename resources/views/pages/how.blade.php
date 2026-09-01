@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'How Listora works — for owners and for travelers')
+@section('title', 'How Listora works — for advertisers and visitors')
 
 @section('content')
 

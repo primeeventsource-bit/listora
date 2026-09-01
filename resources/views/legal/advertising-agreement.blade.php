@@ -9,8 +9,8 @@
     <p class="legal-meta">Version v2 · Effective 16 August 2026</p>
 
     <p class="legal-lead">
-        This agreement applies to owners who advertise a vacation property, resort club points
-        package, or vacation week on Listora. It sits alongside the Terms of Service.
+        This agreement applies to owners who advertise a vacation property on Listora.
+        It sits alongside the Terms of Service.
     </p>
 
     <h2>1. What you are buying</h2>
@@ -38,8 +38,8 @@
     <h2>4. Your obligations</h2>
     <ul>
         <li>You hold, or are authorised to act for the holder of, what you advertise.</li>
-        <li>Every material fact in your listing is accurate — the resort, the week or points
-            balance, the season, the usage year, and any ongoing costs such as maintenance fees.</li>
+        <li>Every material fact in your listing is accurate — the property, its location, what is
+            included, the dates it is available, and any costs a visitor would need to know.</li>
         <li>You hold the rights to every photograph you upload.</li>
         <li>You keep the listing accurate, and update or pause it once it is no longer available.</li>
         <li>You respond to inquiries and offers within a reasonable time.</li>
