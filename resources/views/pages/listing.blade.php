@@ -164,76 +164,26 @@
                     </span>
                 </div>
 
-                <form method="POST" action="{{ route('inquiries.store', $listing) }}">
-                    @csrf
-
-                    <div class="field">
-                        <label for="name">Your name</label>
-                        <input type="text" id="name" name="name" value="{{ old('name') }}"
-                               placeholder="First and last name" required>
-                        @error('name') <span class="err">{{ $message }}</span> @enderror
-                    </div>
-
-                    <div class="frow">
-                        <div class="field">
-                            <label for="email">Email</label>
-                            <input type="email" id="email" name="email" value="{{ old('email') }}" required>
-                            @error('email') <span class="err">{{ $message }}</span> @enderror
-                        </div>
-                        <div class="field">
-                            {{-- Optional, and labelled so. The owner replies by
-                                 email either way, and a required phone number
-                                 costs more inquiries than it gains. --}}
-                            <label for="phone">Phone <span class="opt">optional</span></label>
-                            <input type="tel" id="phone" name="phone" value="{{ old('phone') }}">
-                            @error('phone') <span class="err">{{ $message }}</span> @enderror
-                        </div>
-                    </div>
-
-                    @if ($listing->mode === 'rent')
-                        <div class="frow">
-                            <div class="field">
-                                <label for="arrive">Arrive</label>
-                                <input type="date" id="arrive" name="arrive" value="{{ old('arrive') }}">
-                            </div>
-                            <div class="field">
-                                <label for="depart">Depart</label>
-                                <input type="date" id="depart" name="depart" value="{{ old('depart') }}">
-                                @error('depart') <span class="err">{{ $message }}</span> @enderror
-                            </div>
-                        </div>
-                    @endif
-
-                    <div class="field">
-                        <label for="message">Message to {{ Str::before($listing->owner_name, ' ') }}</label>
-                        <textarea id="message" name="message" required
-                                  placeholder="Tell the owner what you're looking for and when.">{{ old('message', 'Hello — I saw your listing '.$listing->reference.' and I have a few questions.') }}</textarea>
-                        @error('message') <span class="err">{{ $message }}</span> @enderror
-                    </div>
-
-                    <button type="submit" class="btn btn-primary btn-block">Submit inquiry</button>
-                </form>
-
                 {{--
-                    Make an offer.
+                    One form, not two.
 
-                    The route, the form request, the service and the owner-side
-                    accept/decline screens all existed already — nothing in the
-                    site posted to them, so the whole offer feature was
-                    unreachable. This is the missing half.
+                    This replaced a separate inquiry form that sat above it.
+                    Two forms on one card asked the visitor to classify their
+                    own message before writing it, and most people do not know
+                    whether they are asking a question or making an offer until
+                    they have done both.
 
-                    Separate from the inquiry rather than one form with a price
-                    box: an offer expires, can be accepted or declined, and
-                    creates a record both sides can point at. An inquiry is a
-                    question. Collapsing them would make every question look
-                    like a commitment.
+                    The amount is what separates them, and it is optional:
+                    leave it blank and this is a question, fill it in and it is
+                    an offer the owner can accept or decline. Everything posts
+                    to offers.store either way, so one record type carries both
+                    and the owner has a single queue to work.
                 --}}
                 <div class="offer-block" id="make-offer">
-                    <h3 class="offer-h">Make an offer</h3>
+                    <h3 class="offer-h">Want to know more?</h3>
                     <p class="offer-p">
-                        Send {{ Str::before($listing->owner_name, ' ') }} a figure to consider. It is not
-                        binding on either of you, nothing is reserved, and no money moves through
-                        Listora.
+                        Send {{ Str::before($listing->owner_name, ' ') }} a message, an offer, or both.
+                        Nothing here is binding, no dates are held, and no money moves through Listora.
                     </p>
 
                     <form method="POST" action="{{ route('offers.store', $listing) }}">
@@ -257,7 +207,7 @@
                         </div>
 
                         <div class="field">
-                            <label for="offer_amount">Your offer</label>
+                            <label for="offer_amount">Your offer <span class="opt">optional</span></label>
                             {{-- Prefilled with the asking price, so the common
                                  case is one keystroke and the number is never
                                  ambiguous about what it refers to. --}}
@@ -290,11 +240,11 @@
                         <div class="field">
                             <label for="o_message">Comments</label>
                             <textarea id="o_message" name="message" required
-                                      placeholder="Anything the owner should know about your offer.">{{ old('message') }}</textarea>
+                                      placeholder="Ask a question, or tell the owner about your offer.">{{ old('message') }}</textarea>
                             @error('message') <span class="err">{{ $message }}</span> @enderror
                         </div>
 
-                        <button type="submit" class="btn btn-amber btn-block">Submit offer</button>
+                        <button type="submit" class="btn btn-primary btn-block">Submit inquiry</button>
                     </form>
                 </div>
 

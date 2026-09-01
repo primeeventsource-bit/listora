@@ -39,10 +39,27 @@ class MakeAnOfferTest extends TestCase
 
         $this->get($listing->publicUrl())
             ->assertOk()
-            ->assertSee('Make an offer')
+            ->assertSee('Want to know more?')
             ->assertSee('For sale by owner')
             // The form must actually point at the route, not merely look like it.
             ->assertSee(route('offers.store', $listing), false);
+    }
+
+    /**
+     * One form, not two.
+     *
+     * The listing card used to carry a separate inquiry form above the offer
+     * form, which asked the visitor to classify their own message before
+     * writing it. Everything posts to offers.store now, and the optional
+     * amount is what distinguishes a question from an offer.
+     */
+    public function test_the_page_carries_one_form_not_a_separate_inquiry_form(): void
+    {
+        $listing = $this->advertisedListing();
+
+        $this->get($listing->publicUrl())
+            ->assertOk()
+            ->assertDontSee(route('inquiries.store', $listing), false);
     }
 
     /** The asking price is prefilled, so the common case is one keystroke. */
