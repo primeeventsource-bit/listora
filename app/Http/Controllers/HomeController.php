@@ -25,6 +25,21 @@ class HomeController extends Controller
                 'home'   => Listing::published()->kind('home')->count(),
                 'points' => Listing::published()->kind('points')->count(),
                 'weeks'  => Listing::published()->kind('weeks')->count(),
+
+                /*
+                | The hero figures, counted rather than asserted.
+                |
+                | They previously read "1,840 Resorts represented" and "100%
+                | Ownership verified". The first was a number nothing produced;
+                | the second was a claim stated as a measurement. Both are
+                | representations to anyone reading the page - a visitor, or an
+                | underwriter - so they are derived from the catalogue now and
+                | will move when it does, including downwards.
+                */
+                'regions' => Listing::published()->distinct()->count('region'),
+                'verified_pct' => $total > 0
+                    ? (int) round(Listing::published()->where('is_verified', true)->count() / $total * 100)
+                    : 0,
             ],
             'covers'   => [
                 'home'   => Listing::published()->kind('home')->inRandomOrder()->first(),

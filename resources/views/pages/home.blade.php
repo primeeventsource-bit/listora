@@ -87,10 +87,13 @@
         </form>
 
         <div class="hero-stats">
+            {{-- Every figure here is counted from the catalogue. Nothing in
+                 this row is a claim the data cannot support: see the note in
+                 HomeController on what these used to say. --}}
             <div><span class="n tnum">{{ number_format($counts['total']) }}</span><span class="l">Live listings</span></div>
-            <div><span class="n tnum">1,840</span><span class="l">Resorts represented</span></div>
+            <div><span class="n tnum">{{ number_format($counts['regions']) }}</span><span class="l">{{ Str::plural('Destination', $counts['regions']) }}</span></div>
             <div><span class="n">$0</span><span class="l">Commission taken</span></div>
-            <div><span class="n">100%</span><span class="l">Ownership verified</span></div>
+            <div><span class="n tnum">{{ $counts['verified_pct'] }}%</span><span class="l">Ownership verified</span></div>
         </div>
     </div>
 </section>
