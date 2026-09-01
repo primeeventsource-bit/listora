@@ -6,8 +6,11 @@
                     @include('partials.logo', ['tone' => 'light'])
                     <span class="wordmark" style="color:#fff">List<span class="o" style="color:var(--teal-light)">o</span>ra</span>
                 </a>
-                <p style="max-width:36ch;margin-top:16px">
-                    The modern platform to advertise vacation properties — and connect directly with interested users. One flat fee. No commission, ever.
+                <p style="max-width:40ch;margin-top:16px">
+                    Vacation Property Advertising &amp; Inquiry Platform. Listora provides advertising,
+                    listing, software, and communication services. Property information is supplied by
+                    individual advertisers. Listora does not operate or manage properties advertised
+                    through the platform.
                 </p>
                 <div style="margin-top:10px">
                     <a class="store" href="{{ route('apps') }}">

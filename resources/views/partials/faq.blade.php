@@ -9,8 +9,8 @@
             'Inquiries arrive in your Listora inbox and by email. Your address stays private until you reply. We never sell inquiries as leads, never pass your details to a third party, and never call you about your own listing.',
         ],
         [
-            'Can I advertise club points as well as a property?',
-            'Yes, and they are separate listing types with their own fields. A club points listing captures your balance, season, usage year, and what that balance realistically books at the resorts in your collection — which is the information buyers actually need to compare offers.',
+            'What can I advertise?',
+            'Vacation properties you own or control — a house, a villa, an apartment, a resort residence. Your listing captures the location, the layout, what is included, and when it is available, which is the information an interested visitor needs before they get in touch.',
         ],
         [
             'What if my listing does not move within the year?',

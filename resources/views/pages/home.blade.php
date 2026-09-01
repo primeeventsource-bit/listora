@@ -35,21 +35,22 @@
     </div>
 
     <div class="wrap">
-        <span class="eyebrow">{{ $showTimeshare ? 'Vacation Properties &middot; Resort Club Points &middot; Vacation Weeks' : 'Vacation Properties' }}</span>
-        <h1>List More.<br>Reach More.<br><span class="accent">Explore More.</span></h1>
+        <span class="eyebrow">Vacation Property Advertising</span>
+        <h1>Advertise Your Vacation Property.<br><span class="accent">Reach More Interested Visitors.</span></h1>
         <p class="lead">
-            The modern platform to advertise vacation properties — and connect directly with interested users. One flat fee. No commission, ever.
+            Listora is a digital advertising and listing platform that helps vacation property owners
+            showcase their properties, increase visibility, and connect directly with interested visitors.
         </p>
 
         <div class="hero-cta">
-            <a href="{{ route('listings.index') }}" class="btn btn-primary btn-lg">Explore Listings</a>
-            <a href="{{ route('list.create') }}" class="btn btn-glass btn-lg">Advertise With Listora</a>
+            <a href="{{ route('list.create') }}" class="btn btn-primary btn-lg">Advertise Your Property</a>
+            <a href="{{ route('listings.index') }}" class="btn btn-glass btn-lg">Explore Listings</a>
         </div>
 
         <form class="searchbar" action="{{ route('listings.index') }}" method="GET" role="search">
             <div class="fld">
                 <label for="q">Keyword</label>
-                <input type="text" id="q" name="q" placeholder="Resort, club, or listing" autocomplete="off">
+                <input type="text" id="q" name="q" placeholder="Destination, property, or listing" autocomplete="off">
             </div>
             <div class="fld">
                 <label for="kind">What</label>
@@ -134,16 +135,11 @@
 <section>
     <div class="wrap">
         <div class="sec-head center reveal">
-            <span class="eyebrow">{{ $showTimeshare ? 'Three ways to list' : 'How it works' }}</span>
-            <h2>Advertise exactly what you hold</h2>
+            <span class="eyebrow">How Listora works</span>
+            <h2>Advertise your property</h2>
             <p>
-                @if ($showTimeshare)
-                    A property, a points balance, or a week on the calendar — each one gets its own
-                    fields, its own audience, and its own place to be found.
-                @else
-                    Your property gets its own page, its own audience, and a permanent address you
-                    can put on anything.
-                @endif
+                Create your property advertisement, showcase your availability, receive inquiries and
+                offers, and communicate directly — through one easy-to-use platform.
             </p>
         </div>
 
@@ -230,10 +226,10 @@
 
         <div class="grid g4 steps steps-owner is-active" id="stepsOwner">
             @foreach ([
-                ['Tell us what you hold', 'Ten minutes, one form. A property, a points balance, or a week — we ask only for the details that interested users actually need.'],
-                ['Submit your property information', 'Send us the details of what you are advertising. A specialist will contact you to go over your options.'],
+                ['Advertise your property', 'Create a detailed advertisement with photos, location, description, amenities, features, and available dates. It receives its own dedicated Listora advertising page.'],
+                ['Get discovered', 'Visitors find your advertisement through Listora and through digital advertising campaigns designed to increase exposure. Every member receives a unique advertising number and a dedicated advertising URL.'],
                 ['Your listing runs a year', 'One flat fee covers twelve months. Edit it whenever you like, pause it when it\'s booked, and renew at half price if it hasn\'t moved.'],
-                ['You connect directly', 'Messages arrive in your inbox. You set the terms and you keep everything — Listora takes no percentage at any point.'],
+                ['Communicate directly', 'Advertisers and interested visitors communicate through the Listora platform. Listora provides the advertising and communication technology; the parties control their own discussions and arrangements.'],
             ] as $i => [$t, $d])
                 <div class="step-card reveal">
                     <span class="num">{{ $i + 1 }}</span>
@@ -253,9 +249,9 @@
 
         <div class="grid g4 steps steps-traveler" id="stepsTraveler" hidden>
             @foreach ([
-                ['Search what you want', 'Filter by destination, dates, unit size, or points balance. Club listings show what the points actually book.'],
+                ['Find a property', 'Browse vacation properties advertised by owners across popular destinations. Filter by destination, region, size, and availability.'],
                 ['Read a real listing', 'Owners write their own descriptions. You\'ll learn which corner catches the breeze and which month to avoid.'],
-                ['Message the owner', 'Your message reaches one person: the owner. It is never resold as a lead and nobody calls you afterwards.'],
+                ['Submit an inquiry or make an offer', 'Your message reaches one person: the advertiser. It is never resold as a lead and nobody calls you afterwards.'],
                 ['Agree terms directly', 'You and the owner settle dates, price, and paperwork between yourselves — we publish guidance on doing it safely.'],
             ] as $i => [$t, $d])
                 <div class="step-card reveal">
@@ -295,8 +291,8 @@
                         '<path d="M12 2v20M17 6H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>'],
                     ['Direct contact, always', 'Messages go straight between the two of you. No sales team on the line, no lead resold to three other companies, no callback you never asked for.',
                         '<path d="M21 11.5a8.4 8.4 0 0 1-9 8.4L3 21l1.1-3.4A8.4 8.4 0 1 1 21 11.5z"/>'],
-                    ['Points and weeks explained properly', 'A points balance means nothing without context. Every club listing shows what the points actually buy — unit size, season, and how far the balance stretches.',
-                        '<rect x="3" y="4.5" width="18" height="16" rx="2.5"/><path d="M3 9.5h18M8 2.5v4M16 2.5v4"/>'],
+                    ['Advertising performance you can see', 'Every advertiser gets views, unique visitors, inquiries, offers, traffic sources, and an approximate geographic traffic map for their own advertisement.',
+                        '<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>'],
                 ];
             @endphp
 

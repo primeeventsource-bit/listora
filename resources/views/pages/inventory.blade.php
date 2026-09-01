@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title', 'Inventory — Listora')
-@section('meta', 'The current Listora inventory: what owners are advertising right now, listed as facts. Contact any owner directly. Listora advertises only — no bookings, no commission.')
+@section('meta', 'The current Listora inventory: the vacation properties owners are advertising right now, listed as facts. Contact any owner directly. Listora advertises only — no bookings, no commission.')
 
 @section('content')
 
@@ -29,14 +29,20 @@
                 <span class="stat-n tnum">{{ number_format($byKind[\App\Models\Listing::KIND_HOME] ?? 0) }}</span>
                 <span class="stat-l">Vacation properties</span>
             </div>
-            <div class="stat">
-                <span class="stat-n tnum">{{ number_format($byKind[\App\Models\Listing::KIND_POINTS] ?? 0) }}</span>
-                <span class="stat-l">Resort club points</span>
-            </div>
-            <div class="stat">
-                <span class="stat-n tnum">{{ number_format($byKind[\App\Models\Listing::KIND_WEEKS] ?? 0) }}</span>
-                <span class="stat-l">Vacation weeks</span>
-            </div>
+            {{-- Counts for withheld categories are not shown while
+                 timeshare_categories is off: the listings behind them are not
+                 public, and a register that totals what it does not list is
+                 telling the reader about inventory they cannot see. --}}
+            @if (feature('timeshare_categories', null, false))
+                <div class="stat">
+                    <span class="stat-n tnum">{{ number_format($byKind[\App\Models\Listing::KIND_POINTS] ?? 0) }}</span>
+                    <span class="stat-l">Resort club points</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-n tnum">{{ number_format($byKind[\App\Models\Listing::KIND_WEEKS] ?? 0) }}</span>
+                    <span class="stat-l">Vacation weeks</span>
+                </div>
+            @endif
             <div class="stat">
                 <span class="stat-n tnum">{{ number_format($regions) }}</span>
                 <span class="stat-l">Regions represented</span>

@@ -42,7 +42,7 @@
             {{-- ---------------------------- step 1 ---------------------------- --}}
             <div class="wiz-step on" data-step="1">
                 <h2 style="font-size:30px;margin-bottom:10px">What are you advertising?</h2>
-                <p class="muted" style="margin-bottom:28px">Each type has its own fields, because a beach house and a points balance need to be described very differently.</p>
+                <p class="muted" style="margin-bottom:28px">The fields exist because an interested visitor asks these questions anyway — answering them up front saves you the first three messages.</p>
 
                 {{-- One choice left, so the three-up grid would render it a
                      third of the width with two empty columns beside it. --}}

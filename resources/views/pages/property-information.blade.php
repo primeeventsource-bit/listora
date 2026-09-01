@@ -86,7 +86,7 @@
             <div class="field">
                 <label for="description">Anything else we should know <span style="text-transform:none;font-weight:400">(optional)</span></label>
                 <textarea id="description" name="description"
-                          placeholder="Week number and season, points balance and usage year, bedrooms — whatever you have to hand. A specialist will fill in the rest with you.">{{ old('description') }}</textarea>
+                          placeholder="Bedrooms, what is included, roughly when it is available — whatever you have to hand. A specialist will fill in the rest with you.">{{ old('description') }}</textarea>
                 @error('description')<span class="err">{{ $message }}</span>@enderror
             </div>
 

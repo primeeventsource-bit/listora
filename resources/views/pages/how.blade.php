@@ -23,11 +23,11 @@
         <div class="steps" id="stepsOwner">
             <div class="step reveal"><span class="n">01</span><div>
                 <h3>Tell us what you hold</h3>
-                <p>One form, about ten minutes. Choose whether you're advertising a vacation property, a resort club points balance, or a vacation week — each has its own fields, because a points balance and a beach house are not the same thing and shouldn't be described as if they were.</p>
+                <p>One form, about ten minutes. Tell us where the property is, how it sleeps, what is included, and when it is available. The fields exist because an interested visitor asks these questions anyway, and answering them up front saves you the first three messages.</p>
             </div></div>
             <div class="step reveal" id="verification"><span class="n">02</span><div>
                 <h3>We verify your ownership</h3>
-                <p>Upload your deed, club statement, or membership certificate. Our team checks it against what you entered — resort, week or points balance, season, usage year — and comes back to you within two business days. If something doesn't line up we tell you before anyone else sees it. Nothing publishes unverified, and that is the single biggest reason buyers trust listings here.</p>
+                <p>Upload your deed, title, or other proof that the property is yours to advertise. Our team checks it against what you entered and comes back to you directly if anything does not line up.</p>
             </div></div>
             <div class="step reveal"><span class="n">03</span><div>
                 <h3>Your listing runs for a full year</h3>
@@ -46,7 +46,7 @@
         <div class="steps" id="stepsTraveler" hidden>
             <div class="step reveal"><span class="n">01</span><div>
                 <h3>Search by what you want</h3>
-                <p>Filter by destination, region, unit size, rent or own. Club points listings show what the balance actually covers — unit size, season, and how far it stretches at that resort — so you're comparing like for like rather than numbers you can't interpret.</p>
+                <p>Filter by destination, region, size, and whether it is available to rent or to own. Every listing shows the same facts in the same places, so you are comparing like for like rather than reading around whatever each owner chose to mention.</p>
             </div></div>
             <div class="step reveal"><span class="n">02</span><div>
                 <h3>Read a listing written by a person</h3>
@@ -58,7 +58,7 @@
             </div></div>
             <div class="step reveal"><span class="n">04</span><div>
                 <h3>Confirm what you're getting</h3>
-                <p>Ask for the club confirmation, the deed reference, or the reservation in your name — good owners expect the question. Every listing on Listora has already had its ownership documents checked by our team, but you should still see the confirmation before money moves.</p>
+                <p>Ask the owner to confirm the dates in writing before money moves — good owners expect the question. Every listing on Listora has already had its ownership documents checked by our team, but you should still see the confirmation before money moves.</p>
             </div></div>
             <div class="step reveal"><span class="n">05</span><div>
                 <h3>Pay carefully, directly</h3>

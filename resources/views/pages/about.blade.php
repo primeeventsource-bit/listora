@@ -9,7 +9,7 @@
     <div class="wrap">
         <span class="eyebrow">About</span>
         <h1>We built the place we wished existed</h1>
-        <p>Listora exists because advertising a vacation property or a resort club membership should not mean handing your phone number to five companies and hoping.</p>
+        <p>Listora exists because advertising a vacation property should not mean handing your phone number to five companies and hoping.</p>
     </div>
 </div>
 
@@ -23,9 +23,9 @@
                 <span class="eyebrow">Why we started</span>
                 <h2>Owners were being treated as leads, not as people with something good to offer</h2>
                 <p class="lead" style="margin-bottom:22px">
-                    The people who own these properties and memberships are usually delighted with them. They have
-                    a week they love, a resort they know inside out, and a balance of club points they cannot use
-                    this year. What they wanted was somewhere credible to say so.
+                    The people who own these properties are usually delighted with them. They know the place
+                    inside out, and there are stretches of the year when it sits empty. What they wanted
+                    was somewhere credible to say so.
                 </p>
                 <p class="muted">
                     Instead they found sites that made money from the transaction — and behaved accordingly. Upfront
@@ -82,9 +82,9 @@
                 <span class="eyebrow">Buying and renting safely</span>
                 <h2>What we check, and what stays your job</h2>
                 <p class="muted">
-                    We verify that the person advertising genuinely holds what they say they hold: we review the deed,
-                    club statement, or membership certificate and match it to the resort, week, points balance, season,
-                    and usage year in the listing. If it doesn't match, it doesn't publish.
+                    We verify that the person advertising genuinely holds what they say they hold: we review the
+                    ownership documents and match them against the property, the location, and the
+                    availability in the listing. If it doesn't match, it doesn't publish.
                 </p>
                 <p class="muted">
                     What we can't do is stand behind the deal itself. Before money moves, ask for the club confirmation
