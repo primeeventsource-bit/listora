@@ -129,14 +129,31 @@
                 @endif
 
                 <div class="owner-price">
+                    {{-- Says who is selling before it says the number. On a
+                         platform that takes no commission and holds no funds,
+                         "by owner" is the material fact about the price, not a
+                         decoration on it. --}}
+                    <div class="by-owner">{{ $listing->mode === 'own' ? 'For sale by owner' : 'Advertised by owner' }}</div>
+
                     <div class="big">{{ $listing->price_formatted }}<span style="font-family:var(--font);font-size:15px;color:var(--slate);margin-left:6px">{{ $listing->price_unit_label }}</span></div>
                     @if ($listing->total_price)
-                        <div class="sub">≈ ${{ number_format($listing->total_price) }} for the full {{ number_format($listing->points) }}-point balance</div>
+                        <div class="sub">≈ ${{ number_format($listing->total_price) }} for the full balance</div>
                     @elseif ($listing->mode === 'own')
-                        <div class="sub">Asking price &middot; owner will consider offers</div>
+                        <div class="sub">Asking price &middot; the owner will consider offers</div>
                     @else
                         <div class="sub">Set by the owner &middot; Listora adds nothing on top</div>
                     @endif
+
+                    {{-- Scrolls rather than links away: the offer form is on
+                         this page, and sending someone to a second page to
+                         make an offer loses most of them. --}}
+                    <a href="#make-offer" class="btn btn-amber btn-offer">
+                        Make offer
+                        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                             stroke-width="2.2" stroke-linecap="round" aria-hidden="true">
+                            <circle cx="12" cy="12" r="9"/><path d="M10 8.5l4 3.5-4 3.5"/>
+                        </svg>
+                    </a>
                 </div>
 
                 <div class="owner-top">
@@ -152,14 +169,25 @@
 
                     <div class="field">
                         <label for="name">Your name</label>
-                        <input type="text" id="name" name="name" value="{{ old('name') }}" required>
+                        <input type="text" id="name" name="name" value="{{ old('name') }}"
+                               placeholder="First and last name" required>
                         @error('name') <span class="err">{{ $message }}</span> @enderror
                     </div>
 
-                    <div class="field">
-                        <label for="email">Email</label>
-                        <input type="email" id="email" name="email" value="{{ old('email') }}" required>
-                        @error('email') <span class="err">{{ $message }}</span> @enderror
+                    <div class="frow">
+                        <div class="field">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" value="{{ old('email') }}" required>
+                            @error('email') <span class="err">{{ $message }}</span> @enderror
+                        </div>
+                        <div class="field">
+                            {{-- Optional, and labelled so. The owner replies by
+                                 email either way, and a required phone number
+                                 costs more inquiries than it gains. --}}
+                            <label for="phone">Phone <span class="opt">optional</span></label>
+                            <input type="tel" id="phone" name="phone" value="{{ old('phone') }}">
+                            @error('phone') <span class="err">{{ $message }}</span> @enderror
+                        </div>
                     </div>
 
                     @if ($listing->mode === 'rent')
@@ -183,8 +211,92 @@
                         @error('message') <span class="err">{{ $message }}</span> @enderror
                     </div>
 
-                    <button type="submit" class="btn btn-primary btn-block">Message the owner</button>
+                    <button type="submit" class="btn btn-primary btn-block">Submit inquiry</button>
                 </form>
+
+                {{--
+                    Make an offer.
+
+                    The route, the form request, the service and the owner-side
+                    accept/decline screens all existed already — nothing in the
+                    site posted to them, so the whole offer feature was
+                    unreachable. This is the missing half.
+
+                    Separate from the inquiry rather than one form with a price
+                    box: an offer expires, can be accepted or declined, and
+                    creates a record both sides can point at. An inquiry is a
+                    question. Collapsing them would make every question look
+                    like a commitment.
+                --}}
+                <div class="offer-block" id="make-offer">
+                    <h3 class="offer-h">Make an offer</h3>
+                    <p class="offer-p">
+                        Send {{ Str::before($listing->owner_name, ' ') }} a figure to consider. It is not
+                        binding on either of you, nothing is reserved, and no money moves through
+                        Listora.
+                    </p>
+
+                    <form method="POST" action="{{ route('offers.store', $listing) }}">
+                        @csrf
+
+                        <div class="field">
+                            <label for="o_name">Your name</label>
+                            <input type="text" id="o_name" name="name" value="{{ old('name') }}"
+                                   placeholder="First and last name" required>
+                        </div>
+
+                        <div class="frow">
+                            <div class="field">
+                                <label for="o_email">Email</label>
+                                <input type="email" id="o_email" name="email" value="{{ old('email') }}" required>
+                            </div>
+                            <div class="field">
+                                <label for="o_phone">Phone <span class="opt">optional</span></label>
+                                <input type="tel" id="o_phone" name="phone" value="{{ old('phone') }}">
+                            </div>
+                        </div>
+
+                        <div class="field">
+                            <label for="offer_amount">Your offer</label>
+                            {{-- Prefilled with the asking price, so the common
+                                 case is one keystroke and the number is never
+                                 ambiguous about what it refers to. --}}
+                            <div class="amount">
+                                <span class="cur">$</span>
+                                <input type="number" id="offer_amount" name="offer_amount" min="0" step="1"
+                                       value="{{ old('offer_amount', $listing->price ? (int) $listing->price : null) }}"
+                                       placeholder="{{ $listing->price ? number_format((int) $listing->price) : 'Amount' }}">
+                            </div>
+                            @error('offer_amount') <span class="err">{{ $message }}</span> @enderror
+                        </div>
+
+                        @if ($listing->mode === 'rent')
+                            <div class="frow">
+                                <div class="field">
+                                    <label for="o_arrive">Arrive</label>
+                                    <input type="date" id="o_arrive" name="arrive" value="{{ old('arrive') }}">
+                                </div>
+                                <div class="field">
+                                    <label for="o_depart">Depart</label>
+                                    <input type="date" id="o_depart" name="depart" value="{{ old('depart') }}">
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label for="o_guests">Occupants <span class="opt">optional</span></label>
+                                <input type="number" id="o_guests" name="guests" min="1" max="30" value="{{ old('guests') }}">
+                            </div>
+                        @endif
+
+                        <div class="field">
+                            <label for="o_message">Comments</label>
+                            <textarea id="o_message" name="message" required
+                                      placeholder="Anything the owner should know about your offer.">{{ old('message') }}</textarea>
+                            @error('message') <span class="err">{{ $message }}</span> @enderror
+                        </div>
+
+                        <button type="submit" class="btn btn-amber btn-block">Submit offer</button>
+                    </form>
+                </div>
 
                 <div class="trust">
                     <div>
