@@ -22,7 +22,7 @@
 
         <div class="steps" id="stepsOwner">
             <div class="step reveal"><span class="n">01</span><div>
-                <h3>Tell us what you hold</h3>
+                <h3>Send us your property details</h3>
                 <p>One form, about ten minutes. Tell us where the property is, how it sleeps, what is included, and when it is available. The fields exist because an interested visitor asks these questions anyway, and answering them up front saves you the first three messages.</p>
             </div></div>
             <div class="step reveal" id="verification"><span class="n">02</span><div>
@@ -31,7 +31,7 @@
             </div></div>
             <div class="step reveal"><span class="n">03</span><div>
                 <h3>Your listing runs for a full year</h3>
-                <p>One flat fee covers twelve months. Edit the copy, swap the photos, change the price, or pause it while it's booked — as often as you like, at no extra cost. If it hasn't moved by the end of the year, renew at half price.</p>
+                <p>One flat fee covers twelve months. Edit the copy, swap the photos, change the price, or pause it while the property is unavailable — as often as you like, at no extra cost. If it hasn't moved by the end of the year, renew at half price.</p>
             </div></div>
             <div class="step reveal"><span class="n">04</span><div>
                 <h3>Inquiries come straight to you</h3>

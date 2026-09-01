@@ -34,7 +34,7 @@
 
             <div>
                 <h4>Advertise</h4>
-                <a href="{{ route('list.create') }}">Create a Listing</a>
+                <a href="{{ route('list.create') }}">Advertise your property</a>
                 <a href="{{ route('pricing') }}">Pricing</a>
                 <a href="{{ route('how') }}">How It Works</a>
                 <a href="{{ route('apps') }}">Mobile Apps</a>

@@ -37,7 +37,7 @@
                     ['Unlimited photos', 'Up to twenty images on Essential and unlimited above it — with no per-photo charge on any plan.'],
                     ['Unlimited edits', 'Change your price, dates, copy, or photos as often as you want for the whole twelve months.'],
                     ['Direct messaging', 'Inquiries arrive in your inbox with your email address kept private until you reply.'],
-                    ['Pause any time', 'Booked for the season? Pause the listing and restart it later without losing days.'],
+                    ['Pause any time', 'Property not available for a while? Pause the listing and restart it later without losing days.'],
                     ['No commission, ever', 'Whatever you agree with a traveler or buyer is entirely yours. We take no percentage at any stage.'],
                 ];
             @endphp

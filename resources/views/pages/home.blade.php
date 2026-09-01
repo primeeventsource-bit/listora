@@ -106,7 +106,7 @@
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 11l18-7-7 18-2.5-8.5L3 11z"/></svg>
                 <div>
                     <h4>Advertise Easily</h4>
-                    <p>Create and manage your listings with powerful tools.</p>
+                    <p>Manage your advertisement, availability and inquiries in one place.</p>
                 </div>
             </div>
             <div class="benefit">
@@ -229,9 +229,9 @@
 
         <div class="grid g4 steps steps-owner is-active" id="stepsOwner">
             @foreach ([
-                ['Advertise your property', 'Create a detailed advertisement with photos, location, description, amenities, features, and available dates. It receives its own dedicated Listora advertising page.'],
+                ['Send us your property details', 'Tell us about the property — photos, location, description, amenities, features, and when it is available. Our team verifies ownership and builds the advertisement for you.'],
                 ['Get discovered', 'Visitors find your advertisement through Listora and through digital advertising campaigns designed to increase exposure. Every member receives a unique advertising number and a dedicated advertising URL.'],
-                ['Your listing runs a year', 'One flat fee covers twelve months. Edit it whenever you like, pause it when it\'s booked, and renew at half price if it hasn\'t moved.'],
+                ['Your listing runs a year', 'One flat fee covers twelve months. Edit it whenever you like, pause it when the property is no longer available, and renew at half price if it has not moved.'],
                 ['Communicate directly', 'Advertisers and interested visitors communicate through the Listora platform. Listora provides the advertising and communication technology; the parties control their own discussions and arrangements.'],
             ] as $i => [$t, $d])
                 <div class="step-card reveal">
