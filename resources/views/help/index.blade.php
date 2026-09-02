@@ -127,7 +127,7 @@
                     <span class="contact-label">{{ $brand['location']['label'] }}</span>
                     <span class="contact-value">{{ $brand['location']['country'] }}</span>
                     <span class="contact-note muted">
-                        We're an online marketplace and don't have a walk-in office — everything is handled
+                        We're an online platform and don't have a walk-in office — everything is handled
                         here, by email, or by phone once the line opens.
                     </span>
                 </div>
