@@ -803,3 +803,45 @@ a.contact-value:hover{color:var(--teal)}
   font-weight:400;color:var(--slate-light);font-size:12px;margin-left:4px;
   text-transform:none;letter-spacing:0;
 }
+
+/* --------------------------------------------------------------------------
+ | "Would you rather we did this with you?" — help on the advertise page
+ |
+ | Sits below the wizard rather than inside it. The wizard shows one panel at
+ | a time, so anything placed in a step is invisible to someone stuck on a
+ | different one - which is precisely the person this is for.
+ -------------------------------------------------------------------------- */
+
+.assist{
+  margin-top:52px;padding:34px 32px;
+  background:var(--teal-tint-2);border:1px solid var(--teal-tint);
+  border-radius:22px;
+}
+.assist-head{max-width:62ch;margin-bottom:24px}
+.assist-head h2{font-size:26px;letter-spacing:-.02em;margin:0 0 8px}
+.assist-head p{margin:0;color:var(--slate);font-size:15.5px;line-height:1.6}
+
+.assist-grid{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;
+}
+.assist-card{
+  display:block;background:#fff;border:1px solid var(--line);
+  border-radius:16px;padding:20px 21px;text-decoration:none;
+  transition:border-color .15s var(--e),box-shadow .15s var(--e),transform .15s var(--e);
+}
+.assist-card:hover{
+  border-color:var(--teal-light);box-shadow:var(--sh-sm);transform:translateY(-2px);
+}
+.assist-card h3{font-size:17px;margin:0 0 7px;color:var(--ink)}
+.assist-card p{margin:0 0 12px;font-size:14px;line-height:1.55;color:var(--slate)}
+.assist-go{font-size:13.5px;font-weight:650;color:var(--teal-dark)}
+
+.assist-mail{
+  margin:20px 0 0;font-size:14px;color:var(--slate);
+}
+.assist-mail a{color:var(--teal-dark);font-weight:600}
+
+@media (max-width:640px){
+  .assist{padding:26px 20px;border-radius:18px}
+  .assist-head h2{font-size:22px}
+}

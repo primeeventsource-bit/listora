@@ -203,9 +203,10 @@
                 </div>
 
                 <div class="notice" style="margin-top:28px">
-                    <strong>What happens next.</strong> We'll email you a secure link to upload your deed, club
-                    statement, or membership certificate. Our team checks it against the details you entered and
-                    replies within two business days. Nothing publishes — and nothing is charged — until you approve it.
+                    <strong>What happens next.</strong> We'll email you a secure link to upload your deed, title,
+                    or other proof that the property is yours to advertise. Our team checks it against the details
+                    you entered, builds your advertisement, and replies within two business days. Nothing publishes
+                    — and nothing is charged — until you approve it.
                 </div>
 
                 <div style="margin-top:32px;display:flex;justify-content:space-between;gap:14px">
@@ -214,6 +215,66 @@
                 </div>
             </div>
         </form>
+
+        {{--
+            Help, offered at the point people give up.
+
+            Outside the form on purpose: someone who is stuck on step two
+            cannot reach a message that only appears on step four, and the
+            three-step wizard hides everything except the panel you are on.
+            This sits below all of them and is visible throughout.
+
+            The information sheet is listed first because it is the answer for
+            the most common reason people stall - they do not have every detail
+            to hand and would rather a person filled in the rest with them.
+        --}}
+        <div class="assist">
+            <div class="assist-head">
+                <h2>Would you rather we did this with you?</h2>
+                <p>
+                    You do not have to fill this in alone, and you do not need every detail to
+                    hand to start. Whichever you pick, a real person on our team picks it up —
+                    we reply {{ config('listora.brand.response_time') }}.
+                </p>
+            </div>
+
+            <div class="assist-grid">
+                <a href="{{ route('property-information.create') }}" class="assist-card">
+                    <h3>Send what you have</h3>
+                    <p>
+                        Give us whatever you know about the property and a specialist fills in the
+                        rest with you, then builds the advertisement.
+                    </p>
+                    <span class="assist-go">Property information sheet &rarr;</span>
+                </a>
+
+                {{-- Straight to the form's anchor. route('contact.show') is a
+                     301 to this same place, and sending someone who is already
+                     stuck through a redirect to reach help is a small insult. --}}
+                <a href="{{ route('help.index') }}#ask" class="assist-card">
+                    <h3>Ask us a question</h3>
+                    <p>
+                        Not sure whether your property qualifies, or what a listing costs? Ask
+                        before you start rather than guessing partway through.
+                    </p>
+                    <span class="assist-go">Contact us &rarr;</span>
+                </a>
+
+                <a href="{{ route('help.index') }}" class="assist-card">
+                    <h3>Read the answers first</h3>
+                    <p>
+                        Verification, pricing, how inquiries reach you, and what happens after your
+                        advertisement goes live.
+                    </p>
+                    <span class="assist-go">Help centre &rarr;</span>
+                </a>
+            </div>
+
+            <p class="assist-mail">
+                Or email us directly at
+                <a href="mailto:{{ config('listora.brand.email') }}">{{ config('listora.brand.email') }}</a>.
+            </p>
+        </div>
     </div>
 </section>
 
