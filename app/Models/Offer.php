@@ -26,8 +26,20 @@ class Offer extends Model
 {
     use HasFactory;
 
-    /** Hours an open offer stays actionable before ExpireOffers closes it. */
-    public const EXPIRY_HOURS = 72;
+    /**
+     * Hours an open offer stays actionable before ExpireOffers closes it.
+     *
+     * 24, matching what the scheduler in routes/console.php has always
+     * described and what the product intends. This constant and the
+     * settings default both read 72 while that comment said 24, so the
+     * documented behaviour and the actual behaviour disagreed by two days -
+     * in the direction that leaves an owner believing an offer has lapsed
+     * when it has not, or the reverse.
+     *
+     * Overridable per environment through the offers.expiry_hours setting;
+     * this is only the fallback when no row exists.
+     */
+    public const EXPIRY_HOURS = 24;
 
     protected $fillable = [
         'reference',

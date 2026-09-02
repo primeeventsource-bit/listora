@@ -3,6 +3,7 @@
 namespace App\Services\SupportChat;
 
 use App\Enums\Surface;
+use App\Models\Offer;
 use App\Models\SupportChatSession;
 use App\Models\SupportMessage;
 use App\Models\User;
@@ -213,7 +214,10 @@ class SupportChatService
             ? "You are talking with {$user->name} (account email {$user->email}, user_id {$user->id})."
             : "You are talking with an anonymous visitor (no signed-in account).";
 
-        $offerHours = (int) setting('offers.expiry_hours', 72);
+        // Same fallback as OfferService, so the assistant never quotes a
+        // window the offers themselves do not use. A support answer that is
+        // two days out is worse than no answer.
+        $offerHours = (int) setting('offers.expiry_hours', Offer::EXPIRY_HOURS);
 
         return <<<PROMPT
 You are Listora's customer support assistant.

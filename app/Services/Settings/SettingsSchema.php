@@ -124,7 +124,7 @@ final class SettingsSchema
 
             // ---------------------------------------------------------- offers
             'offers.enabled' => ['offers', 'bool', true, 'Accept offers and inquiries', ['boolean'], null, true],
-            'offers.expiry_hours' => ['offers', 'int', 72, 'Hours before an open offer expires', ['integer', 'between:1,720']],
+            'offers.expiry_hours' => ['offers', 'int', 24, 'Hours before an open offer expires', ['integer', 'between:1,720']],
             'offers.require_account' => ['offers', 'bool', false, 'Require an account to submit', ['boolean'], 'Off means anonymous visitors may contact an owner.'],
             'offers.notify_owner_email' => ['offers', 'bool', true, 'Email the owner on each submission', ['boolean']],
             'offers.max_per_day_per_ip' => ['offers', 'int', 20, 'Submissions per IP per day', ['integer', 'between:1,500']],
