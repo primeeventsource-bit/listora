@@ -83,7 +83,7 @@ TXT,
                 'summary' => 'Essential, Featured, and Premier. One flat fee, twelve months, no commission on what you agree.',
                 'search_keywords' => 'plans, pricing, essential, featured, premier, cost, fee, how much, commission',
                 'body' => <<<'TXT'
-Every plan buys twelve months of advertising for one property, points package, or week. The fee is flat and it is the only money Listora ever takes — we do not take a percentage of what you agree with a traveler or buyer.
+Every plan buys twelve months of advertising for one vacation property. The fee is flat and it is the only money Listora ever takes — we do not take a percentage of what you agree with a traveler or buyer.
 
 Essential covers everything you need to advertise: your listing live for twelve full months, ownership verified before it publishes, up to twenty photos, direct messaging with travelers and buyers, and inclusion in all search results.
 
@@ -133,7 +133,7 @@ TXT,
                 'audience' => HelpAudience::Owner,
                 'category' => 'verification',
                 'title' => 'What ownership verification involves',
-                'summary' => 'We check your deed, club statement, or membership certificate against the details you entered, before the listing publishes.',
+                'summary' => 'We check your deed, title, or other proof of ownership against the details you entered, before the listing publishes.',
                 'search_keywords' => 'verification, verify, ownership, deed, certificate, documents, proof, how long',
                 'body' => <<<'TXT'
 Before a listing publishes, our team reviews your documentation and checks that it matches what you entered.
@@ -224,7 +224,7 @@ That makes one rule very simple: if anyone asks you to send money to Listora, it
 
 For rentals, we suggest a payment method that carries buyer protection, and agreeing the full terms in writing before any money moves.
 
-For ownership transfers — a deeded week, a points package — use a licensed escrow or closing company. This is a real transfer of title and it is worth doing properly.
+For a transfer of ownership, use a licensed escrow or closing company. This is a real transfer of title and it is worth doing properly.
 
 Never send a deposit by wire transfer or gift card to someone you have not verified, on this site or anywhere else.
 

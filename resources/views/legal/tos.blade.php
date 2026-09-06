@@ -6,7 +6,10 @@
 <div class="wrap-sm legal-doc">
 
     <h1>Terms of Service</h1>
-    <p class="legal-meta">Version v6 · Effective 16 August 2026</p>
+    {{-- Printed from the registry, not typed here: a version bumped in
+         one place and not the other means a visitor accepts one version
+         while reading another. --}}
+    <p class="legal-meta">Version {{ $versionLabel }} · Effective 16 August 2026</p>
 
     <h2>1. What Listora is</h2>
     <p>
@@ -52,8 +55,8 @@
     <h2>5. Listings and ownership verification</h2>
     <p>
         Before a listing is published we review documentation supplied by the owner — a deed,
-        club statement, or membership certificate — and check that it matches the details in the
-        listing. Verification confirms that the person advertising holds what they claim to hold,
+        title, or other proof that the property is theirs to advertise — and check that it
+        matches the details in the listing. Verification confirms that the person advertising holds what they claim to hold,
         and that the stated property, location, and availability match the
         documentation as at the date of review.
     </p>

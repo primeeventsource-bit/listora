@@ -19,17 +19,23 @@ class LegalController extends Controller
 
     public function tos(): View
     {
-        return view('legal.tos');
+        return view('legal.tos', [
+            'versionLabel' => $this->registry->versionLabelFor(LegalDocumentRegistry::KIND_TOS),
+        ]);
     }
 
     public function privacy(): View
     {
-        return view('legal.privacy');
+        return view('legal.privacy', [
+            'versionLabel' => $this->registry->versionLabelFor(LegalDocumentRegistry::KIND_PRIVACY),
+        ]);
     }
 
     public function advertisingAgreement(): View
     {
-        return view('legal.advertising-agreement');
+        return view('legal.advertising-agreement', [
+            'versionLabel' => $this->registry->versionLabelFor(LegalDocumentRegistry::KIND_ADVERTISING_AGREEMENT),
+        ]);
     }
 
     /**

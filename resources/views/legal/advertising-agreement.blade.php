@@ -6,7 +6,10 @@
 <div class="wrap-sm legal-doc">
 
     <h1>Advertising Agreement</h1>
-    <p class="legal-meta">Version v2 · Effective 16 August 2026</p>
+    {{-- Printed from the registry, not typed here: a version bumped in
+         one place and not the other means a visitor accepts one version
+         while reading another. --}}
+    <p class="legal-meta">Version {{ $versionLabel }} · Effective 16 August 2026</p>
 
     <p class="legal-lead">
         This agreement applies to owners who advertise a vacation property on Listora.

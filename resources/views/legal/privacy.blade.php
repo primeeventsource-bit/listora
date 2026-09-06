@@ -6,7 +6,10 @@
 <div class="wrap-sm legal-doc">
 
     <h1>Privacy Policy</h1>
-    <p class="legal-meta">Version v3 · Effective 16 August 2026</p>
+    {{-- Printed from the registry, not typed here: a version bumped in
+         one place and not the other means a visitor accepts one version
+         while reading another. --}}
+    <p class="legal-meta">Version {{ $versionLabel }} · Effective 16 August 2026</p>
 
     <h2>1. Who we are</h2>
     <p>
@@ -20,8 +23,8 @@
     password when you create an account. Listing details and photographs when you advertise.
     The contents of inquiries, offers, and messages you send through the site.</p>
 
-    <p><strong>Ownership documentation.</strong> Deeds, club statements, and membership
-    certificates you provide for verification.</p>
+    <p><strong>Ownership documentation.</strong> Deeds, titles, and other documents you
+    provide to show a property is yours to advertise.</p>
 
     <p><strong>Information collected automatically.</strong> IP address, browser and device type,
     operating system, pages viewed, the page or advertisement that referred you, any campaign

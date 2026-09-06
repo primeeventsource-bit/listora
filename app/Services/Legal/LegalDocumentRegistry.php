@@ -198,6 +198,26 @@ class LegalDocumentRegistry
     }
 
     /**
+     * The version label currently in force for one document kind.
+     *
+     * Exists because each legal view printed its own version number as literal
+     * text in the page heading. Bumping a version here left the published page
+     * still displaying the old one, so a visitor accepted "v7" while reading a
+     * document headed "v6" - and the registry, which is what TermsAcceptance
+     * records against, was the only place that knew.
+     */
+    public function versionLabelFor(string $kind): ?string
+    {
+        foreach (self::DOCUMENTS as $doc) {
+            if ($doc['kind'] === $kind) {
+                return $doc['version_label'];
+            }
+        }
+
+        return null;
+    }
+
+    /**
      * @return array<int, array<string, string>>
      */
     public function documents(): array
