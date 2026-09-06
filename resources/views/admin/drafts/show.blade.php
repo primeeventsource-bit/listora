@@ -26,7 +26,11 @@
                     <dt>Owner</dt><dd>{{ $draft->owner_name }} · {{ $draft->owner_email }}
                         @if ($draft->phone) · {{ $draft->phone }} @endif</dd>
                     <dt>Kind</dt><dd>{{ $draft->kind }} · {{ $draft->mode }}</dd>
-                    <dt>Resort / club</dt><dd>{{ $draft->resort_name ?: '—' }} / {{ $draft->club_name ?: '—' }}</dd>
+                    <dt>Property</dt><dd>{{ $draft->resort_name ?: '—' }}</dd>
+                    <dt>Address</dt><dd>{{ $draft->address ?: '—' }}</dd>
+                    @if ($draft->club_name)
+                        <dt>Club</dt><dd>{{ $draft->club_name }}</dd>
+                    @endif
                     <dt>Location</dt><dd>{{ collect([$draft->city, $draft->state, $draft->region])->filter()->implode(', ') ?: '—' }}</dd>
                     <dt>Unit</dt><dd>{{ $draft->bedrooms ?? '—' }} bed · sleeps {{ $draft->sleeps ?? '—' }}</dd>
                     <dt>Points</dt><dd>{{ $draft->points ? number_format($draft->points) : '—' }}</dd>

@@ -2,15 +2,14 @@
 
 namespace App\Http\Requests;
 
-use App\Models\Listing;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
 /**
  * The short information sheet, as distinct from StoreListingDraftRequest.
  *
- * Four required fields and nothing else: what it is, whether it is being
- * rented or passed on, and how to reach you. Everything the wizard insists on
+ * Three required fields and nothing else: whether it is being rented or passed
+ * on, and how to reach you. Everything the wizard insists on
  * — the points balance, the week number, the city, a plan — is optional here
  * on purpose, because the whole promise of this form is that a specialist
  * calls and goes over it with you. Demanding a season and a usage year before
@@ -30,9 +29,9 @@ class StorePropertyInformationSheetRequest extends FormRequest
     public function rules(): array
     {
         return [
-            // Only what is actually on offer. A withheld category must not be
-            // accepted here just because the form once listed it.
-            'kind' => ['required', Rule::in(array_keys(Listing::offeredKinds()))],
+            // No `kind`. The form no longer asks, so accepting one from the
+            // request would let a submission name a category the site does
+            // not advertise. The controller sets it.
             'mode' => ['required', Rule::in(['rent', 'own'])],
 
             'owner_name' => ['required', 'string', 'max:120'],
@@ -40,6 +39,7 @@ class StorePropertyInformationSheetRequest extends FormRequest
             'phone' => ['nullable', 'string', 'max:40'],
 
             'resort_name' => ['nullable', 'string', 'max:160'],
+            'address' => ['nullable', 'string', 'max:200'],
             'club_name' => ['nullable', 'string', 'max:160'],
             'city' => ['nullable', 'string', 'max:120'],
             'state' => ['nullable', 'string', 'max:64'],
@@ -53,7 +53,8 @@ class StorePropertyInformationSheetRequest extends FormRequest
         return [
             'owner_name' => 'name',
             'owner_email' => 'email address',
-            'resort_name' => 'resort',
+            'resort_name' => 'property name',
+            'address' => 'property address',
             'club_name' => 'club',
             'description' => 'details',
         ];
@@ -62,7 +63,6 @@ class StorePropertyInformationSheetRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'kind.required' => 'Tell us what you are advertising.',
             'mode.required' => 'Let us know whether you are renting it out or passing it on.',
         ];
     }

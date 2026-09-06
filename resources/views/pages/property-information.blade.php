@@ -38,21 +38,10 @@
         <form method="POST" action="{{ route('property-information.store') }}">
             @csrf
 
-            <div class="field">
-                <label for="kind">What are you advertising?</label>
-                <select id="kind" name="kind" required>
-                    <option value="">Choose one</option>
-                    {{-- Only the categories on offer. This form kept listing
-                         points and vacation weeks after they were withheld
-                         from the catalogue, so somebody could request
-                         advertising in a category the site does not publish. --}}
-                    @foreach (\App\Models\Listing::offeredKinds() as $value => $label)
-                        <option value="{{ $value }}" @selected(old('kind') === $value)>{{ $label }}</option>
-                    @endforeach
-                </select>
-                @error('kind')<span class="err">{{ $message }}</span>@enderror
-            </div>
-
+            {{-- No "what are you advertising?" question. Listora advertises
+                 vacation properties, so the select had one real option and was
+                 asking the owner to confirm the only answer there was. The
+                 controller records the category. --}}
             <div class="field">
                 <label for="mode">Renting it out, or passing it on?</label>
                 <select id="mode" name="mode" required>
@@ -64,9 +53,23 @@
             </div>
 
             <div class="field">
-                <label for="resort_name">Resort or property name <span style="text-transform:none;font-weight:400">(optional)</span></label>
-                <input type="text" id="resort_name" name="resort_name" value="{{ old('resort_name') }}">
+                <label for="resort_name">Property name <span style="text-transform:none;font-weight:400">(optional)</span></label>
+                <input type="text" id="resort_name" name="resort_name" value="{{ old('resort_name') }}"
+                       placeholder="Whatever the property is known as">
                 @error('resort_name')<span class="err">{{ $message }}</span>@enderror
+            </div>
+
+            {{-- The address is for verifying ownership, not for publishing. An
+                 advertisement shows the city and state; this stays on the
+                 intake record, where only staff see it. --}}
+            <div class="field">
+                <label for="address">Property address <span style="text-transform:none;font-weight:400">(optional)</span></label>
+                <input type="text" id="address" name="address" value="{{ old('address') }}"
+                       autocomplete="off" placeholder="Street address of the property">
+                <span class="muted" style="display:block;margin-top:6px;font-size:13px">
+                    Used to confirm ownership. It is never shown on your advertisement.
+                </span>
+                @error('address')<span class="err">{{ $message }}</span>@enderror
             </div>
 
             {{-- Omitted entirely while those categories are withheld, rather

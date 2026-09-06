@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Enums\DraftStatus;
 use App\Http\Requests\StorePropertyInformationSheetRequest;
+use App\Models\Listing;
 use App\Models\ListingDraft;
 use App\Services\Tracking\TrackingService;
 use Illuminate\Contracts\View\View;
@@ -41,6 +42,11 @@ class PropertyInformationController extends Controller
     public function store(StorePropertyInformationSheetRequest $request): RedirectResponse
     {
         $draft = ListingDraft::create($request->validated() + [
+            // Set here rather than posted. The sheet stopped asking "what are
+            // you advertising?" because there was one answer to choose from,
+            // and a category arriving from the browser is a category a
+            // submission could claim that the site does not advertise.
+            'kind' => Listing::KIND_HOME,
             'owner_id' => $request->user()?->id,
             'source' => ListingDraft::SOURCE_SHEET,
             'status' => DraftStatus::New,

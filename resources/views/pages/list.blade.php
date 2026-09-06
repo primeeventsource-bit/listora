@@ -81,7 +81,7 @@
 
                 <div class="frow">
                     <div class="field">
-                        <label for="resort_name">Resort or property name</label>
+                        <label for="resort_name">Property name</label>
                         <input type="text" id="resort_name" name="resort_name" value="{{ old('resort_name') }}" placeholder="Kaanapali Shores">
                     </div>
                     {{-- Absent, not hidden, while those categories are

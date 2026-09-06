@@ -5,9 +5,11 @@ namespace Tests\Feature\Site;
 use App\Enums\DraftStatus;
 use App\Enums\UserRole;
 use App\Models\FeatureFlag;
+use App\Models\Listing;
 use App\Models\ListingDraft;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Schema;
 use Tests\TestCase;
 
 /**
@@ -23,15 +25,15 @@ class PropertyInformationSheetTest extends TestCase
     use RefreshDatabase;
 
     private const VALID = [
-        'kind' => 'home',
         'mode' => 'rent',
         'owner_name' => 'Dana Whitfield',
         'owner_email' => 'dana@example.com',
         'phone' => '555-0143',
         'resort_name' => 'Kaanapali Shores',
+        'address' => '2481 Kaanapali Parkway, Unit 412',
         'city' => 'Lahaina',
         'state' => 'HI',
-        'description' => 'Week 26, fixed, oceanfront two-bedroom.',
+        'description' => 'Two-bedroom, oceanfront, sleeps six.',
     ];
 
     public function test_the_sheet_renders(): void
@@ -54,6 +56,10 @@ class PropertyInformationSheetTest extends TestCase
         $this->assertSame(DraftStatus::New, $draft->status);
         $this->assertSame('dana@example.com', $draft->owner_email);
         $this->assertSame('Kaanapali Shores', $draft->resort_name);
+        $this->assertSame('2481 Kaanapali Parkway, Unit 412', $draft->address);
+
+        // The form stopped asking, so the controller has to answer.
+        $this->assertSame(Listing::KIND_HOME, $draft->kind);
 
         // Same queue the wizard feeds — not a second inbox.
         $this->assertTrue(ListingDraft::open()->whereKey($draft->id)->exists());
@@ -83,21 +89,68 @@ class PropertyInformationSheetTest extends TestCase
         $this->followRedirects($response)->assertSee($reference);
     }
 
-    public function test_only_the_four_essentials_are_required(): void
+    public function test_only_the_three_essentials_are_required(): void
     {
         $this->post('/property-information', [])
-            ->assertSessionHasErrors(['kind', 'mode', 'owner_name', 'owner_email']);
+            ->assertSessionHasErrors(['mode', 'owner_name', 'owner_email']);
 
         // Everything the wizard insists on stays optional here on purpose —
         // the specialist call is what fills those in.
         $this->post('/property-information', [
-            'kind' => 'home',
             'mode' => 'own',
             'owner_name' => 'Sam Iyer',
             'owner_email' => 'sam@example.com',
         ])->assertSessionHasNoErrors();
 
         $this->assertSame(1, ListingDraft::count());
+    }
+
+    /**
+     * The form asks for what it asks for. "What are you advertising?" was
+     * removed because it had one real option, and the address replaced it —
+     * a specialist cannot verify ownership of a property they cannot find.
+     */
+    public function test_the_form_asks_for_an_address_and_not_a_category(): void
+    {
+        $html = $this->get('/property-information')->assertOk()->getContent();
+
+        $this->assertStringContainsString('Property address', $html);
+        $this->assertStringNotContainsString('What are you advertising?', $html);
+        $this->assertStringNotContainsString('name="kind"', $html);
+
+        // The word the underwriter kept finding. "Property name" now.
+        $this->assertStringNotContainsString('Resort', $html);
+    }
+
+    /**
+     * A posted category must not become the draft's category. The site
+     * advertises vacation properties; a form field nobody sees is not a
+     * licence to file a submission under a withheld one.
+     */
+    public function test_a_posted_category_is_ignored(): void
+    {
+        $this->post('/property-information', ['kind' => 'points'] + self::VALID)
+            ->assertSessionHasNoErrors();
+
+        $this->assertSame(Listing::KIND_HOME, ListingDraft::sole()->kind);
+    }
+
+    /**
+     * The address is intake data. It exists so staff can verify ownership,
+     * and publishing it would tell the internet which house stands empty.
+     */
+    public function test_the_address_stays_off_the_public_listing(): void
+    {
+        $this->post('/property-information', self::VALID);
+
+        $this->assertSame('2481 Kaanapali Parkway, Unit 412', ListingDraft::sole()->address);
+
+        // Asserted against the schema rather than against one published row,
+        // because the guarantee is structural: `listings` has nowhere to put
+        // a street address, so no future publisher change can start showing
+        // one. A listing carries the city and state.
+        $this->assertFalse(Schema::hasColumn('listings', 'address'));
+        $this->assertTrue(Schema::hasColumn('listing_drafts', 'address'));
     }
 
     public function test_a_bad_email_is_rejected(): void

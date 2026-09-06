@@ -110,6 +110,11 @@ class TimeshareCategoryVisibilityTest extends TestCase
      * weeks after the catalogue stopped publishing them, and accepted a
      * submission naming one - so somebody could request advertising in a
      * category the site does not sell. A real submission arrived that way.
+     *
+     * The sheet has since stopped asking the question at all, so the guarantee
+     * moved rather than went away: a posted category is ignored and the draft
+     * is filed as a vacation property. What must never happen is a draft
+     * carrying a withheld category, however it was posted.
      */
     public function test_a_withheld_category_cannot_be_requested(): void
     {
@@ -118,9 +123,14 @@ class TimeshareCategoryVisibilityTest extends TestCase
             "mode" => "own",
             "owner_name" => "Dana Whitfield",
             "owner_email" => "dana@example.test",
-        ])->assertSessionHasErrors("kind");
+        ]);
 
-        $this->assertSame(0, ListingDraft::count());
+        $this->assertSame(Listing::KIND_HOME, ListingDraft::sole()->kind);
+
+        $this->assertSame(
+            0,
+            ListingDraft::whereIn('kind', [Listing::KIND_POINTS, Listing::KIND_WEEKS])->count(),
+        );
     }
 
     public function test_an_offered_category_still_can_be(): void
