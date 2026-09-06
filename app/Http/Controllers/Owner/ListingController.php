@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Owner;
 
+use App\Enums\AdEventType;
 use App\Enums\ListingStatus;
 use App\Http\Controllers\Controller;
 use App\Models\Inquiry;
 use App\Models\Listing;
+use App\Services\Advertising\AdEventRecorder;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -20,6 +22,10 @@ use Illuminate\Validation\Rule;
  */
 class ListingController extends Controller
 {
+    public function __construct(private readonly AdEventRecorder $recorder)
+    {
+    }
+
     public function index(Request $request): View
     {
         $listings = Listing::query()
@@ -63,6 +69,10 @@ class ListingController extends Controller
         ]);
 
         $listing->update($data);
+
+        // What changed, not the values. The activity log answers "who touched
+        // this listing and when" - it is not a second copy of the listing.
+        $this->recorder->record($request, AdEventType::ListingUpdated, $listing);
 
         return back()->with('status', 'Listing updated.');
     }

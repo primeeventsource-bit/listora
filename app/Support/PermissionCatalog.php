@@ -134,7 +134,15 @@ final class PermissionCatalog
         'settings.edit' => ['settings', 'Edit Settings', 'Change configuration values and feature flags.'],
 
         // --- Activity log ----------------------------------------------
-        'audit.view' => ['audit', 'View Activity Log', 'See who changed what across the backend.'],
+        //
+        // Three separate keys on purpose. Reading what staff changed, reading
+        // what visitors did, and taking either out of the system as a file
+        // are three different levels of access to personal data, and one
+        // permission covering all three would mean granting the least of them
+        // grants the most.
+        'audit.view' => ['audit', 'View Admin Changes', 'See who changed what across the backend.'],
+        'activity.view' => ['audit', 'View Visitor Activity', 'Search the visitor activity log and open session timelines and visitor profiles. Restricted: shows full IP addresses and other personal data.'],
+        'activity.export' => ['audit', 'Export Activity Records', 'Download activity and evidentiary records as CSV. Restricted: exported files leave the platform and its retention limits.'],
     ];
 
     /** @return list<string> Every permission key. */

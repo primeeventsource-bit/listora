@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdController;
+use App\Http\Controllers\Admin\ActivityController;
 use App\Http\Controllers\Admin\AdvertisingTraceController;
 use App\Http\Controllers\Admin\AuditLogController;
 use App\Http\Controllers\Admin\DraftController as AdminDraftController;
@@ -336,6 +337,20 @@ Route::middleware(['auth'])
         //
         // No store, update, or destroy — deliberately. An audit trail an admin
         // can amend is not evidence of anything, so there is no route to try.
+        // The visitor activity log: sessions, timelines and visitor profiles
+        // for anonymous and signed-in traffic alike. Separate from the admin
+        // audit trail above, and gated separately - this one shows full IP
+        // addresses, and export is gated again because a downloaded file
+        // outlives the retention promise the privacy policy makes.
+        Route::get('activity', [ActivityController::class, 'index'])
+            ->middleware('permission:activity.view')->name('activity.index');
+        Route::get('activity/export', [ActivityController::class, 'export'])
+            ->middleware('permission:activity.export')->name('activity.export');
+        Route::get('activity/session/{session}', [ActivityController::class, 'session'])
+            ->middleware('permission:activity.view')->name('activity.session');
+        Route::get('activity/visitor/{visitor}', [ActivityController::class, 'visitor'])
+            ->middleware('permission:activity.view')->name('activity.visitor');
+
         Route::get('audit', [AuditLogController::class, 'index'])->middleware('permission:audit.view')->name('audit.index');
         Route::get('audit/{entry}', [AuditLogController::class, 'show'])->middleware('permission:audit.view')->name('audit.show');
 

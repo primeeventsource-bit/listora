@@ -27,10 +27,23 @@
     provide to show a property is yours to advertise.</p>
 
     <p><strong>Information collected automatically.</strong> IP address, browser and device type,
-    operating system, pages viewed, the page or advertisement that referred you, any campaign
-    tags in the link you followed, a session identifier, and the approximate location derived
-    from your IP address. We record authentication events — sign-in, sign-out, and failed
-    attempts — with this information, and we record visits to advertisement and listing pages.</p>
+    operating system, the pages you view, the page or advertisement that referred you, any campaign
+    tags in the link you followed, a session identifier, a visitor identifier, and the approximate
+    location derived from your IP address.</p>
+
+    <p><strong>Activity records.</strong> We keep a timestamped record of activity on this site,
+    for visitors who are signed in and for visitors who are not. Alongside the information above,
+    that record includes the pages and listings you view, the advertisements you view, inquiries
+    and offers you start and submit, messages you send, account creation, sign-in and sign-out,
+    listings you create or edit, acceptance of our Terms and agreements, and — when we begin
+    taking payment for advertising — activity on payment pages. We keep it to operate and secure
+    the site, to prevent and investigate fraud, to measure advertising, and to be able to evidence
+    what happened if a transaction or a listing is disputed.</p>
+
+    <p><strong>Visitors who are not signed in.</strong> A visitor who has not signed in is
+    recorded against a visitor identifier rather than a name. If you later create an account or
+    sign in, activity recorded under that identifier can be associated with your account. That
+    association is available to our own administrators and is never shown to an advertiser.</p>
 
     <p><strong>About approximate location.</strong> Location is estimated from your IP address
     against a geolocation database. It identifies a city and region near the network you are
@@ -85,6 +98,14 @@
         restricted to our own administrators for security and fraud investigation, and it is not
         available on any screen an advertiser can reach. Advertisers are not told who you are:
         they see a visit, not a visitor.
+    </p>
+    <p>
+        <strong>The full activity record is administrator-only.</strong> The complete history
+        described in section 2 — including IP addresses, the sequence of pages in a visit, and
+        any association between a visitor identifier and an account — can be searched, viewed
+        and exported only by our own authorized administrators, under access controls that are
+        granted individually. It is not shared with advertisers, and we do not sell it or make
+        it available to third parties for their own purposes.
     </p>
     <p>
         If you are signed in when you view a listing, we associate that visit with your account

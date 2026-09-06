@@ -90,7 +90,12 @@
                     'Insight' => [
                         ['admin.reports.index', 'Performance', 'chart', 'reports.view', null],
                         ['admin.advertising.index', 'Ad traffic', 'pulse', 'advertising.trace', null],
-                        ['admin.audit.index', 'Activity', 'pulse', 'audit.view', null],
+                        // Two different logs, named for what each one holds.
+                        // "Activity" pointed at the admin change trail while
+                        // the visitor trail had no entry at all, so the entry
+                        // most people wanted was the one they could not find.
+                        ['admin.activity.index', 'Visitor activity', 'pulse', 'activity.view', null],
+                        ['admin.audit.index', 'Admin changes', 'shield', 'audit.view', null],
                     ],
                     'System' => [
                         ['admin.roles.index', 'Roles &amp; permissions', 'shield', 'roles.view', null],

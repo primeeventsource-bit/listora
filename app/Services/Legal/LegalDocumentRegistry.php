@@ -131,7 +131,26 @@ class LegalDocumentRegistry
             // describes an advertising platform for vacation properties. No change
             // to what is collected, shared, or retained - only to what the service
             // is said to be.
-            'version_label' => 'v5',
+            //
+            // v6 (2026-09-06): the activity log. Section 2 previously disclosed
+            // advertising visits; the site now keeps a timestamped record of
+            // material activity for signed-in and anonymous visitors alike -
+            // pages viewed, inquiries and offers, messages, account creation,
+            // sign-in and sign-out, listing edits, agreement acceptance, and
+            // payment-page activity once payment exists. Section 2 says so,
+            // names the visitor identifier, and states that activity recorded
+            // anonymously may be associated with an account if the visitor
+            // later signs in.
+            //
+            // Section 5 adds the boundary the build depends on: the full
+            // record, addresses included, is administrator-only behind
+            // individually granted permissions, is never shown to an
+            // advertiser, and is not sold or made available to third parties.
+            //
+            // Retention is unchanged. The records live in ad_events, which
+            // listora:prune-ad-events already clears at 24 months - so the
+            // wider disclosure did not widen what is kept.
+            'version_label' => 'v6',
         ],
         [
             'kind'          => self::KIND_ADVERTISING_AGREEMENT,

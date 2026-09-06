@@ -6,6 +6,7 @@ use App\Http\Middleware\EnsureAdmin;
 use App\Http\Middleware\EnsureCurrentTermsAccepted;
 use App\Http\Middleware\EnsureListingSpecialist;
 use App\Http\Middleware\EnsurePermission;
+use App\Http\Middleware\RecordPageView;
 use App\Http\Middleware\SetListoraSurface;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -65,6 +66,12 @@ return Application::configure(basePath: dirname(__DIR__))
             // Operator-toggled maintenance mode (setting general.maintenance_mode).
             // Appended so it runs after session/auth resolve — admins pass through.
             CheckMaintenanceMode::class,
+
+            // Writes a page_view for every rendered page, so a session
+            // timeline shows the route someone took and not only the three
+            // advertising steps along it. Last in the stack: it records after
+            // the response, and only when there is a real page to record.
+            RecordPageView::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

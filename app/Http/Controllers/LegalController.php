@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\TermsAcceptance;
 use App\Models\TermsVersion;
+use App\Enums\AdEventType;
+use App\Services\Advertising\AdEventRecorder;
 use App\Services\Legal\LegalDocumentRegistry;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
@@ -13,8 +15,10 @@ use Illuminate\View\View;
 
 class LegalController extends Controller
 {
-    public function __construct(private readonly LegalDocumentRegistry $registry)
-    {
+    public function __construct(
+        private readonly LegalDocumentRegistry $registry,
+        private readonly AdEventRecorder $recorder,
+    ) {
     }
 
     public function tos(): View
@@ -92,7 +96,7 @@ class LegalController extends Controller
         $request->validate(['accept' => ['accepted']]);
 
         foreach ($this->missingAcceptancesFor($user->id) as $version) {
-            TermsAcceptance::firstOrCreate(
+            $acceptance = TermsAcceptance::firstOrCreate(
                 ['user_id' => $user->id, 'terms_version_id' => $version->id],
                 [
                     'accepted_at' => now(),
@@ -100,6 +104,14 @@ class LegalController extends Controller
                     'user_agent'  => mb_substr((string) $request->userAgent(), 0, 512),
                 ],
             );
+
+            // terms_acceptances is the record of record and is not replaced by
+            // this. The activity row exists so acceptance appears in the
+            // session timeline in the order it happened, beside whatever the
+            // person was doing when they accepted.
+            if ($acceptance->wasRecentlyCreated) {
+                $this->recorder->record($request, AdEventType::AgreementAccepted);
+            }
         }
 
         return redirect()->intended(route('dashboard', absolute: false));
