@@ -84,10 +84,15 @@
                         <label for="resort_name">Resort or property name</label>
                         <input type="text" id="resort_name" name="resort_name" value="{{ old('resort_name') }}" placeholder="Kaanapali Shores">
                     </div>
+                    {{-- Absent, not hidden, while those categories are
+                         withheld. Markup a visitor cannot see is still markup
+                         a reviewer reads. --}}
+                    @if (\App\Models\Listing::timeshareOffered())
                     <div class="field js-club">
                         <label for="club_name">Club or collection</label>
                         <input type="text" id="club_name" name="club_name" value="{{ old('club_name') }}" placeholder="Coral Cay Club">
                     </div>
+                    @endif
                 </div>
 
                 <div class="frow">
@@ -114,6 +119,13 @@
                     </div>
                 </div>
 
+                {{-- Points and vacation-week fields, omitted entirely while
+                     those categories are withheld. They were previously
+                     rendered with `hidden` and revealed by JavaScript, which
+                     put "Points balance" and "Week number" into the page
+                     source of every visit - and that is what a payment
+                     underwriter read when classifying the business. --}}
+                @if (\App\Models\Listing::timeshareOffered())
                 {{-- points fields --}}
                 <div class="js-only js-points" hidden>
                     <div class="frow">
@@ -129,6 +141,7 @@
                         <div class="field"><label for="season_w">Season</label><input type="text" id="season_w" name="season" value="{{ old('season') }}" placeholder="Platinum"></div>
                     </div>
                 </div>
+                @endif
 
                 <div class="frow">
                     <div class="field">

@@ -107,9 +107,24 @@ class Listing extends Model
      */
     public static function offeredKinds(): array
     {
-        return feature('timeshare_categories', null, false)
+        return self::timeshareOffered()
             ? self::KINDS
             : array_intersect_key(self::KINDS, [self::KIND_HOME => true]);
+    }
+
+    /**
+     * Are the points and vacation-week categories on offer at all?
+     *
+     * Used to keep their inputs out of the HTML entirely rather than merely
+     * hidden. A payment underwriter reviewing the site read the page source
+     * and classified the business as a timeshare-points resale platform on the
+     * strength of a hidden "Points balance" field and a "Club or collection"
+     * input - markup that no visitor could see and that described a category
+     * the site does not sell. Hidden is not absent.
+     */
+    public static function timeshareOffered(): bool
+    {
+        return feature('timeshare_categories', null, false);
     }
 
     /**

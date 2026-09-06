@@ -33,7 +33,7 @@
         <div class="grid g3" style="max-width:1060px;margin-inline:auto">
             @php
                 $inc = [
-                    ['Ownership verification', 'Our team reviews your deed, club statement, or membership certificate before your listing publishes. Never an add-on.'],
+                    ['Ownership verification', 'Our team reviews your deed, title, or other proof that the property is yours to advertise before your listing publishes. Never an add-on.'],
                     ['Unlimited photos', 'Up to twenty images on Essential and unlimited above it — with no per-photo charge on any plan.'],
                     ['Unlimited edits', 'Change your price, dates, copy, or photos as often as you want for the whole twelve months.'],
                     ['Direct messaging', 'Inquiries arrive in your inbox with your email address kept private until you reply.'],

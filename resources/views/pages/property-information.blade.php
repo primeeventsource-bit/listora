@@ -69,11 +69,15 @@
                 @error('resort_name')<span class="err">{{ $message }}</span>@enderror
             </div>
 
-            <div class="field">
-                <label for="club_name">Club or collection <span style="text-transform:none;font-weight:400">(optional)</span></label>
-                <input type="text" id="club_name" name="club_name" value="{{ old('club_name') }}">
-                @error('club_name')<span class="err">{{ $message }}</span>@enderror
-            </div>
+            {{-- Omitted entirely while those categories are withheld, rather
+                 than left in the markup for a reviewer to find. --}}
+            @if (\App\Models\Listing::timeshareOffered())
+                <div class="field">
+                    <label for="club_name">Club or collection <span style="text-transform:none;font-weight:400">(optional)</span></label>
+                    <input type="text" id="club_name" name="club_name" value="{{ old('club_name') }}">
+                    @error('club_name')<span class="err">{{ $message }}</span>@enderror
+                </div>
+            @endif
 
             <div class="field">
                 <label for="city">City or area <span style="text-transform:none;font-weight:400">(optional)</span></label>
