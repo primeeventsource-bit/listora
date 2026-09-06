@@ -68,7 +68,7 @@ class ListingPublisher
                 payload: [
                     'draft_reference' => $draft->reference,
                     'plan' => $plan->value,
-                    'term_months' => $plan->termMonths(),
+                    'term_days' => $plan->termDays(),
                 ],
                 ipAddress: request()?->ip(),
             );
@@ -125,7 +125,7 @@ class ListingPublisher
             'verified_at' => $draft->verified_at,
             'verified_by_user_id' => $draft->verified_by_user_id,
             'published_at' => $publishedAt,
-            'expires_at' => $publishedAt->copy()->addMonths($plan->termMonths()),
+            'expires_at' => $publishedAt->copy()->addDays($plan->termDays()),
         ];
     }
 

@@ -229,7 +229,7 @@
             @foreach ([
                 ['Send us your property details', 'Tell us about the property — photos, location, description, amenities, features, and when it is available. Our team verifies ownership and builds the advertisement for you.'],
                 ['Get discovered', 'Visitors find your advertisement through Listora and through digital advertising campaigns designed to increase exposure. Every member receives a unique advertising number and a dedicated advertising URL.'],
-                ['Your listing runs a year', 'One flat fee covers twelve months. Edit it whenever you like, pause it when the property is no longer available, and renew at half price if it has not moved.'],
+                ['Your listing runs 180 days', 'One flat fee covers 180 days. Edit it whenever you like, pause it when the property is no longer available, and renew at half price if it has not moved.'],
                 ['Communicate directly', 'Advertisers and interested visitors communicate through the Listora platform. Listora provides the advertising and communication technology; the parties control their own discussions and arrangements.'],
             ] as $i => [$t, $d])
                 <div class="step-card reveal">
@@ -377,14 +377,14 @@
     <div class="wrap">
         <div class="sec-head center reveal">
             <span class="eyebrow">Pricing</span>
-            <h2>One fee. Twelve months. No cut of your deal.</h2>
+            <h2>One fee. 180 days. No cut of your deal.</h2>
             <p>Every plan includes ownership verification, unlimited edits, and direct messaging.</p>
         </div>
 
         @include('partials.tiers', ['plans' => config('listora.plans')])
 
         <p class="center muted" style="margin-top:28px;font-size:14.5px">
-            Billed once per listing, covering a full 12 months. Renew at half price if it hasn't moved.
+            Billed once per listing, covering 180 days. Renew at half price if it hasn't moved.
         </p>
     </div>
 </section>
@@ -407,7 +407,7 @@
     <div class="wrap">
         <span class="eyebrow">Ready when you are</span>
         <h2>Put your listing in front of people already looking</h2>
-        <p>Create it in about ten minutes. We verify within two business days, and it runs for a full year.</p>
+        <p>Create it in about ten minutes. We verify within two business days, and it runs for 180 days.</p>
         <a href="{{ route('list.create') }}" class="btn btn-amber btn-lg">Get Started</a>
     </div>
 </div>

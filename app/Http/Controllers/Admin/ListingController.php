@@ -89,7 +89,7 @@ class ListingController extends Controller
             // Re-publishing a lapsed listing starts a fresh term from today
             // rather than restoring an end date that is already in the past.
             'expires_at' => $listing->hasExpired() || ! $listing->expires_at
-                ? now()->addMonths($plan->termMonths())
+                ? now()->addDays($plan->termDays())
                 : $listing->expires_at,
         ])->save();
 
@@ -138,7 +138,7 @@ class ListingController extends Controller
             'plan' => $plan,
             'is_featured' => $plan->isFeatured(),
             'expires_at' => $request->boolean('extend_term')
-                ? now()->addMonths($plan->termMonths())
+                ? now()->addDays($plan->termDays())
                 : $listing->expires_at,
         ])->save();
 

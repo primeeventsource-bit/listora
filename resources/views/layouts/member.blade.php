@@ -32,7 +32,10 @@
 <link rel="icon" href="{{ asset('img/favicon.svg') }}" type="image/svg+xml">
 @stack('head')
 </head>
-<body class="console">
+{{-- console--member marks the advertiser side of the same design system.
+     Used to withhold things staff have and members should not - currently the
+     Mapbox "Improve this map" link, which edits OpenStreetMap itself. --}}
+<body class="console console--member">
 
 <div class="c-shell" data-nav="closed" id="shell">
 

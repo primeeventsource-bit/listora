@@ -43,7 +43,7 @@ class HelpArticleSeeder extends Seeder
                 'summary' => 'Listora advertises vacation properties. It is not a broker, an agency, or a booking site.',
                 'search_keywords' => 'what is listora, broker, agency, commission, advertising platform, advertise',
                 'body' => <<<'TXT'
-Listora is an advertising marketplace. Owners pay one flat fee to publish a listing for twelve months, and travelers and buyers browse those listings and contact the owner directly.
+Listora is an advertising marketplace. Owners pay one flat fee to publish a listing for 180 days, and travelers and buyers browse those listings and contact the owner directly.
 
 That is the whole model, and the things it rules out matter as much as the things it includes:
 
@@ -80,10 +80,10 @@ TXT,
                 'audience' => HelpAudience::Owner,
                 'category' => 'advertising',
                 'title' => 'The three advertising plans',
-                'summary' => 'Essential, Featured, and Premier. One flat fee, twelve months, no commission on what you agree.',
+                'summary' => 'Essential, Featured, and Premier. One flat fee, 180 days, no commission on what you agree.',
                 'search_keywords' => 'plans, pricing, essential, featured, premier, cost, fee, how much, commission',
                 'body' => <<<'TXT'
-Every plan buys twelve months of advertising for one vacation property. The fee is flat and it is the only money Listora ever takes — we do not take a percentage of what you agree with a traveler or buyer.
+Every plan buys 180 days of advertising for one vacation property. The fee is flat and it is the only money Listora ever takes — we do not take a percentage of what you agree with a traveler or buyer.
 
 Essential covers everything you need to advertise: your listing live for twelve full months, ownership verified before it publishes, up to twenty photos, direct messaging with travelers and buyers, and inclusion in all search results.
 
@@ -117,9 +117,9 @@ TXT,
                 'category' => 'advertising',
                 'title' => 'What if my listing does not move within the year?',
                 'summary' => 'Renew at half price. On Premier, renewal is free.',
-                'search_keywords' => 'renew, renewal, expired, did not sell, no result, twelve months, extend',
+                'search_keywords' => 'renew, renewal, expired, did not sell, no result, 180 days, term, extend',
                 'body' => <<<'TXT'
-If your twelve months run out without a result, you can renew at half the original fee. On the Premier plan, renewal is free.
+If your 180 days run out without a result, you can renew at half the original fee. On the Premier plan, renewal is free.
 
 We would rather keep a good listing live than take another full fee from someone who has not had a result yet.
 

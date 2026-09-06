@@ -51,7 +51,7 @@ return [
             'price'    => 89,
             'blurb'    => 'Everything you need to advertise one vacation property.',
             'features' => [
-                'Live for 12 full months',
+                'Live for 180 days',
                 'Ownership verified before publishing',
                 'Up to 20 photos',
                 'Direct messaging with travelers and buyers',
@@ -83,7 +83,7 @@ return [
                 'Professional listing copy written for you',
                 'Photo editing and sequencing by our team',
                 'Dedicated listing specialist',
-                'Renew free if it does not move in 12 months',
+                'Renew free if it does not move in 180 days',
             ],
         ],
     ],

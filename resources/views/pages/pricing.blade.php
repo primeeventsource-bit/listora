@@ -7,7 +7,7 @@
 <div class="page-head plain">
     <div class="wrap">
         <span class="eyebrow">Pricing</span>
-        <h1>One fee. Twelve months. No cut of your deal.</h1>
+        <h1>One fee. 180 days. No cut of your deal.</h1>
         <p>Every plan includes ownership verification, unlimited photos, unlimited edits, and direct messaging. The only difference between them is how visible your listing is.</p>
     </div>
 </div>
@@ -17,7 +17,7 @@
         @include('partials.tiers', ['plans' => $plans])
 
         <p class="center muted" style="margin-top:34px;font-size:15px;max-width:60ch;margin-inline:auto">
-            Billed once per listing and valid for a full 12 months from the day it publishes.
+            Billed once per listing and valid for 180 days from the day it publishes.
             Renew at half price on Essential and Featured, free on Premier.
         </p>
     </div>
@@ -35,7 +35,7 @@
                 $inc = [
                     ['Ownership verification', 'Our team reviews your deed, title, or other proof that the property is yours to advertise before your listing publishes. Never an add-on.'],
                     ['Unlimited photos', 'Up to twenty images on Essential and unlimited above it — with no per-photo charge on any plan.'],
-                    ['Unlimited edits', 'Change your price, dates, copy, or photos as often as you want for the whole twelve months.'],
+                    ['Unlimited edits', 'Change your price, dates, copy, or photos as often as you want for the whole 180 days.'],
                     ['Direct messaging', 'Inquiries arrive in your inbox with your email address kept private until you reply.'],
                     ['Pause any time', 'Property not available for a while? Pause the listing and restart it later without losing days.'],
                     ['No commission, ever', 'Whatever you agree with a traveler or buyer is entirely yours. We take no percentage at any stage.'],
@@ -58,7 +58,7 @@
     <img src="https://images.unsplash.com/photo-1545556124-500dc7c01f2c?auto=format&fit=crop&w=2200&h=1200&q=80" alt="" loading="lazy">
     <div class="wrap">
         <span class="eyebrow">Ready when you are</span>
-        <h2>Ten minutes now, twelve months of visibility</h2>
+        <h2>Ten minutes now, 180 days of visibility</h2>
         <p>Start your listing and pick a plan at the end — nothing is charged until you have seen exactly how it will look.</p>
         <a href="{{ route('list.create') }}" class="btn btn-amber btn-lg">List Your Property</a>
     </div>

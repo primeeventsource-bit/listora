@@ -117,7 +117,7 @@ final class SettingsSchema
             'listings.approval_mode' => ['listings', 'enum', 'manual', 'Listing approval', ['in:auto,manual,first_only'], 'first_only reviews an owner\'s first listing manually, then auto-approves.', false, false, ['auto', 'manual', 'first_only']],
             'listings.require_ownership_verification' => ['listings', 'bool', true, 'Require ownership verification before publishing', ['boolean'], 'The promise every plan makes. Turning this off publishes unverified listings.'],
             'listings.min_photos' => ['listings', 'int', 4, 'Minimum photos', ['integer', 'between:0,30']],
-            'listings.default_term_months' => ['listings', 'int', 12, 'Default advertising term (months)', ['integer', 'between:1,36']],
+            'listings.default_term_days' => ['listings', 'int', 180, 'Default advertising term (days)', ['integer', 'between:1,1095']],
             'listings.expiry_warning_days' => ['listings', 'int', 30, 'Warn owner before term expiry (days)', ['integer', 'between:0,120']],
             'listings.auto_expire' => ['listings', 'bool', true, 'Automatically expire listings at end of term', ['boolean']],
             'listings.default_region' => ['listings', 'string', '', 'Default region slug', ['nullable', 'string', 'max:64']],

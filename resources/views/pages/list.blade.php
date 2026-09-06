@@ -7,7 +7,7 @@
 <div class="page-head plain">
     <div class="wrap">
         <span class="eyebrow">Create your listing</span>
-        <h1>Ten minutes now, twelve months of visibility</h1>
+        <h1>Ten minutes now, 180 days of visibility</h1>
         <p>Tell us what you hold and how you want to advertise it. Nothing is charged until you have seen exactly how your listing will look.</p>
     </div>
 </div>
@@ -173,7 +173,7 @@
             {{-- ---------------------------- step 3 ---------------------------- --}}
             <div class="wiz-step" data-step="3">
                 <h2 style="font-size:30px;margin-bottom:10px">Choose your plan</h2>
-                <p class="muted" style="margin-bottom:32px">One flat fee for twelve months. No commission is taken from your deal on any plan — the difference is only how visible your listing is.</p>
+                <p class="muted" style="margin-bottom:32px">One flat fee for 180 days. No commission is taken from your deal on any plan — the difference is only how visible your listing is.</p>
 
                 <div class="choices" id="planChoices">
                     @foreach ($plans as $key => $plan)

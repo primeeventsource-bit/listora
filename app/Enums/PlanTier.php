@@ -30,9 +30,18 @@ enum PlanTier: string
     }
 
     /** How many months of advertising the plan runs for. */
-    public function termMonths(): int
+    /**
+     * How long an advertising term runs.
+     *
+     * 180 days, not six months. The distinction is deliberate: a term
+     * expressed in months drifts against the calendar, so two listings
+     * published a day apart can get terms of different lengths depending on
+     * which months they cross. Days give every advertiser the same term and
+     * make the end date arithmetic anyone can check.
+     */
+    public function termDays(): int
     {
-        return 12;
+        return 180;
     }
 
     /** Maximum photos the plan allows. */

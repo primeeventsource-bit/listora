@@ -30,8 +30,8 @@
                 <p>Upload your deed, title, or other proof that the property is yours to advertise. Our team checks it against what you entered and comes back to you directly if anything does not line up.</p>
             </div></div>
             <div class="step reveal"><span class="n">03</span><div>
-                <h3>Your listing runs for a full year</h3>
-                <p>One flat fee covers twelve months. Edit the copy, swap the photos, change the price, or pause it while the property is unavailable — as often as you like, at no extra cost. If it hasn't moved by the end of the year, renew at half price.</p>
+                <h3>Your listing runs for 180 days</h3>
+                <p>One flat fee covers 180 days. Edit the copy, swap the photos, change the price, or pause it while the property is unavailable — as often as you like, at no extra cost. If it hasn't moved by the end of the year, renew at half price.</p>
             </div></div>
             <div class="step reveal"><span class="n">04</span><div>
                 <h3>Inquiries come straight to you</h3>
@@ -73,7 +73,7 @@
     <div class="wrap">
         <span class="eyebrow">How we make money</span>
         <h2>Listing fees. That's the whole business model.</h2>
-        <p>We charge owners a flat fee to advertise for twelve months. We take nothing from the transaction, sell no leads, and accept no payment from resorts or developers for placement. If a listing doesn't work, we'd rather renew it cheaply than take another full fee.</p>
+        <p>We charge owners a flat fee to advertise for 180 days. We take nothing from the transaction, sell no leads, and accept no payment from resorts or developers for placement. If a listing doesn't work, we'd rather renew it cheaply than take another full fee.</p>
         <a href="{{ route('pricing') }}" class="btn btn-glass btn-lg">See the three plans</a>
     </div>
 </div>

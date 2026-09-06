@@ -125,7 +125,7 @@ class ListoraSeeder extends Seeder
             // Without expires_at they would never appear in the "ending soon"
             // views that operations relies on.
             $row['verified_at']  = $publishedAt->copy()->subDays(2);
-            $row['expires_at']   = $publishedAt->copy()->addMonths(12);
+            $row['expires_at']   = $publishedAt->copy()->addDays(180);
 
             Listing::create($row);
         }

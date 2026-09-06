@@ -33,7 +33,7 @@
                     itself was almost beside the point.
                 </p>
                 <p class="muted">
-                    Listora charges one flat fee to advertise for twelve months and earns nothing else, from anyone.
+                    Listora charges one flat fee to advertise for 180 days and earns nothing else, from anyone.
                     We do not take commission, we do not sell leads, and we accept no payment from resorts or
                     developers for placement. That constraint is the product.
                 </p>

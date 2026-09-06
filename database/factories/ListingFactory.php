@@ -55,7 +55,7 @@ class ListingFactory extends Factory
             'status' => ListingStatus::Active,
             'verified_at' => now()->subDays(3),
             'published_at' => now()->subDays(2),
-            'expires_at' => now()->addMonths(12),
+            'expires_at' => now()->addDays(180),
         ];
     }
 

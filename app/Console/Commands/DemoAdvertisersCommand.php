@@ -159,7 +159,7 @@ class DemoAdvertisersCommand extends Command
             // bug in the listing rather than in the data that made it.
             'status' => ListingStatus::Active,
             'published_at' => now()->subDays(4),
-            'expires_at' => now()->addMonths(6),
+            'expires_at' => now()->addDays(180),
         ]);
 
         $listing->save();

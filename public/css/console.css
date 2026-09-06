@@ -416,3 +416,22 @@ a.c-tile:hover{border-color:var(--c-line-2);box-shadow:var(--c-sh);transform:tra
 }
 .console .stat-urgent{border-left:3px solid var(--c-amber)}
 .console .stat-warn{border-left:3px solid var(--c-teal)}
+
+/* --------------------------------------------------------------------------
+ | Mapbox attribution
+ |
+ | Hides the "Improve this map" feedback link on the ADVERTISER side only.
+ | It edits OpenStreetMap itself, which is not something a member should be
+ | invited to do from a report about their own traffic. Staff keep it - an
+ | administrator investigating traffic may have reason to follow it.
+ |
+ | The "© Mapbox © OpenStreetMap" credit stays. It is required by Mapbox's
+ | terms of service, not decoration - removing it would put the account in
+ | breach, and the map is a paid third-party service on a site currently
+ | under payment-processor review.
+ -------------------------------------------------------------------------- */
+
+.console--member .mapboxgl-ctrl-attrib a[href*="map-feedback"],
+.console--member .mapboxgl-ctrl-attrib a[href*="improve"]{
+  display:none !important;
+}
