@@ -21,9 +21,7 @@
     // and the catalogue can never disagree about what is on offer.
     $showTimeshare = feature('timeshare_categories', null, false);
 
-    $offeredKinds = $showTimeshare
-        ? \App\Models\Listing::KINDS
-        : array_intersect_key(\App\Models\Listing::KINDS, [\App\Models\Listing::KIND_HOME => true]);
+    $offeredKinds = \App\Models\Listing::offeredKinds();
 @endphp
 
 {{-- ============================== HERO ============================== --}}

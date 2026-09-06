@@ -94,6 +94,25 @@ class Listing extends Model
      * its published_at, which is how renewal restores it without re-dating.
      */
     /**
+     * The categories currently on offer.
+     *
+     * One list, consulted by everything that asks a person to choose a
+     * category and everything that validates their answer. Without it each
+     * form decides for itself, and the property information sheet did exactly
+     * that - it kept offering points and vacation weeks while the catalogue
+     * withheld them, so somebody could request advertising in a category the
+     * site does not publish.
+     *
+     * @return array<string, string>
+     */
+    public static function offeredKinds(): array
+    {
+        return feature('timeshare_categories', null, false)
+            ? self::KINDS
+            : array_intersect_key(self::KINDS, [self::KIND_HOME => true]);
+    }
+
+    /**
      * Everything the public may see.
      *
      * The category restriction lives here rather than in each controller

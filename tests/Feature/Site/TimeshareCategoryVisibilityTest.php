@@ -4,6 +4,7 @@ namespace Tests\Feature\Site;
 
 use App\Models\FeatureFlag;
 use App\Models\Listing;
+use App\Models\ListingDraft;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Cache;
 use Tests\TestCase;
@@ -101,5 +102,45 @@ class TimeshareCategoryVisibilityTest extends TestCase
         $this->listingOfKind(Listing::KIND_POINTS, 'A Points Balance');
 
         $this->assertNotContains('A Points Balance', Listing::published()->pluck('title')->all());
+    }
+    /**
+     * Hiding a category from a dropdown is not withholding it.
+     *
+     * The property information sheet went on offering points and vacation
+     * weeks after the catalogue stopped publishing them, and accepted a
+     * submission naming one - so somebody could request advertising in a
+     * category the site does not sell. A real submission arrived that way.
+     */
+    public function test_a_withheld_category_cannot_be_requested(): void
+    {
+        $this->post("/property-information", [
+            "kind" => Listing::KIND_POINTS,
+            "mode" => "own",
+            "owner_name" => "Dana Whitfield",
+            "owner_email" => "dana@example.test",
+        ])->assertSessionHasErrors("kind");
+
+        $this->assertSame(0, ListingDraft::count());
+    }
+
+    public function test_an_offered_category_still_can_be(): void
+    {
+        $this->post("/property-information", [
+            "kind" => Listing::KIND_HOME,
+            "mode" => "rent",
+            "owner_name" => "Dana Whitfield",
+            "owner_email" => "dana@example.test",
+        ])->assertSessionHasNoErrors();
+
+        $this->assertSame(1, ListingDraft::count());
+    }
+
+    /** The form must not list what it will refuse. */
+    public function test_the_sheet_does_not_offer_withheld_categories(): void
+    {
+        $html = $this->get("/property-information")->assertOk()->getContent();
+
+        $this->assertStringNotContainsString(">Resort Club Points<", $html);
+        $this->assertStringNotContainsString(">Vacation Weeks<", $html);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Listing;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -29,7 +30,9 @@ class StorePropertyInformationSheetRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'kind' => ['required', Rule::in(['home', 'points', 'weeks'])],
+            // Only what is actually on offer. A withheld category must not be
+            // accepted here just because the form once listed it.
+            'kind' => ['required', Rule::in(array_keys(Listing::offeredKinds()))],
             'mode' => ['required', Rule::in(['rent', 'own'])],
 
             'owner_name' => ['required', 'string', 'max:120'],

@@ -23,7 +23,7 @@ class PropertyInformationSheetTest extends TestCase
     use RefreshDatabase;
 
     private const VALID = [
-        'kind' => 'weeks',
+        'kind' => 'home',
         'mode' => 'rent',
         'owner_name' => 'Dana Whitfield',
         'owner_email' => 'dana@example.com',
@@ -91,7 +91,7 @@ class PropertyInformationSheetTest extends TestCase
         // Everything the wizard insists on stays optional here on purpose —
         // the specialist call is what fills those in.
         $this->post('/property-information', [
-            'kind' => 'points',
+            'kind' => 'home',
             'mode' => 'own',
             'owner_name' => 'Sam Iyer',
             'owner_email' => 'sam@example.com',

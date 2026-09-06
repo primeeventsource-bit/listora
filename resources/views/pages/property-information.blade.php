@@ -42,7 +42,11 @@
                 <label for="kind">What are you advertising?</label>
                 <select id="kind" name="kind" required>
                     <option value="">Choose one</option>
-                    @foreach (\App\Models\Listing::KINDS as $value => $label)
+                    {{-- Only the categories on offer. This form kept listing
+                         points and vacation weeks after they were withheld
+                         from the catalogue, so somebody could request
+                         advertising in a category the site does not publish. --}}
+                    @foreach (\App\Models\Listing::offeredKinds() as $value => $label)
                         <option value="{{ $value }}" @selected(old('kind') === $value)>{{ $label }}</option>
                     @endforeach
                 </select>
