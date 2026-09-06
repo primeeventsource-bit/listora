@@ -183,7 +183,7 @@ final class SettingsSchema
 
             // ---------------------------------------------------------- seo
             'seo.meta_title_default' => ['seo', 'string', 'Listora — vacation properties, club points & weeks, advertised direct', 'Default meta title', ['string', 'max:160'], null, true],
-            'seo.meta_description_default' => ['seo', 'text', 'Browse vacation properties, resort club points, and vacation weeks advertised directly by their owners. Listora never sits in the middle of the conversation.', 'Default meta description', ['string', 'max:320'], null, true],
+            'seo.meta_description_default' => ['seo', 'text', 'Browse vacation properties advertised directly by their owners. Listora never sits in the middle of the conversation.', 'Default meta description', ['string', 'max:320'], null, true],
             'seo.og_image_url' => ['seo', 'string', '', 'Open Graph image URL', ['nullable', 'string', 'max:512'], null, true],
             'seo.robots_index' => ['seo', 'bool', true, 'Allow search indexing', ['boolean'], null, true],
             'seo.sitemap_enabled' => ['seo', 'bool', true, 'Sitemap enabled', ['boolean']],

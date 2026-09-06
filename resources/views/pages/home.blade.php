@@ -288,7 +288,7 @@
         <div class="grid g2" style="gap:40px 52px;max-width:1020px;margin-inline:auto">
             @php
                 $why = [
-                    ['One flat fee. No commission.', 'You pay to advertise, not to transact. When you rent your week or transfer your points, the full amount is yours. We never take a percentage and never ask for one later.',
+                    ['One flat fee. No commission.', 'You pay to advertise, not to transact. When you rent or sell your property, the full amount is yours. We never take a percentage and never ask for one later.',
                         '<path d="M12 2v20M17 6H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>'],
                     ['Direct contact, always', 'Messages go straight between the two of you. No sales team on the line, no lead resold to three other companies, no callback you never asked for.',
                         '<path d="M21 11.5a8.4 8.4 0 0 1-9 8.4L3 21l1.1-3.4A8.4 8.4 0 1 1 21 11.5z"/>'],

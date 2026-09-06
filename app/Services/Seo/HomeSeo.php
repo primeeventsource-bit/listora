@@ -35,8 +35,8 @@ final class HomeSeo
     {
         return (string) setting(
             'seo.meta_description_default',
-            'Browse vacation properties, resort club points, and vacation weeks advertised '
-            .'directly by their owners. Listora never sits in the middle of the conversation.',
+            'Browse vacation properties advertised directly by their owners. '
+            .'Listora never sits in the middle of the conversation.',
         );
     }
 
