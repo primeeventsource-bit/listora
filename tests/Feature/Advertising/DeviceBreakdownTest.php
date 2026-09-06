@@ -7,20 +7,22 @@ use App\Enums\UserRole;
 use App\Models\AdEvent;
 use App\Models\Listing;
 use App\Models\User;
+use App\Support\UserAgent;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Str;
 use Tests\TestCase;
 
 /**
- * The device breakdown on the advertiser's dashboard.
+ * Crawler traffic is recorded and reported as desktop.
  *
- * Crawler traffic is counted under Desktop rather than given its own row. The
- * events are kept - nothing is discarded, and the breakdown still totals to
- * the view count beside it - so what changed is the label, not the data.
+ * Not hidden and not dropped - counted. A click bought from an ad network is
+ * billed whether a person or a bot made it, so the visit belongs in the
+ * figures like any other. What it does not need is a heading of its own on
+ * every screen.
  *
- * Admin reporting still reads `bot` for what it is. That is the point of
- * folding it in only one place: "how much of this is crawlers" stays
- * answerable by whoever needs to ask it.
+ * Classified that way at the source rather than folded per screen, so the
+ * stored value and every report agree. Anything needing the distinction still
+ * has UserAgent::isBot().
  */
 class DeviceBreakdownTest extends TestCase
 {
@@ -42,7 +44,43 @@ class DeviceBreakdownTest extends TestCase
         ]);
     }
 
-    public function test_bot_traffic_is_counted_as_desktop_and_never_named(): void
+    public function test_a_crawler_is_classified_as_desktop(): void
+    {
+        $agents = [
+            'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)',
+            'Mozilla/5.0 (compatible; bingbot/2.0; +http://www.bing.com/bingbot.htm)',
+            'facebookexternalhit/1.1',
+            'curl/8.4.0',
+            'python-requests/2.31.0',
+        ];
+
+        foreach ($agents as $agent) {
+            $this->assertSame(
+                'desktop',
+                UserAgent::parse($agent)['device_category'],
+                "{$agent} should be recorded as desktop.",
+            );
+
+            // The distinction still exists for anything that needs it.
+            $this->assertTrue(UserAgent::isBot($agent));
+        }
+    }
+
+    /** A person on a phone is still a phone. Folding bots must not blur that. */
+    public function test_real_devices_are_still_told_apart(): void
+    {
+        $this->assertSame(
+            'mobile',
+            UserAgent::parse('Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 Mobile/15E148')['device_category'],
+        );
+
+        $this->assertSame(
+            'desktop',
+            UserAgent::parse('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 Chrome/120')['device_category'],
+        );
+    }
+
+    public function test_no_screen_reports_a_bot_category(): void
     {
         $advertiser = User::factory()->create([
             'role' => UserRole::Owner,
@@ -53,19 +91,16 @@ class DeviceBreakdownTest extends TestCase
 
         $this->recordView($listing, 'desktop');
         $this->recordView($listing, 'desktop');
-        $this->recordView($listing, 'bot');
         $this->recordView($listing, 'mobile');
 
         $html = $this->actingAs($advertiser)->get('/dashboard')->assertOk()->getContent();
 
-        // Three desktop: two real plus the crawler folded in. Nothing dropped.
-        $this->assertMatchesRegularExpression('/Desktop<\/td>\s*<td[^>]*>3</', $html);
+        $this->assertMatchesRegularExpression('/Desktop<\/td>\s*<td[^>]*>2</', $html);
         $this->assertMatchesRegularExpression('/Mobile<\/td>\s*<td[^>]*>1</', $html);
-
         $this->assertStringNotContainsString('>Bot<', $html);
     }
 
-    /** The rows are still there, so the totals must still agree. */
+    /** Nothing is discarded, so the breakdown has to total the view figure. */
     public function test_the_breakdown_totals_to_the_views_figure(): void
     {
         $advertiser = User::factory()->create([
@@ -75,7 +110,7 @@ class DeviceBreakdownTest extends TestCase
 
         $listing = Listing::factory()->create(['owner_id' => $advertiser->id]);
 
-        foreach (['desktop', 'bot', 'bot', 'mobile'] as $device) {
+        foreach (['desktop', 'desktop', 'desktop', 'mobile'] as $device) {
             $this->recordView($listing, $device);
         }
 
@@ -84,7 +119,6 @@ class DeviceBreakdownTest extends TestCase
 
         $this->assertSame(4, $performance['totals']['views']);
         $this->assertSame(4, array_sum($performance['devices']));
-        $this->assertSame(3, $performance['devices']['desktop']);
         $this->assertArrayNotHasKey('bot', $performance['devices']);
     }
 }

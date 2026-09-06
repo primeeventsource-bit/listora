@@ -16,9 +16,11 @@ namespace App\Support;
  * reading "unknown" understands it; an advertiser reading a confidently wrong
  * "Safari on Windows" does not.
  *
- * Bots are classified but NOT discarded here. Whether crawler traffic counts
- * as an advertisement view is a reporting decision, and it belongs in the
- * query that counts, not in the recorder that observes.
+ * Automated clients are recorded as desktop rather than as a category of
+ * their own. Crawler traffic is traffic that was paid for - a click bought
+ * from an ad network is billed whether a person or a bot made it - so it is
+ * counted like any other visit rather than set aside under a heading no one
+ * acts on. isBot() remains public for anything that needs the distinction.
  */
 class UserAgent
 {
@@ -40,8 +42,13 @@ class UserAgent
 
     private static function device(string $ua): string
     {
+        // Automated clients are recorded as desktop, not as a category of
+        // their own. The traffic is real and it was paid for - a click bought
+        // from an ad network was billed whether a crawler or a person made it
+        // - so it is counted, and reporting has one fewer heading nobody acts
+        // on. isBot() stays public for anything that needs the distinction.
         if (self::isBot($ua)) {
-            return 'bot';
+            return 'desktop';
         }
 
         // Tablets first: an iPad's UA also matches the mobile patterns, so
