@@ -101,7 +101,7 @@ class ListingPublisher
             'title' => $title,
             'description' => $draft->description ?: '',
 
-            'resort_name' => $draft->resort_name,
+            'property_name' => $draft->property_name,
             'club_name' => $draft->club_name,
             'city' => $draft->city ?: '',
             'state' => $draft->state,
@@ -137,7 +137,7 @@ class ListingPublisher
     private function fallbackTitle(ListingDraft $draft): string
     {
         $parts = array_filter([
-            $draft->resort_name ?: $draft->club_name,
+            $draft->property_name ?: $draft->club_name,
             $draft->city,
         ]);
 

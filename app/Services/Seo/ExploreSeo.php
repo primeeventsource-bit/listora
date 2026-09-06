@@ -326,7 +326,7 @@ final class ExploreSeo
                     'item_category'  => $listing->kind_label,
                     'item_category2' => $listing->mode === 'rent' ? 'Rent' : 'Own',
                     'item_category3' => $listing->region,
-                    'item_brand'     => $listing->resort_name ?: $listing->club_name ?: 'Private owner',
+                    'item_brand'     => $listing->property_name ?: $listing->club_name ?: 'Private owner',
                     'item_list_name' => $listName,
                     'index'          => $i + 1,
                     'price'          => round((float) $listing->price, 2),

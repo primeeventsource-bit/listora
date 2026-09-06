@@ -26,7 +26,7 @@
                     <dt>Owner</dt><dd>{{ $draft->owner_name }} · {{ $draft->owner_email }}
                         @if ($draft->phone) · {{ $draft->phone }} @endif</dd>
                     <dt>Kind</dt><dd>{{ $draft->kind }} · {{ $draft->mode }}</dd>
-                    <dt>Property</dt><dd>{{ $draft->resort_name ?: '—' }}</dd>
+                    <dt>Property</dt><dd>{{ $draft->property_name ?: '—' }}</dd>
                     <dt>Address</dt><dd>{{ $draft->address ?: '—' }}</dd>
                     @if ($draft->club_name)
                         <dt>Club</dt><dd>{{ $draft->club_name }}</dd>

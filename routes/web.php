@@ -27,12 +27,12 @@ use App\Http\Controllers\NewsletterSubscriptionController;
 use App\Http\Controllers\OfferController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\Owner\ListingController as OwnerListingController;
-use App\Http\Controllers\Owner\PerformanceController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\PressController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PropertyInformationController;
 use App\Http\Middleware\CaptureLandingAttribution;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 // ---------------------------------------------------------------------------
@@ -203,11 +203,13 @@ Route::middleware(['auth', 'terms.current'])
 
         Route::get('inquiries', [OwnerListingController::class, 'inquiries'])->name('inquiries.index');
 
-        // Advertising performance: what the member's advertising is doing, and
-        // roughly where the traffic is coming from. Reads ad_events through
-        // AdEvent::forMember(), which scopes to this advertiser's own listings
-        // and drops the visitor IP at the SQL level.
-        Route::get('performance', [PerformanceController::class, 'index'])->name('performance');
+        // Performance moved onto the dashboard. The route is kept as a
+        // redirect rather than deleted because it was linked from the member
+        // navigation for months: a bookmark or an old email should land on
+        // the numbers, not on a 404. The filter query string is carried over
+        // so a saved "last 90 days" link still means that.
+        Route::get('performance', fn (Request $request) => redirect()->route('dashboard', $request->query()))
+            ->name('performance');
     });
 
 // ---------------------------------------------------------------------------

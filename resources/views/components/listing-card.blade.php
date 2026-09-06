@@ -26,7 +26,7 @@
 
         <p class="card-fact">
             <b>{{ $listing->key_fact }}</b>
-            @if ($listing->resort_name) &middot; {{ $listing->resort_name }} @endif
+            @if ($listing->property_name) &middot; {{ $listing->property_name }} @endif
         </p>
 
         <div class="card-foot">

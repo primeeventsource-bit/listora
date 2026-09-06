@@ -24,7 +24,7 @@ class StoreListingDraftRequest extends FormRequest
             'owner_email' => ['required', 'email', 'max:190'],
             'phone' => ['nullable', 'string', 'max:40'],
 
-            'resort_name' => ['nullable', 'string', 'max:160'],
+            'property_name' => ['nullable', 'string', 'max:160'],
             'club_name' => ['nullable', 'string', 'max:160'],
             'city' => ['nullable', 'string', 'max:120'],
             'state' => ['nullable', 'string', 'max:64'],

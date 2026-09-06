@@ -11,6 +11,7 @@ use App\Models\Listing;
 use App\Models\ListingDraft;
 use App\Models\Offer;
 use App\Models\User;
+use App\Services\Advertising\MemberPerformance;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 
@@ -161,11 +162,21 @@ class DashboardController extends Controller
         ]);
     }
 
+    /**
+     * The advertiser's one screen.
+     *
+     * Performance used to be a separate page behind its own nav item, which
+     * split the two halves of the same question - is my advertising running,
+     * and is it doing anything - across two clicks. An advertiser signing in
+     * to check on what they paid for should not have to know that the numbers
+     * live somewhere else.
+     */
     private function owner(Request $request): View
     {
         $userId = $request->user()->id;
 
-        return view('dashboard-owner', [
+        return view('dashboard-owner', app(MemberPerformance::class)->forRequest($request, $userId) + [
+            'member' => $request->user(),
             'listings' => Listing::query()
                 ->ownedBy($userId)
                 ->withCount(['offers', 'inquiries'])

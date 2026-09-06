@@ -31,7 +31,7 @@
             <div>
                 <div class="detail-loc">
                     {{ $listing->location }}
-                    @if ($listing->resort_name) &middot; {{ $listing->resort_name }} @endif
+                    @if ($listing->property_name) &middot; {{ $listing->property_name }} @endif
                 </div>
 
                 <h1>{{ $listing->title }}</h1>

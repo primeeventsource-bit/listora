@@ -12,13 +12,17 @@ use Illuminate\Support\Str;
 use Tests\TestCase;
 
 /**
- * The advertiser's performance page.
+ * The advertiser's performance numbers, which now live on the dashboard.
  *
- * Section 5 of the privacy policy now tells every visitor, in public, that an
+ * Section 5 of the privacy policy tells every visitor, in public, that an
  * advertiser sees the approximate location of visits to their listings and
  * never sees an IP address. This file is what keeps that sentence true: the
- * page is a tenant boundary and a privacy boundary at once, and neither
+ * screen is a tenant boundary and a privacy boundary at once, and neither
  * failure would be visible by looking at it.
+ *
+ * These assertions moved from /account/performance to /dashboard when the two
+ * screens merged. They are the same guarantees about the same data - merging
+ * two pages must not quietly widen what one of them shows.
  */
 class MemberPerformanceTest extends TestCase
 {
@@ -63,7 +67,7 @@ class MemberPerformanceTest extends TestCase
         $this->recordView($listing, '203.0.113.6');
 
         $this->actingAs($advertiser)
-            ->get('/account/performance')
+            ->get('/dashboard')
             ->assertOk()
             ->assertSee($advertiser->ad_number)
             ->assertSee('Orlando, Florida, US')
@@ -86,7 +90,7 @@ class MemberPerformanceTest extends TestCase
         $this->recordView($listing, '198.51.100.77');
 
         $this->actingAs($advertiser)
-            ->get('/account/performance')
+            ->get('/dashboard')
             ->assertOk()
             ->assertDontSee('198.51.100.77');
     }
@@ -103,7 +107,7 @@ class MemberPerformanceTest extends TestCase
         $this->recordView($theirListing, '203.0.113.9', ['geo_city' => 'Reykjavik', 'geo_region' => 'Capital']);
         $this->recordView($theirListing, '203.0.113.10', ['geo_city' => 'Reykjavik', 'geo_region' => 'Capital']);
 
-        $html = $this->actingAs($mine)->get('/account/performance')->assertOk()->getContent();
+        $html = $this->actingAs($mine)->get('/dashboard')->assertOk()->getContent();
 
         $this->assertStringContainsString('My Property', $html);
         $this->assertStringNotContainsString('Their Property', $html);
@@ -120,13 +124,33 @@ class MemberPerformanceTest extends TestCase
         $mine = $this->advertiser('mine@listora1.test');
         $theirs = $this->advertiser('theirs@listora1.test');
 
+        // $mine needs a listing of their own: the dashboard routes an account
+        // that advertises nothing to the visitor view, which has no filter to
+        // test.
+        Listing::factory()->create(['owner_id' => $mine->id]);
+
         $theirListing = Listing::factory()->create(['owner_id' => $theirs->id]);
         $this->recordView($theirListing, '203.0.113.9', ['geo_city' => 'Reykjavik']);
 
         $this->actingAs($mine)
-            ->get('/account/performance?listing='.$theirListing->id)
+            ->get('/dashboard?listing='.$theirListing->id)
             ->assertOk()
             ->assertDontSee('Reykjavik');
+    }
+
+    /**
+     * The old address was in the member navigation for months. Someone has it
+     * bookmarked, and it should land on the numbers rather than a 404 - with
+     * the period they saved still applied.
+     */
+    public function test_the_old_performance_url_still_reaches_the_numbers(): void
+    {
+        $advertiser = $this->advertiser('mine@listora1.test');
+        Listing::factory()->create(['owner_id' => $advertiser->id]);
+
+        $this->actingAs($advertiser)
+            ->get('/account/performance?range=90d')
+            ->assertRedirect(route('dashboard', ['range' => '90d']));
     }
 
     public function test_the_period_filter_excludes_older_traffic(): void
@@ -138,12 +162,12 @@ class MemberPerformanceTest extends TestCase
 
         // Present in a 90-day window, absent from a 7-day one.
         $this->actingAs($advertiser)
-            ->get('/account/performance?range=90d')
+            ->get('/dashboard?range=90d')
             ->assertOk()
             ->assertSee('Orlando, Florida, US');
 
         $this->actingAs($advertiser)
-            ->get('/account/performance?range=7d')
+            ->get('/dashboard?range=7d')
             ->assertOk()
             ->assertDontSee('Orlando, Florida, US');
     }

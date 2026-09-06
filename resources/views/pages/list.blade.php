@@ -81,8 +81,8 @@
 
                 <div class="frow">
                     <div class="field">
-                        <label for="resort_name">Property name</label>
-                        <input type="text" id="resort_name" name="resort_name" value="{{ old('resort_name') }}" placeholder="Kaanapali Shores">
+                        <label for="property_name">Property name</label>
+                        <input type="text" id="property_name" name="property_name" value="{{ old('property_name') }}" placeholder="Kaanapali Shores">
                     </div>
                     {{-- Absent, not hidden, while those categories are
                          withheld. Markup a visitor cannot see is still markup

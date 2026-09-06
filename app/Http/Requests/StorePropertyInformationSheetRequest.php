@@ -38,7 +38,7 @@ class StorePropertyInformationSheetRequest extends FormRequest
             'owner_email' => ['required', 'email', 'max:190'],
             'phone' => ['nullable', 'string', 'max:40'],
 
-            'resort_name' => ['nullable', 'string', 'max:160'],
+            'property_name' => ['nullable', 'string', 'max:160'],
             'address' => ['nullable', 'string', 'max:200'],
             'club_name' => ['nullable', 'string', 'max:160'],
             'city' => ['nullable', 'string', 'max:120'],
@@ -53,7 +53,7 @@ class StorePropertyInformationSheetRequest extends FormRequest
         return [
             'owner_name' => 'name',
             'owner_email' => 'email address',
-            'resort_name' => 'property name',
+            'property_name' => 'property name',
             'address' => 'property address',
             'club_name' => 'club',
             'description' => 'details',

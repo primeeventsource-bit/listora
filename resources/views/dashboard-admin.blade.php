@@ -92,7 +92,7 @@
                                         {{ $draft->owner_name }}
                                         <div class="c-table__muted">{{ $draft->owner_email }}</div>
                                     </td>
-                                    <td>{{ $draft->resort_name ?: $draft->club_name ?: $draft->city ?: '—' }}</td>
+                                    <td>{{ $draft->property_name ?: $draft->club_name ?: $draft->city ?: '—' }}</td>
                                     <td><span class="c-pill c-pill--pending">{{ $draft->status?->label() }}</span></td>
                                     <td class="c-table__muted">{{ $draft->created_at?->diffForHumans() }}</td>
                                     <td class="c-table__num">
@@ -156,7 +156,7 @@
                     </div>
                     <div class="c-lcard__b">
                         <h3 class="c-lcard__t">{{ $listing->title }}</h3>
-                        <span class="c-lcard__loc">{{ collect([$listing->city, $listing->state])->filter()->implode(', ') ?: $listing->resort_name }}</span>
+                        <span class="c-lcard__loc">{{ collect([$listing->city, $listing->state])->filter()->implode(', ') ?: $listing->property_name }}</span>
                         <div class="c-lcard__stats">
                             <span class="c-lcard__stat">
                                 <span class="c-lcard__sv">{{ number_format($listing->views) }}</span>

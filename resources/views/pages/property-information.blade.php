@@ -53,10 +53,10 @@
             </div>
 
             <div class="field">
-                <label for="resort_name">Property name <span style="text-transform:none;font-weight:400">(optional)</span></label>
-                <input type="text" id="resort_name" name="resort_name" value="{{ old('resort_name') }}"
+                <label for="property_name">Property name <span style="text-transform:none;font-weight:400">(optional)</span></label>
+                <input type="text" id="property_name" name="property_name" value="{{ old('property_name') }}"
                        placeholder="Whatever the property is known as">
-                @error('resort_name')<span class="err">{{ $message }}</span>@enderror
+                @error('property_name')<span class="err">{{ $message }}</span>@enderror
             </div>
 
             {{-- The address is for verifying ownership, not for publishing. An

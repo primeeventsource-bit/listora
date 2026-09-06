@@ -1,51 +1,56 @@
 <?php
 
-namespace App\Http\Controllers\Owner;
+namespace App\Services\Advertising;
 
 use App\Enums\AdEventType;
-use App\Http\Controllers\Controller;
 use App\Models\AdEvent;
 use App\Models\Inquiry;
 use App\Models\Listing;
 use App\Models\Offer;
-use App\Services\Advertising\AdTrafficSource;
-use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 
 /**
- * Advertising performance for one advertiser.
+ * What one advertiser's advertising is doing.
  *
- * Every query here goes through AdEvent::forMember(), which scopes to the
- * viewer's own listings and drops ip_address at the SQL level. That is not
- * belt and braces: this page renders visitor geography, and the difference
- * between showing an advertiser "Orlando, Florida" and showing them a
- * visitor's IP address is the difference between analytics and surveillance.
- * Keeping the restriction in the scope rather than in each query means a
- * future panel added here inherits it.
+ * Extracted from Owner\PerformanceController when performance moved onto the
+ * dashboard. It is a service rather than a controller method because these
+ * numbers are the product - an advertiser paying up to $3,995 is buying
+ * exactly this - and they should be computed in one place that can be read
+ * and tested on its own.
  *
- * Location is labelled approximate everywhere it appears. It is derived from
- * IP and lands near the visitor's network, not the visitor.
+ * Every query goes through AdEvent::forMember(), which scopes to the viewer's
+ * own listings and drops ip_address at the SQL level. That is not belt and
+ * braces: this data includes visitor geography, and the difference between
+ * showing an advertiser "Orlando, Florida" and showing them a visitor's IP
+ * address is the difference between analytics and surveillance. Keeping the
+ * restriction in the scope rather than in each query means a panel added here
+ * later inherits it.
+ *
+ * Location is approximate everywhere it appears. It is derived from IP and
+ * lands near the visitor's network, not the visitor.
  */
-class PerformanceController extends Controller
+class MemberPerformance
 {
     /** Ranges offered in the filter, in days. Custom is handled separately. */
-    private const RANGES = [
+    public const RANGES = [
         'today' => 0,
         '7d' => 7,
         '30d' => 30,
         '90d' => 90,
     ];
 
-    public function index(Request $request): View
+    /**
+     * @return array<string, mixed> everything the dashboard's performance
+     *                              sections render
+     */
+    public function forRequest(Request $request, int $userId): array
     {
-        $user = $request->user();
-
         [$from, $to, $rangeKey] = $this->resolveRange($request);
 
         $listings = Listing::query()
-            ->ownedBy($user->id)
+            ->ownedBy($userId)
             ->orderBy('title')
             // slug is not decoration: Listing::getRouteKeyName() returns it,
             // so route('owner.listings.edit', $listing) cannot build a URL
@@ -54,24 +59,24 @@ class PerformanceController extends Controller
 
         // A listing filter is only honored when the listing is actually
         // theirs. Without the check, a guessed id would report someone else's
-        // traffic through this advertiser's own page.
+        // traffic through this advertiser's own screen.
         $listingId = $request->integer('listing') ?: null;
         $selected = $listingId ? $listings->firstWhere('id', $listingId) : null;
         $listingId = $selected?->id;
 
         $events = AdEvent::query()
-            ->forMember($user->id)
+            ->forMember($userId)
             ->between($from, $to)
             ->when($listingId, fn ($q) => $q->where('listing_id', $listingId))
             ->get();
 
         $views = $events->whereIn('event_type', AdEventType::views());
 
-        return view('owner.performance', [
-            'member' => $user,
-            'listings' => $listings,
+        return [
+            'perfListings' => $listings,
             'selectedListing' => $selected,
             'rangeKey' => $rangeKey,
+            'rangeLabel' => $this->rangeLabel($rangeKey, $from, $to),
             'from' => $from,
             'to' => $to,
 
@@ -81,8 +86,8 @@ class PerformanceController extends Controller
                 // returning three times is one visitor and three views, and
                 // conflating them overstates reach.
                 'visitors' => $views->pluck('visitor_id')->filter()->unique()->count(),
-                'inquiries' => $this->countInquiries($user->id, $from, $to, $listingId),
-                'offers' => $this->countOffers($user->id, $from, $to, $listingId),
+                'inquiries' => $this->countInquiries($userId, $from, $to, $listingId),
+                'offers' => $this->countOffers($userId, $from, $to, $listingId),
             ],
 
             'funnel' => $this->funnel($events),
@@ -94,7 +99,7 @@ class PerformanceController extends Controller
 
             'mapboxToken' => config('services.mapbox.token'),
             'mapboxStyle' => config('services.mapbox.style'),
-        ]);
+        ];
     }
 
     /** @return array{0:Carbon,1:Carbon,2:string} */
@@ -119,6 +124,18 @@ class PerformanceController extends Controller
         $key = array_key_exists($key, self::RANGES) ? $key : '30d';
 
         return [now()->subDays($days)->startOfDay(), now()->endOfDay(), $key];
+    }
+
+    /** Said in words, because the numbers beside it mean nothing without it. */
+    private function rangeLabel(string $key, Carbon $from, Carbon $to): string
+    {
+        return match ($key) {
+            'today' => 'today',
+            '7d' => 'in the last 7 days',
+            '90d' => 'in the last 90 days',
+            'custom' => 'from '.$from->format('j M Y').' to '.$to->format('j M Y'),
+            default => 'in the last 30 days',
+        };
     }
 
     private function parseDate(?string $value): ?Carbon

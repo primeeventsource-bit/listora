@@ -29,7 +29,7 @@ class PropertyInformationSheetTest extends TestCase
         'owner_name' => 'Dana Whitfield',
         'owner_email' => 'dana@example.com',
         'phone' => '555-0143',
-        'resort_name' => 'Kaanapali Shores',
+        'property_name' => 'Kaanapali Shores',
         'address' => '2481 Kaanapali Parkway, Unit 412',
         'city' => 'Lahaina',
         'state' => 'HI',
@@ -55,7 +55,7 @@ class PropertyInformationSheetTest extends TestCase
         $this->assertSame(ListingDraft::SOURCE_SHEET, $draft->source);
         $this->assertSame(DraftStatus::New, $draft->status);
         $this->assertSame('dana@example.com', $draft->owner_email);
-        $this->assertSame('Kaanapali Shores', $draft->resort_name);
+        $this->assertSame('Kaanapali Shores', $draft->property_name);
         $this->assertSame('2481 Kaanapali Parkway, Unit 412', $draft->address);
 
         // The form stopped asking, so the controller has to answer.

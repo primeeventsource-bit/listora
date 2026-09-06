@@ -61,8 +61,10 @@
                         ['dashboard', 'Dashboard', 'grid', null],
                     ],
                     'My advertising' => ($memberAdvertises ?? false) ? [
+                        // No Performance link. The numbers are on the
+                        // dashboard now, and a second entry pointing at the
+                        // same screen reads like a page somebody lost.
                         ['owner.listings.index', 'My listings', 'building', null],
-                        ['owner.performance', 'Performance', 'chart', null],
                     ] : [],
                     'Interest' => ($memberAdvertises ?? false) ? [
                         ['owner.inquiries.index', 'Inquiries', 'chat', $memberInquiries ?? null],

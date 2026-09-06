@@ -32,7 +32,7 @@ class ListingResource extends JsonResource
                 'state' => $this->state,
                 'country' => $this->country,
                 'region' => $this->region,
-                'resort_name' => $this->resort_name,
+                'property_name' => $this->property_name,
                 'club_name' => $this->club_name,
             ],
 

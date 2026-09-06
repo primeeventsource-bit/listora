@@ -84,8 +84,8 @@
                                     <a href="{{ $listing->publicUrl() }}" style="font-weight:600">{{ $listing->title }}</a>
                                     <div style="color:var(--slate);font-size:13.5px;margin-top:4px">
                                         {{ $listing->location }}
-                                        @if ($listing->resort_name)
-                                            &middot; {{ $listing->resort_name }}
+                                        @if ($listing->property_name)
+                                            &middot; {{ $listing->property_name }}
                                         @elseif ($listing->club_name)
                                             &middot; {{ $listing->club_name }}
                                         @endif

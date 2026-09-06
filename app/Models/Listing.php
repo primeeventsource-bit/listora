@@ -198,7 +198,7 @@ class Listing extends Model
 
         return $q->where(function (Builder $w) use ($t) {
             $w->where('title', 'like', $t)
-              ->orWhere('resort_name', 'like', $t)
+              ->orWhere('property_name', 'like', $t)
               ->orWhere('club_name', 'like', $t)
               ->orWhere('city', 'like', $t)
               ->orWhere('state', 'like', $t)

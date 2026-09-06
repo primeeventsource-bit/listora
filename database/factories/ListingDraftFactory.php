@@ -26,7 +26,7 @@ class ListingDraftFactory extends Factory
             'owner_email' => $this->faker->safeEmail(),
             'phone' => '+1 555 010 0000',
 
-            'resort_name' => $this->faker->company().' Resort',
+            'property_name' => $this->faker->company().' Resort',
             'city' => $this->faker->city(),
             'state' => $this->faker->stateAbbr(),
             'region' => 'Florida',

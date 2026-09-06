@@ -58,7 +58,7 @@
                                     <span class="muted">{{ $draft->owner_email }}</span>
                                 </td>
                                 <td>
-                                    {{ $draft->title ?: $draft->resort_name ?: $draft->club_name ?: '—' }}<br>
+                                    {{ $draft->title ?: $draft->property_name ?: $draft->club_name ?: '—' }}<br>
                                     <span class="muted">{{ $draft->city }} · {{ $draft->kind }}</span>
                                 </td>
                                 <td>{{ $draft->plan?->label() ?? '—' }}</td>
