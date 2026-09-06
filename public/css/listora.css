@@ -330,17 +330,17 @@ section.pad-sm{padding:64px 0}
 /* ---------- how-it-works: tab drives the steps ----------
    The selected button and the four cards it controls share one accent, so a
    click visibly lands on the 1-2-3-4 instead of swapping four cards that look
-   the same either way. Owner keeps the site's teal; traveler takes amber. */
+   the same either way. Owner keeps the site's teal; visitor takes amber. */
 .switch button.on[data-side="owner"]{box-shadow:inset 0 0 0 1.5px var(--teal),var(--sh-sm)}
-.switch button.on[data-side="traveler"]{box-shadow:inset 0 0 0 1.5px var(--amber),var(--sh-sm)}
+.switch button.on[data-side="visitor"]{box-shadow:inset 0 0 0 1.5px var(--amber),var(--sh-sm)}
 
 .steps .step-card{transition:border-color .3s var(--e),box-shadow .3s var(--e),transform .3s var(--e)}
 
 .steps.is-active .step-card{border-color:var(--teal);box-shadow:0 0 0 1px var(--teal),var(--sh-sm)}
 .steps.is-active .step-card .num{box-shadow:0 0 0 5px var(--teal-tint)}
 
-.steps-traveler.is-active .step-card{border-color:var(--amber);box-shadow:0 0 0 1px var(--amber),var(--sh-sm)}
-.steps-traveler.is-active .step-card .num{background:var(--amber);color:var(--navy);box-shadow:0 0 0 5px var(--amber-tint)}
+.steps-visitor.is-active .step-card{border-color:var(--amber);box-shadow:0 0 0 1px var(--amber),var(--sh-sm)}
+.steps-visitor.is-active .step-card .num{background:var(--amber);color:var(--navy);box-shadow:0 0 0 5px var(--amber-tint)}
 
 /* The accent arrives one card at a time so the eye is carried 1 -> 4 rather
    than having the whole row change at once.

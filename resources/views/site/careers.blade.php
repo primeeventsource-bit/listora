@@ -9,7 +9,7 @@
         <span class="eyebrow">Careers</span>
         <h1>Work on something straightforward</h1>
         <p>
-            We're a small team building a marketplace that takes no commission and stays out of
+            We're a small team building a platform that takes no commission and stays out of
             other people's deals. That constraint shapes everything we make.
         </p>
     </div>

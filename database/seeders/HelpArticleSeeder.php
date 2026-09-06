@@ -43,7 +43,7 @@ class HelpArticleSeeder extends Seeder
                 'summary' => 'Listora advertises vacation properties. It is not a broker, an agency, or a booking site.',
                 'search_keywords' => 'what is listora, broker, agency, commission, advertising platform, advertise',
                 'body' => <<<'TXT'
-Listora is an advertising marketplace. Owners pay one flat fee to publish a listing for 180 days, and travelers and buyers browse those listings and contact the owner directly.
+Listora is an advertising platform. Owners pay one flat fee to publish a listing for 180 days, and visitors and buyers browse those listings and contact the owner directly.
 
 That is the whole model, and the things it rules out matter as much as the things it includes:
 

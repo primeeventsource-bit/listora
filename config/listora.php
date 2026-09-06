@@ -4,7 +4,7 @@ return [
 
     'brand' => [
         'name'    => 'Listora',
-        'tagline' => 'Where owners and travelers meet directly.',
+        'tagline' => 'Where owners and visitors meet directly.',
         'domain'  => 'listora1.com',
 
         // The one published address. Every page, the footer, and the Help
@@ -42,7 +42,7 @@ return [
     |--------------------------------------------------------------------------
     | Advertising plans
     |--------------------------------------------------------------------------
-    | Listora is an advertising marketplace. Owners pay one flat fee for a
+    | Listora is an advertising platform. Owners pay one flat fee for a
     | 12-month listing. No commission is ever taken from the transaction.
     */
     /*

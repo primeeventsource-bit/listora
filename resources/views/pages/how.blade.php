@@ -9,7 +9,7 @@
     <div class="wrap">
         <span class="eyebrow">How it works</span>
         <h1>Publish it. Own the conversation.</h1>
-        <p>Listora is an advertising marketplace. Owners pay once to be seen; travelers and buyers deal with them directly. Nobody stands in the middle taking a percentage.</p>
+        <p>Listora is an advertising platform. Owners pay once to be seen; visitors and buyers deal with them directly. Nobody stands in the middle taking a percentage.</p>
     </div>
 </div>
 
@@ -17,7 +17,7 @@
     <div class="wrap">
         <div class="switch reveal" id="howSwitch">
             <button class="on" data-side="owner">For owners</button>
-            <button data-side="traveler">For visitors</button>
+            <button data-side="visitor">For visitors</button>
         </div>
 
         <div class="steps" id="stepsOwner">
@@ -43,7 +43,7 @@
             </div></div>
         </div>
 
-        <div class="steps" id="stepsTraveler" hidden>
+        <div class="steps" id="stepsVisitor" hidden>
             <div class="step reveal"><span class="n">01</span><div>
                 <h3>Search by what you want</h3>
                 <p>Filter by destination, region, size, and whether it is available to rent or to own. Every listing shows the same facts in the same places, so you are comparing like for like rather than reading around whatever each owner chose to mention.</p>

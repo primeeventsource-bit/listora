@@ -59,7 +59,7 @@
                     ['We will never cold-call you', 'If you list with us, the only calls you get are from people who read your listing and want to talk about it.'],
                     ['We will never publish unverified', 'Every listing has had its ownership documents checked against its details. Buyers rely on that and so do honest owners.'],
                     ['We will never take payment for a deal', 'Money moves between you and the other party. Anyone claiming Listora needs your funds is not us — tell us immediately.'],
-                    ['We will never sell placement', 'Property managers and developers cannot pay to appear higher. Ranking is driven by the plan an owner chose and how travelers respond.'],
+                    ['We will never sell placement', 'Property managers and developers cannot pay to appear higher. Ranking is driven by the plan an owner chose and how visitors respond.'],
                 ];
             @endphp
 

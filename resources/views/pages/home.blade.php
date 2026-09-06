@@ -147,7 +147,7 @@
         <div class="grid {{ $showTimeshare ? 'g3' : 'g1' }}">
             @php
                 $cats = array_values(array_filter([
-                    ['home',   'Vacation Properties', 'Advertise your property and get connected with interested travelers.',
+                    ['home',   'Vacation Properties', 'Advertise your property and get connected with interested visitors.',
                         '<path d="M3 10.5 12 3l9 7.5V21H3z"/><path d="M9.5 21v-6h5v6"/>'],
                     $showTimeshare ? ['points', 'Resort Club Points',  'List your available points and connect with potential buyers.',
                         '<path d="M12 3l2.7 5.8 6.3.8-4.6 4.3 1.2 6.3L12 17.2 6.4 20.2l1.2-6.3L3 9.6l6.3-.8L12 3z"/>'] : null,
@@ -209,7 +209,7 @@
         </div>
 
         {{--
-            The two sides carry different accents (owner teal, traveler amber)
+            The two sides carry different accents (owner teal, visitor amber)
             and each button hands its accent to the four steps it controls, so
             clicking a tab visibly changes the 1-2-3-4 underneath rather than
             swapping four identical-looking cards. `aria-pressed` and
@@ -220,8 +220,8 @@
             <div class="switch reveal" id="howSwitch" role="group" aria-label="Whose steps to show">
                 <button type="button" class="on" data-side="owner"
                         aria-pressed="true" aria-controls="stepsOwner">I'm advertising</button>
-                <button type="button" data-side="traveler"
-                        aria-pressed="false" aria-controls="stepsTraveler">I'm looking</button>
+                <button type="button" data-side="visitor"
+                        aria-pressed="false" aria-controls="stepsVisitor">I'm looking</button>
             </div>
         </div>
 
@@ -248,7 +248,7 @@
             @endforeach
         </div>
 
-        <div class="grid g4 steps steps-traveler" id="stepsTraveler" hidden>
+        <div class="grid g4 steps steps-visitor" id="stepsVisitor" hidden>
             @foreach ([
                 ['Find a property', 'Browse vacation properties advertised by owners across popular destinations. Filter by destination, region, size, and availability.'],
                 ['Read a real listing', 'Owners write their own descriptions. You\'ll learn which corner catches the breeze and which month to avoid.'],
@@ -333,7 +333,7 @@
         <div class="grid g3">
             @foreach ([
                 ['I\'d advertised my place in three other spots and got nothing but calls from companies wanting money up front. Here I paid once, a real family messaged me in nine days, and that was that.', 'DM', 'Denise M.', 'Advertiser · Hilton Head, SC'],
-                ['The listings actually tell you what you are getting. I messaged the owner in Maui, we agreed dates in a day, and there was nobody in the middle taking a cut.', 'RT', 'Raymond T.', 'Traveler · Denver, CO'],
+                ['The listings actually tell you what you are getting. I messaged the owner in Maui, we agreed dates in a day, and there was nobody in the middle taking a cut.', 'RT', 'Raymond T.', 'Visitor · Denver, CO'],
                 ['Verification took two days and they caught that my listing had the wrong availability on it. Fixing that before publishing probably saved me a very awkward conversation.', 'AP', 'Angela P.', 'Advertiser · Orlando, FL'],
             ] as [$text, $ini, $name, $role])
                 <div class="quote reveal">

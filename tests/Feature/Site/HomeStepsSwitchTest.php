@@ -12,7 +12,7 @@ use Tests\TestCase;
  * server paints is not, and it is the half that has to be right before any
  * script runs: the selected button and the visible step set must agree on
  * first load. If they drift, the page opens showing the owner's steps with the
- * traveler's tab lit, or vice versa.
+ * visitor's tab lit, or vice versa.
  */
 class HomeStepsSwitchTest extends TestCase
 {
@@ -32,13 +32,13 @@ class HomeStepsSwitchTest extends TestCase
         $this->assertStringContainsString('class="grid g4 steps steps-owner is-active" id="stepsOwner"', $html);
     }
 
-    public function test_the_traveler_steps_start_hidden_and_unaccented(): void
+    public function test_the_visitor_steps_start_hidden_and_unaccented(): void
     {
         $html = $this->get('/')->assertOk()->getContent();
 
-        $this->assertStringContainsString('class="grid g4 steps steps-traveler" id="stepsTraveler" hidden', $html);
-        $this->assertStringContainsString('data-side="traveler"', $html);
-        $this->assertMatchesRegularExpression('/data-side="traveler"[^>]*aria-pressed="false"/', $html);
+        $this->assertStringContainsString('class="grid g4 steps steps-visitor" id="stepsVisitor" hidden', $html);
+        $this->assertStringContainsString('data-side="visitor"', $html);
+        $this->assertMatchesRegularExpression('/data-side="visitor"[^>]*aria-pressed="false"/', $html);
     }
 
     /**
@@ -59,10 +59,10 @@ class HomeStepsSwitchTest extends TestCase
     {
         $html = $this->get('/')->assertOk()->getContent();
 
-        preg_match('#id="stepsOwner".*?id="stepsTraveler"#s', $html, $ownerBlock);
+        preg_match('#id="stepsOwner".*?id="stepsVisitor"#s', $html, $ownerBlock);
         $this->assertSame(4, substr_count($ownerBlock[0], '<span class="num">'));
 
-        preg_match('#id="stepsTraveler".*?</section>#s', $html, $travelerBlock);
-        $this->assertSame(4, substr_count($travelerBlock[0], '<span class="num">'));
+        preg_match('#id="stepsVisitor".*?</section>#s', $html, $visitorBlock);
+        $this->assertSame(4, substr_count($visitorBlock[0], '<span class="num">'));
     }
 }

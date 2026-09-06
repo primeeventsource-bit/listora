@@ -48,7 +48,7 @@
 
     if (howSwitch) {
         var owner = document.getElementById('stepsOwner');
-        var traveler = document.getElementById('stepsTraveler');
+        var visitor = document.getElementById('stepsVisitor');
 
         howSwitch.addEventListener('click', function (e) {
             var btn = e.target.closest('button');
@@ -63,10 +63,10 @@
 
             var isOwner = btn.dataset.side === 'owner';
             if (owner) owner.hidden = !isOwner;
-            if (traveler) traveler.hidden = isOwner;
+            if (visitor) visitor.hidden = isOwner;
 
-            var shown = isOwner ? owner : traveler;
-            var hiddenSteps = isOwner ? traveler : owner;
+            var shown = isOwner ? owner : visitor;
+            var hiddenSteps = isOwner ? visitor : owner;
 
             // `is-active` carries the accent onto the four numbered cards;
             // `is-switched` carries the entrance animation and is added only

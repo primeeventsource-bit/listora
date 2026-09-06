@@ -2,7 +2,7 @@
     $faqs = $faqs ?? [
         [
             'Do you take a commission when my listing sells or rents?',
-            'No. Listora is an advertising marketplace, not a broker. You pay one flat fee to publish a listing and that is the only money we ever take. When you agree terms with a traveler or buyer, the full amount is yours.',
+            'No. Listora is an advertising platform, not a broker. You pay one flat fee to publish a listing and that is the only money we ever take. When you agree terms with a visitor or buyer, the full amount is yours.',
         ],
         [
             'How do people contact me?',
