@@ -32,10 +32,26 @@ enum ContactDepartment: string
     }
 
     /** @return array<string, string> value => label, for a <select>. */
+    /**
+     * Departments offered on the contact form.
+     *
+     * ClubPoints is withheld while those categories are - a "Club Points &
+     * Weeks" option in a public dropdown advertises a service the site does
+     * not currently provide, and it was one of the things a payment
+     * underwriter read when classifying the business.
+     *
+     * The case stays defined so existing messages filed against it keep their
+     * label in the console, and so it returns with the categories.
+     */
     public static function options(): array
     {
         $out = [];
+
         foreach (self::cases() as $case) {
+            if ($case === self::ClubPoints && ! \App\Models\Listing::timeshareOffered()) {
+                continue;
+            }
+
             $out[$case->value] = $case->label();
         }
 

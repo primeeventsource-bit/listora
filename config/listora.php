@@ -49,7 +49,7 @@ return [
         'essential' => [
             'name'     => 'Essential',
             'price'    => 89,
-            'blurb'    => 'Everything you need to advertise one property, points package, or week.',
+            'blurb'    => 'Everything you need to advertise one vacation property.',
             'features' => [
                 'Live for 12 full months',
                 'Ownership verified before publishing',

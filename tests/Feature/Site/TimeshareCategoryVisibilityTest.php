@@ -143,4 +143,41 @@ class TimeshareCategoryVisibilityTest extends TestCase
         $this->assertStringNotContainsString(">Resort Club Points<", $html);
         $this->assertStringNotContainsString(">Vacation Weeks<", $html);
     }
+    /**
+     * The whole public site, read as source rather than as rendered text.
+     *
+     * Three earlier sweeps declared this clean by checking visible copy. A
+     * payment underwriter read the HTML and classified the business on what
+     * was in meta tags, structured data, hidden inputs, a config blurb and a
+     * contact-form dropdown - none of which a visitor ever sees. This checks
+     * the thing that was actually being read.
+     */
+    public function test_no_withheld_category_appears_anywhere_in_the_public_source(): void
+    {
+        $terms = [
+            "resort club points", "club points", "points balance", "vacation week",
+            "timeshare", "club statement", "club_name", "week_number", "usage year",
+            "points package", "deeded week",
+        ];
+
+        $pages = [
+            "/", "/browse", "/how-it-works", "/pricing", "/about", "/help",
+            "/inventory", "/list-your-property", "/property-information",
+            "/legal/tos", "/legal/privacy", "/legal/advertising-agreement",
+        ];
+
+        $found = [];
+
+        foreach ($pages as $page) {
+            $html = strtolower($this->get($page)->getContent());
+
+            foreach ($terms as $term) {
+                if (str_contains($html, $term)) {
+                    $found[] = $page . " contains " . $term;
+                }
+            }
+        }
+
+        $this->assertSame([], $found, "Withheld categories are still in the page source:" . PHP_EOL . implode(PHP_EOL, $found));
+    }
 }

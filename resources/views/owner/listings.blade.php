@@ -25,7 +25,7 @@
         @if ($listings->isEmpty())
             <p class="muted">
                 Nothing here yet.
-                <a href="{{ route('list.create') }}">Advertise a property, points package, or week</a>.
+                <a href="{{ route('list.create') }}">Advertise a vacation property</a>.
             </p>
         @else
             <div class="table-wrap">
