@@ -34,7 +34,8 @@
                 </p>
                 <p class="muted">
                     Listora charges one flat fee to advertise for 180 days and earns nothing else, from anyone.
-                    We do not take commission, we do not sell leads, and we accept no payment from resorts or
+                    We do not take commission, we do not sell leads, and we accept no payment from property
+                    managers or
                     developers for placement. That constraint is the product.
                 </p>
             </div>
@@ -58,7 +59,7 @@
                     ['We will never cold-call you', 'If you list with us, the only calls you get are from people who read your listing and want to talk about it.'],
                     ['We will never publish unverified', 'Every listing has had its ownership documents checked against its details. Buyers rely on that and so do honest owners.'],
                     ['We will never take payment for a deal', 'Money moves between you and the other party. Anyone claiming Listora needs your funds is not us — tell us immediately.'],
-                    ['We will never sell placement', 'Resorts and developers cannot pay to appear higher. Ranking is driven by the plan an owner chose and how travelers respond.'],
+                    ['We will never sell placement', 'Property managers and developers cannot pay to appear higher. Ranking is driven by the plan an owner chose and how travelers respond.'],
                 ];
             @endphp
 
@@ -106,9 +107,9 @@
     <div class="wrap">
         <div class="grid g4">
             <div class="reveal"><div style="font-family:var(--font);font-size:44px;color:var(--teal-dark)">{{ number_format($total) }}</div><div class="muted" style="font-size:13px;letter-spacing:.14em;text-transform:uppercase;font-weight:600">Live listings</div></div>
-            <div class="reveal"><div style="font-family:var(--font);font-size:44px;color:var(--teal-dark)">1,840</div><div class="muted" style="font-size:13px;letter-spacing:.14em;text-transform:uppercase;font-weight:600">Resorts represented</div></div>
+            <div class="reveal"><div style="font-family:var(--font);font-size:44px;color:var(--teal-dark)">{{ number_format($regions) }}</div><div class="muted" style="font-size:13px;letter-spacing:.14em;text-transform:uppercase;font-weight:600">{{ Str::plural('Destination', $regions) }}</div></div>
             <div class="reveal"><div style="font-family:var(--font);font-size:44px;color:var(--teal-dark)">$0</div><div class="muted" style="font-size:13px;letter-spacing:.14em;text-transform:uppercase;font-weight:600">Commission taken</div></div>
-            <div class="reveal"><div style="font-family:var(--font);font-size:44px;color:var(--teal-dark)">100%</div><div class="muted" style="font-size:13px;letter-spacing:.14em;text-transform:uppercase;font-weight:600">Ownership verified</div></div>
+            <div class="reveal"><div style="font-family:var(--font);font-size:44px;color:var(--teal-dark)">{{ $verified_pct }}%</div><div class="muted" style="font-size:13px;letter-spacing:.14em;text-transform:uppercase;font-weight:600">Ownership verified</div></div>
         </div>
     </div>
 </section>

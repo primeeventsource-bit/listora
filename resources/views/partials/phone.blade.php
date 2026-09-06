@@ -19,7 +19,7 @@
 
             <div class="ph-search">
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.6-3.6"/></svg>
-                Search destinations, resorts, clubs
+                Search destinations, cities, properties
             </div>
 
             <div class="ph-body" style="padding-top:0">

@@ -73,7 +73,7 @@
     <div class="wrap">
         <span class="eyebrow">How we make money</span>
         <h2>Listing fees. That's the whole business model.</h2>
-        <p>We charge owners a flat fee to advertise for 180 days. We take nothing from the transaction, sell no leads, and accept no payment from resorts or developers for placement. If a listing doesn't work, we'd rather renew it cheaply than take another full fee.</p>
+        <p>We charge owners a flat fee to advertise for 180 days. We take nothing from the transaction, sell no leads, and accept no payment from property managers or developers for placement. If a listing doesn't work, we'd rather renew it cheaply than take another full fee.</p>
         <a href="{{ route('pricing') }}" class="btn btn-glass btn-lg">See the three plans</a>
     </div>
 </div>
