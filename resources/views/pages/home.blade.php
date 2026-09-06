@@ -139,8 +139,8 @@
             <span class="eyebrow">How Listora works</span>
             <h2>Advertise your property</h2>
             <p>
-                Create your property advertisement, showcase your availability, receive inquiries and
-                offers, and communicate directly — through one easy-to-use platform.
+                We create your property advertisement, showcase your availability, you receive
+                inquiries and offers, and communicate directly — through one easy-to-use platform.
             </p>
         </div>
 
