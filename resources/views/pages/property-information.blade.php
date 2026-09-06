@@ -126,7 +126,8 @@
             <p class="muted" style="margin-top:22px">
                 Know exactly what you want already? The
                 <a href="{{ route('list.create') }}">full listing form</a> takes about ten
-                minutes and lets you write the listing and pick a plan yourself.
+                minutes and lets you send every detail and pick a plan yourself. Either way,
+                our team writes the advertisement from what you send.
             </p>
         </form>
 

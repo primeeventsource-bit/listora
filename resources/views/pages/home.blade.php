@@ -186,8 +186,8 @@
         <div class="sec-head-row reveal">
             <div class="sec-head" style="max-width:620px">
                 <span class="eyebrow">Featured listings</span>
-                <h2>Hand-picked, owner published</h2>
-                <p>Every listing here was written by its owner and verified by our team before it went live.</p>
+                <h2>Hand-picked, owner verified</h2>
+                <p>Every advertisement here is built by our team from the owner's own details, with ownership verified before it goes live.</p>
             </div>
             <a href="{{ route('listings.index') }}" class="btn btn-outline">View all listings</a>
         </div>
@@ -251,7 +251,7 @@
         <div class="grid g4 steps steps-visitor" id="stepsVisitor" hidden>
             @foreach ([
                 ['Find a property', 'Browse vacation properties advertised by owners across popular destinations. Filter by destination, region, size, and availability.'],
-                ['Read a real listing', 'Owners write their own descriptions. You\'ll learn which corner catches the breeze and which month to avoid.'],
+                ['Read a real listing', 'The details come from the owner, not a stock description. You\'ll learn which corner catches the breeze and which month to avoid.'],
                 ['Submit an inquiry or make an offer', 'Your message reaches one person: the advertiser. It is never resold as a lead and nobody calls you afterwards.'],
                 ['Agree terms directly', 'You and the owner settle dates, price, and paperwork between yourselves — we publish guidance on doing it safely.'],
             ] as $i => [$t, $d])

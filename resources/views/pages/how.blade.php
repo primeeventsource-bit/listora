@@ -49,8 +49,8 @@
                 <p>Filter by destination, region, size, and whether it is available to rent or to own. Every listing shows the same facts in the same places, so you are comparing like for like rather than reading around whatever each owner chose to mention.</p>
             </div></div>
             <div class="step reveal"><span class="n">02</span><div>
-                <h3>Read a listing written by a person</h3>
-                <p>Owners write their own descriptions and we don't rewrite them. You'll find out which corner of the building catches the breeze, which weeks the whales come through, and which month the owner would quietly avoid.</p>
+                <h3>Read a listing that came from the owner</h3>
+                <p>What it says comes from the owner rather than from a stock description. You'll find out which corner of the building catches the breeze, which weeks the whales come through, and which month the owner would quietly avoid. Our team writes it up and checks it before it publishes.</p>
             </div></div>
             <div class="step reveal"><span class="n">03</span><div>
                 <h3>Message the owner, not a call center</h3>
