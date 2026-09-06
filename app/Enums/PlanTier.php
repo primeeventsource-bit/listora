@@ -29,7 +29,6 @@ enum PlanTier: string
         };
     }
 
-    /** How many months of advertising the plan runs for. */
     /**
      * How long an advertising term runs.
      *
