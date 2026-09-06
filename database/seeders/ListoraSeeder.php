@@ -191,7 +191,7 @@ class ListoraSeeder extends Seeder
         return [
             // ---------------------------------------------------- vacation homes
             [
-                'kind' => 'home', 'mode' => 'rent', 'plan' => 'premier', 'is_featured' => true,
+                'kind' => 'home', 'mode' => 'rent', 'plan' => 'signature', 'is_featured' => true,
                 'title' => 'Oceanfront Villa on Seven Mile Beach',
                 'headline' => 'Wake up eleven steps from the water, with the whole beach still empty.',
                 'description' => "We bought this villa in 2009 and have spent every February here since. It sits on the quiet northern end of Seven Mile Beach, far enough from the hotels that mornings belong to you and close enough to walk to dinner.\n\nThe main living space opens completely to the terrace, so the sound of the water carries through the house all day. The kitchen is fully equipped and the primary suite faces the sunset. We leave snorkel gear, beach chairs, and a cooler in the storage closet for guests.\n\nWe handle every booking ourselves and are happy to talk through the island before you commit.",
@@ -204,7 +204,7 @@ class ListoraSeeder extends Seeder
                 'photos' => $this->pick('beach', 5, 0),
             ],
             [
-                'kind' => 'home', 'mode' => 'rent', 'plan' => 'featured', 'is_featured' => true,
+                'kind' => 'home', 'mode' => 'rent', 'plan' => 'explorer', 'is_featured' => true,
                 'title' => 'Wailea Point Two-Bedroom with Sunset Lanai',
                 'headline' => 'Corner unit, top floor, and the lanai faces exactly where the sun goes down.',
                 'description' => "This is our family's place on Maui and we rent the weeks we can't use. It's a corner residence on the top floor, which means cross-breeze through the whole unit and no one above you.\n\nThe lanai is the reason we bought it. From November through March you can watch whales from the chair in the corner without getting up. The grounds have three pools, and the beach path takes about four minutes on foot.\n\nSeven-night minimum. We're flexible on arrival day.",
@@ -217,7 +217,7 @@ class ListoraSeeder extends Seeder
                 'photos' => $this->pick('ocean', 4, 0),
             ],
             [
-                'kind' => 'home', 'mode' => 'rent', 'plan' => 'featured',
+                'kind' => 'home', 'mode' => 'rent', 'plan' => 'explorer',
                 'title' => 'Cliffside House Above the Algarve',
                 'headline' => 'A whitewashed house on the cliff road, with the cove staircase in the garden.',
                 'description' => "Four bedrooms across two levels, built into the cliff so every room looks out at the Atlantic. The lower terrace has a plunge pool and the upper one has the long table where everyone ends up.\n\nThere is a private staircase from the garden down to a cove that almost nobody uses. Albufeira is fifteen minutes by car, Faro airport about forty.\n\nWe live in Lisbon and have a caretaker on site who meets every guest.",
@@ -230,7 +230,7 @@ class ListoraSeeder extends Seeder
                 'photos' => $this->pick('aerial', 4, 2),
             ],
             [
-                'kind' => 'home', 'mode' => 'own', 'plan' => 'premier', 'is_featured' => true,
+                'kind' => 'home', 'mode' => 'own', 'plan' => 'signature', 'is_featured' => true,
                 'title' => 'Coronado Bay Residence, Bayfront Corner',
                 'headline' => 'Deeded bayfront residence with the bridge and the skyline out the window.',
                 'description' => "We are selling our residence at Coronado Bay after eleven years. It is a deeded corner unit on the seventh floor with unobstructed bay views and a slip available through the marina waitlist.\n\nThe building completed a full exterior renovation in 2024, already paid for and assessed. HOA covers water, insurance, and the grounds.\n\nWe are happy to share the last three years of statements with any serious buyer.",
@@ -243,7 +243,7 @@ class ListoraSeeder extends Seeder
                 'photos' => $this->pick('suite', 4, 0),
             ],
             [
-                'kind' => 'home', 'mode' => 'rent', 'plan' => 'essential',
+                'kind' => 'home', 'mode' => 'rent', 'plan' => 'starter',
                 'title' => 'Torch Lake Cottage with Private Dock',
                 'headline' => 'The water here really is that color. The dock is yours for the week.',
                 'description' => "Our family cottage on the east arm of Torch Lake, in the family since 1974 and updated properly in 2023. Three bedrooms, a screened porch that gets used more than the living room, and 90 feet of private frontage.\n\nThe dock holds two boats and there's a sandbar a short swim out where everyone congregates on Saturdays. Traverse City is thirty minutes.\n\nSaturday to Saturday, June through September.",
@@ -256,7 +256,7 @@ class ListoraSeeder extends Seeder
                 'photos' => $this->pick('lake', 4, 0),
             ],
             [
-                'kind' => 'home', 'mode' => 'rent', 'plan' => 'featured',
+                'kind' => 'home', 'mode' => 'rent', 'plan' => 'explorer',
                 'title' => 'Ski-In Cabin at Summit Ridge',
                 'headline' => 'Boots on at the door, first chair in nine minutes.',
                 'description' => "A proper timber cabin twenty yards off the Meadowlark run. Four bedrooms, a boot room with heated racks, and a stone fireplace that heats the whole main level.\n\nWe've owned it since 2017 and rent roughly twelve weeks a year. Summer is quieter and honestly better value — the lift runs for mountain biking and the deck gets sun until nine.\n\nThree-night minimum, seven nights over holiday weeks.",
@@ -269,7 +269,7 @@ class ListoraSeeder extends Seeder
                 'photos' => $this->pick('cabin', 5, 0),
             ],
             [
-                'kind' => 'home', 'mode' => 'rent', 'plan' => 'essential',
+                'kind' => 'home', 'mode' => 'rent', 'plan' => 'starter',
                 'title' => 'Desert Star Casita with Mountain Views',
                 'headline' => 'Quiet end of the resort, McDowell range filling the back window.',
                 'description' => "A one-bedroom casita on the north edge of Desert Star, where the buildings stop and the preserve begins. Private patio with a plunge pool and an outdoor shower.\n\nWe use it in spring and rent the rest of the year. January through April books quickly; summer rates are half and the pool is genuinely usable at night.\n\nGolf is on site and the trailhead is a five-minute walk.",
@@ -282,7 +282,7 @@ class ListoraSeeder extends Seeder
                 'photos' => $this->pick('desert', 4, 0),
             ],
             [
-                'kind' => 'home', 'mode' => 'own', 'plan' => 'featured',
+                'kind' => 'home', 'mode' => 'own', 'plan' => 'explorer',
                 'title' => 'Marco Island Gulf-Front Condominium',
                 'headline' => 'Eighth floor, due west, nothing between the balcony and the Gulf.',
                 'description' => "Selling our Gulf-front residence at Sandpiper Cay. Two bedrooms, two baths, renovated in 2022 with impact glass throughout and a kitchen that opens to the living space.\n\nThe building is one of only four on this stretch with direct beach access rather than a road crossing. Covered parking space conveys.\n\nWe are motivated but not distressed — we simply spend our winters in Portugal now.",
@@ -297,7 +297,7 @@ class ListoraSeeder extends Seeder
 
             // ----------------------------------------------------- club points
             [
-                'kind' => 'points', 'mode' => 'rent', 'plan' => 'premier', 'is_featured' => true,
+                'kind' => 'points', 'mode' => 'rent', 'plan' => 'signature', 'is_featured' => true,
                 'title' => '3,750 Coral Cay Club Points for 2027 Use',
                 'headline' => 'Enough for a two-bedroom in high season, or three shorter stays across the year.',
                 'description' => "I have 3,750 Coral Cay Club points sitting in my 2027 balance that I will not be able to use. Rather than let them expire I would rather someone get a real trip out of them.\n\nWhat this actually buys: a two-bedroom oceanfront for seven nights at Kaanapali Shores in shoulder season, or a one-bedroom for a full week in Grand Cayman during high season, or three separate long weekends if you would rather spread them out.\n\nI book the reservation in your name directly through the club once we agree on dates. I have done this eleven times through this site and can put you in touch with previous guests.",
@@ -312,7 +312,7 @@ class ListoraSeeder extends Seeder
                 'photos' => $this->pick('beach', 4, 3),
             ],
             [
-                'kind' => 'points', 'mode' => 'rent', 'plan' => 'featured',
+                'kind' => 'points', 'mode' => 'rent', 'plan' => 'explorer',
                 'title' => '2,200 Summit Ridge Points — Winter Availability',
                 'headline' => 'Ski season points at a mountain club that rarely has open inventory.',
                 'description' => "2,200 points in the Summit Ridge Collection, available for winter 2027 dates. Summit Ridge is difficult to book from outside the club, which is the main reason these are worth having.\n\n2,200 gets you a two-bedroom for five nights in January or a one-bedroom for a full week. Park City and Avon are both in the collection.\n\nI reserve in your name at the eleven-month window, so the earlier we talk the better the inventory.",
@@ -327,7 +327,7 @@ class ListoraSeeder extends Seeder
                 'photos' => $this->pick('ski', 4, 0),
             ],
             [
-                'kind' => 'points', 'mode' => 'own', 'plan' => 'featured', 'is_featured' => true,
+                'kind' => 'points', 'mode' => 'own', 'plan' => 'explorer', 'is_featured' => true,
                 'title' => '5,000 Annual Blue Harbour Points — Full Transfer',
                 'headline' => 'A complete membership transfer, deeded at Wailea Point, annual allocation.',
                 'description' => "Transferring my full Blue Harbour membership: 5,000 points annually, deeded at Wailea Point, with no loan against it and all dues current through 2027.\n\n5,000 points a year comfortably covers two weeks in a two-bedroom at most collection properties, or one week in a three-bedroom during high season. The collection includes Wailea, Coronado, and Cabo Azul.\n\nAnnual dues are $2,340. I will cover the club's transfer fee at closing. Happy to walk any serious buyer through the last five years of statements.",
@@ -341,7 +341,7 @@ class ListoraSeeder extends Seeder
                 'photos' => $this->pick('pool', 4, 0),
             ],
             [
-                'kind' => 'points', 'mode' => 'rent', 'plan' => 'essential',
+                'kind' => 'points', 'mode' => 'rent', 'plan' => 'starter',
                 'title' => '1,500 Aurora Points, Expiring December',
                 'headline' => 'Priced to move before they expire — good for a long weekend anywhere in the collection.',
                 'description' => "1,500 Aurora Vacation Collection points that expire at the end of December and will otherwise be lost. I would rather they went to someone than to nothing.\n\n1,500 covers a one-bedroom for four nights at Desert Star or Torch Lake Shores, or three nights in a two-bedroom. Not enough for Hawaii inventory.\n\nPriced well below what I normally ask because of the deadline. I can book as late as three weeks out subject to availability.",
@@ -356,7 +356,7 @@ class ListoraSeeder extends Seeder
                 'photos' => $this->pick('desert', 4, 2),
             ],
             [
-                'kind' => 'points', 'mode' => 'rent', 'plan' => 'essential',
+                'kind' => 'points', 'mode' => 'rent', 'plan' => 'starter',
                 'title' => '2,800 Palmetto Shores Points — Summer Coast',
                 'headline' => 'Hilton Head in July without the hotel rate.',
                 'description' => "2,800 Palmetto Shores Club points available for the 2027 season. This is a coastal collection — Hilton Head, Kiawah, and two properties on the Georgia coast.\n\n2,800 covers a two-bedroom villa for a full week in July, which is the week everyone actually wants. I book in your name and forward the confirmation directly from the club.\n\nI have rented points through this site every year since 2022.",
@@ -371,7 +371,7 @@ class ListoraSeeder extends Seeder
                 'photos' => $this->pick('beach', 4, 5),
             ],
             [
-                'kind' => 'points', 'mode' => 'own', 'plan' => 'essential',
+                'kind' => 'points', 'mode' => 'own', 'plan' => 'starter',
                 'title' => '2,000 Sandpiper Points, Biennial Even Years',
                 'headline' => 'A smaller membership for people who travel every other year.',
                 'description' => "Transferring a biennial Sandpiper Club membership: 2,000 points in even-numbered years, deeded at Sandpiper Cay on Marco Island.\n\nDues are billed only in use years, currently $780. This suits someone who takes one substantial trip every other year rather than something annually.\n\nAll dues current. I will pay the transfer fee.",
@@ -387,7 +387,7 @@ class ListoraSeeder extends Seeder
 
             // ---------------------------------------------------- resort weeks
             [
-                'kind' => 'weeks', 'mode' => 'rent', 'plan' => 'premier', 'is_featured' => true,
+                'kind' => 'weeks', 'mode' => 'rent', 'plan' => 'signature', 'is_featured' => true,
                 'title' => 'Week 26 Oceanfront at Kaanapali Shores',
                 'headline' => 'Fixed week 26 — the last week of June, oceanfront, same unit every year.',
                 'description' => "Our fixed week 26 at Kaanapali Shores, unit 812. Late June on Maui: dry, warm, and before the August crowd arrives.\n\n812 is a two-bedroom oceanfront on the eighth floor at the quiet end of the building. Full kitchen, washer and dryer, and a lanai wide enough to eat on. Fixed week means it is the same unit and the same dates every year, so there is nothing to reserve and nothing to compete for.\n\nWe are renting 2027 only — we plan to use it again in 2028.",
@@ -402,7 +402,7 @@ class ListoraSeeder extends Seeder
                 'photos' => $this->pick('ocean', 5, 1),
             ],
             [
-                'kind' => 'weeks', 'mode' => 'own', 'plan' => 'featured', 'is_featured' => true,
+                'kind' => 'weeks', 'mode' => 'own', 'plan' => 'explorer', 'is_featured' => true,
                 'title' => 'Week 8 at Cabo Azul — Deeded, Annual',
                 'headline' => 'Late February in Los Cabos, deeded, with dues paid through next year.',
                 'description' => "Selling our deeded week 8 at Cabo Azul Residences. Week 8 is the third week of February — high season, reliably dry, and the hardest week to get at this property.\n\nOne-bedroom suite with a full kitchen and a terrace facing the pool and the sea beyond. Annual usage, no loan, dues paid through 2027.\n\nWe have had it for nine years and are only selling because our daughter now lives in Europe and our travel has shifted. Closing through a licensed escrow company of the buyer's choosing.",
@@ -416,7 +416,7 @@ class ListoraSeeder extends Seeder
                 'photos' => $this->pick('pool', 4, 2),
             ],
             [
-                'kind' => 'weeks', 'mode' => 'rent', 'plan' => 'featured',
+                'kind' => 'weeks', 'mode' => 'rent', 'plan' => 'explorer',
                 'title' => 'Week 51 Slopeside at Aspen Creek',
                 'headline' => 'Christmas week, three-bedroom, forty yards from the gondola.',
                 'description' => "Our week 51 at Aspen Creek Club — the week containing Christmas. Three-bedroom residence, sleeps eight comfortably, and the gondola plaza is a short walk across the snow.\n\nThis is the week we normally keep for ourselves, but we have family obligations in 2027. It does not come up often and it does not sit unrented.\n\nCheck-in Saturday 20 December, check-out Saturday 27 December.",
@@ -431,7 +431,7 @@ class ListoraSeeder extends Seeder
                 'photos' => $this->pick('ski', 4, 2),
             ],
             [
-                'kind' => 'weeks', 'mode' => 'rent', 'plan' => 'essential',
+                'kind' => 'weeks', 'mode' => 'rent', 'plan' => 'starter',
                 'title' => 'Floating Autumn Week at Palmetto Dunes',
                 'headline' => 'Pick any week in September or October — the coast at its best and its emptiest.',
                 'description' => "A floating autumn week at Palmetto Dunes Club, usable any week from the first of September to the end of October.\n\nHilton Head in autumn is the local secret: water still warm, humidity gone, and the bike paths empty. Two-bedroom villa backing onto the third fairway, five minutes by bike to the beach.\n\nTell me your dates and I will confirm with the club within a day.",
@@ -446,7 +446,7 @@ class ListoraSeeder extends Seeder
                 'photos' => $this->pick('beach', 4, 1),
             ],
             [
-                'kind' => 'weeks', 'mode' => 'own', 'plan' => 'essential',
+                'kind' => 'weeks', 'mode' => 'own', 'plan' => 'starter',
                 'title' => 'Week 14 at Desert Star — Spring Training Season',
                 'headline' => 'Deeded late-March week in Scottsdale, dues current, priced to transfer quickly.',
                 'description' => "Deeded week 14 at Desert Star Resort — the last week of March. Perfect desert weather and the same week as spring training, which is why we bought it originally.\n\nOne-bedroom casita with a private patio and plunge pool. Annual usage, deeded, dues of $890 paid through 2027.\n\nWe have moved to the coast and no longer use it. Priced for a clean, quick transfer rather than a long negotiation.",
@@ -460,7 +460,7 @@ class ListoraSeeder extends Seeder
                 'photos' => $this->pick('desert', 4, 4),
             ],
             [
-                'kind' => 'weeks', 'mode' => 'rent', 'plan' => 'featured',
+                'kind' => 'weeks', 'mode' => 'rent', 'plan' => 'explorer',
                 'title' => 'Week 31 on Seven Mile Beach',
                 'headline' => 'First week of August, oceanfront two-bedroom, steps from the sand.',
                 'description' => "Week 31 at Grand Cayman Reef Club, oceanfront two-bedroom on the third floor. The first week of August — hot, quiet, and the best snorkeling visibility of the year.\n\nThe unit was fully refurbished in 2024. Kitchen, laundry, and a balcony that catches the trade wind all afternoon.\n\nRenting 2027 only. Airport is twenty minutes and the resort arranges transfers.",
@@ -475,7 +475,7 @@ class ListoraSeeder extends Seeder
                 'photos' => $this->pick('aerial', 4, 0),
             ],
             [
-                'kind' => 'weeks', 'mode' => 'rent', 'plan' => 'essential',
+                'kind' => 'weeks', 'mode' => 'rent', 'plan' => 'starter',
                 'title' => 'Week 22 at Torch Lake Shores',
                 'headline' => 'Late May on the lake — before the season starts and the prices double.',
                 'description' => "Week 22 at Torch Lake Shores, a two-bedroom lakefront unit with a shared dock and swim raft.\n\nLate May in northern Michigan is genuinely lovely and almost nobody is there yet. Water is cold for swimming but the paddleboards live under the deck and the mornings are silent.\n\nSaturday to Saturday. Kayaks and the grill are included.",
@@ -490,7 +490,7 @@ class ListoraSeeder extends Seeder
                 'photos' => $this->pick('lake', 4, 2),
             ],
             [
-                'kind' => 'weeks', 'mode' => 'own', 'plan' => 'featured',
+                'kind' => 'weeks', 'mode' => 'own', 'plan' => 'explorer',
                 'title' => 'Week 33 at Algarve Cliffs — Deeded, Sea View',
                 'headline' => 'Mid-August on the Portuguese coast, deeded, sea-view one-bedroom.',
                 'description' => "Deeded week 33 at Algarve Cliffs Club. Mid-August, sea-view one-bedroom with a terrace above the cove.\n\nThe club is small — thirty-one units — and week 33 rarely changes hands. Annual usage, dues €640, paid through 2027.\n\nSelling because we bought a house nearby. Transfer handled through the club's own conveyancer.",

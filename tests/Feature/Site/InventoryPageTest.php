@@ -43,7 +43,7 @@ class InventoryPageTest extends TestCase
             // Placement that would win under browse's `recommended` sort, so
             // this fails loudly if that ordering ever leaks in here.
             'is_featured' => true,
-            'plan' => 'premier',
+            'plan' => 'signature',
         ]);
 
         $newer = Listing::factory()->create([
@@ -51,7 +51,7 @@ class InventoryPageTest extends TestCase
             'published_at' => now()->subHour(),
             'title' => 'Published Later',
             'is_featured' => false,
-            'plan' => 'essential',
+            'plan' => 'starter',
         ]);
 
         $html = $this->get('/inventory')->assertOk()->getContent();

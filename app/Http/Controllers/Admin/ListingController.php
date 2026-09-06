@@ -81,7 +81,7 @@ class ListingController extends Controller
         }
 
         $publishedAt = $listing->published_at ?? now();
-        $plan = $listing->plan ?? PlanTier::Essential;
+        $plan = $listing->plan ?? PlanTier::Starter;
 
         $listing->forceFill([
             'status' => ListingStatus::Active,

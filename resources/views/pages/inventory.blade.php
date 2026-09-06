@@ -117,7 +117,7 @@
 
                                 <td>
                                     <span class="pill {{ $listing->plan?->isFeatured() ? '' : 'pill-off' }}">
-                                        {{ $listing->plan?->label() ?? 'Essential' }}
+                                        {{ $listing->plan?->label() ?? 'Starter' }}
                                     </span>
                                 </td>
                             </tr>

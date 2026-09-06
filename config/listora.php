@@ -45,45 +45,103 @@ return [
     | Listora is an advertising marketplace. Owners pay one flat fee for a
     | 12-month listing. No commission is ever taken from the transaction.
     */
+    /*
+    |--------------------------------------------------------------------------
+    | Advertising plans
+    |--------------------------------------------------------------------------
+    |
+    | Display content for /pricing and the home page. Nothing here charges
+    | anything - Listora takes no payment on the website - so these are the
+    | published figures and promises, kept in one place so the page, the help
+    | centre and the plan enum cannot drift apart.
+    |
+    | Each feature row is [icon, text, strong, note]:
+    |   icon    a key in partials/tiers.blade.php's icon table
+    |   text    the plain part of the line
+    |   strong  the emphasised tail, or null
+    |   note    the italic parenthetical, or null
+    |
+    | Two headings differ from the artwork they were taken from, which read
+    | "Everything in Explorer, plus:" on the Explorer card and "Everything in
+    | Signature, plus:" on the Signature card. Each card listed itself. They
+    | name the plan below them here.
+    |
+    */
     'plans' => [
-        'essential' => [
-            'name'     => 'Essential',
-            'price'    => 89,
+        'starter' => [
+            'name'     => 'Starter',
+            'tagline'  => 'Get listed. Get seen.',
+            'badge'    => 'Ideal for beginners',
+            'accent'   => 'blue',
+            'price'    => 995,
+            'heading'  => "What's included:",
             'blurb'    => 'Everything you need to advertise one vacation property.',
             'features' => [
-                'Live for 180 days',
-                'Ownership verified before publishing',
-                'Up to 20 photos',
-                'Direct messaging with travelers and buyers',
-                'Appears in all search results',
-                'Edit your listing any time',
+                ['check',     'Property profiles', '1 property', null],
+                ['check',     'Search visibility', 'Standard', null],
+                ['check',     'Listing presentation', 'Professional', null],
+                ['google',    'Google Ads Campaign', null, '1 campaign'],
+                ['facebook',  'Facebook & Instagram Ads', null, '1 campaign set'],
+                ['seo',       'Basic SEO & Metadata Optimization', null, null],
+                ['mail',      'Standard Email Marketing', null, '1 email blast/month'],
+                ['check',     'Inquiry notifications', 'Standard', null],
+                ['check',     'Promotional exposure', 'Standard', null],
+                ['check',     'Member support', 'Standard', null],
             ],
+            'callout'  => 'Monthly performance report with key metrics.',
         ],
-        'featured' => [
-            'name'      => 'Featured',
-            'price'     => 179,
-            'popular'   => true,
-            'blurb'     => 'Priority placement and the visibility tools that move listings fastest.',
-            'features'  => [
-                'Everything in Essential',
-                'Priority placement above standard listings',
-                'Featured badge on every card',
-                'Rotating placement on the homepage',
-                'Monthly performance report',
-                'Included in our weekly traveler email',
-            ],
-        ],
-        'premier' => [
-            'name'     => 'Premier',
-            'price'    => 349,
-            'blurb'    => 'Top-of-results placement plus a listing our team writes and shoots for you.',
+
+        'explorer' => [
+            'name'     => 'Explorer',
+            'tagline'  => 'More exposure. More inquiries.',
+            'badge'    => 'Most popular',
+            'accent'   => 'green',
+            'popular'  => true,
+            'price'    => 1995,
+            'heading'  => 'Everything in Starter, plus:',
+            'blurb'    => 'Priority placement and the visibility tools that move listings fastest.',
             'features' => [
-                'Everything in Featured',
-                'Top-of-results placement in your region',
-                'Professional listing copy written for you',
-                'Photo editing and sequencing by our team',
-                'Dedicated listing specialist',
-                'Renew free if it does not move in 180 days',
+                ['check',     'Property profiles up to', '3 properties', null],
+                ['check',     'Search visibility', 'Enhanced', null],
+                ['check',     'Listing presentation', 'Enhanced', null],
+                ['check',     'Featured listing', null, null],
+                ['check',     'Priority placement', null, null],
+                ['check',     'Inquiry notifications', 'Priority', null],
+                ['check',     'Promotional exposure', 'Enhanced', null],
+                ['google',    'Google Ads Campaigns', null, '2 campaigns with retargeting'],
+                ['social3',   'Social Media Ads', null, 'Facebook, Instagram & TikTok'],
+                ['mail',      'Email Marketing', null, '2 email blasts/month + automation'],
+                ['seo',       'Advanced SEO & Local Optimization', null, null],
+                ['audience',  'Audience Targeting & Retargeting', null, null],
+                ['chart',     'Monthly Performance Report', null, 'with insights & recommendations'],
+                ['support',   'Member support', 'Enhanced', null],
+            ],
+        ],
+
+        'signature' => [
+            'name'     => 'Signature',
+            'tagline'  => 'Maximum visibility. Maximum results.',
+            'badge'    => 'Best value',
+            'accent'   => 'purple',
+            'price'    => 3995,
+            'heading'  => 'Everything in Explorer, plus:',
+            'blurb'    => 'Top-of-results placement, campaigns across every channel, and a specialist of your own.',
+            'features' => [
+                ['check',     'Property profiles up to', '5 properties', null],
+                ['check',     'Search visibility', 'Premier', null],
+                ['check',     'Listing presentation', 'Premium', null],
+                ['check',     'Priority placement', 'Highest priority', null],
+                ['check',     'Inquiry notifications', 'Priority', null],
+                ['check',     'Promotional exposure', 'Premium', null],
+                ['check',     'Featured-area eligibility', null, null],
+                ['google',    'Google Ads Campaigns', null, '3+ campaigns with retargeting & display'],
+                ['social4',   'Full Social Media Campaigns', null, 'Facebook, Instagram, TikTok & YouTube'],
+                ['mail',      'Email Marketing', null, 'Weekly email blasts + automation'],
+                ['video',     'Video Marketing & Property Showcase', null, null],
+                ['star',      'Reputation Management & Reviews', null, null],
+                ['globe',     'Advanced Analytics Dashboard', null, 'Real-time performance tracking'],
+                ['crown',     'Dedicated Account Manager', null, null],
+                ['support',   'Member support', 'Priority', null],
             ],
         ],
     ],

@@ -123,7 +123,7 @@ class ListingDraft extends Model
 
     public function planTier(): PlanTier
     {
-        return $this->plan ?? PlanTier::Essential;
+        return $this->plan ?? PlanTier::Starter;
     }
 
     public function getRouteKeyName(): string

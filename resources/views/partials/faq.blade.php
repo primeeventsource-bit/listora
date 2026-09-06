@@ -14,7 +14,7 @@
         ],
         [
             'What if my listing does not move within the year?',
-            'Renew at half price. On the Premier plan, renewal is free. We would rather keep a listing live than take another full fee from someone who has not had a result yet.',
+            'Renew at half price. On the Signature plan, renewal is free. We would rather keep a listing live than take another full fee from someone who has not had a result yet.',
         ],
         [
             'How should money change hands?',

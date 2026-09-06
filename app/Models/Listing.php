@@ -215,7 +215,7 @@ class Listing extends Model
             'newest'     => $q->orderByDesc('published_at'),
             'bedrooms'   => $q->orderByDesc('bedrooms'),
             default      => $q->orderByDesc('is_featured')
-                              ->orderByRaw("CASE plan WHEN 'premier' THEN 0 WHEN 'featured' THEN 1 ELSE 2 END")
+                              ->orderByRaw("CASE plan WHEN 'signature' THEN 0 WHEN 'explorer' THEN 1 ELSE 2 END")
                               ->orderByDesc('views'),
         };
     }
@@ -236,7 +236,7 @@ class Listing extends Model
     /** Photos beyond the plan's allowance are kept but never rendered. */
     public function visiblePhotos(): array
     {
-        $limit = $this->plan?->photoLimit() ?? PlanTier::Essential->photoLimit();
+        $limit = $this->plan?->photoLimit() ?? PlanTier::Starter->photoLimit();
 
         return array_slice($this->photos ?: [], 0, $limit);
     }

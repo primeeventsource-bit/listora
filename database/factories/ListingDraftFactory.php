@@ -39,7 +39,7 @@ class ListingDraftFactory extends Factory
             'price' => 8_500,
             'price_unit' => 'total',
 
-            'plan' => PlanTier::Featured,
+            'plan' => PlanTier::Explorer,
             'status' => DraftStatus::New,
         ];
     }

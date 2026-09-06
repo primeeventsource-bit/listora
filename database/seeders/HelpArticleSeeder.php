@@ -80,16 +80,16 @@ TXT,
                 'audience' => HelpAudience::Owner,
                 'category' => 'advertising',
                 'title' => 'The three advertising plans',
-                'summary' => 'Essential, Featured, and Premier. One flat fee, 180 days, no commission on what you agree.',
-                'search_keywords' => 'plans, pricing, essential, featured, premier, cost, fee, how much, commission',
+                'summary' => 'Starter, Explorer, and Signature. One flat fee, 180 days, no commission on what you agree.',
+                'search_keywords' => 'plans, pricing, starter, explorer, signature, cost, fee, how much, commission',
                 'body' => <<<'TXT'
-Every plan buys 180 days of advertising for one vacation property. The fee is flat and it is the only money Listora ever takes — we do not take a percentage of what you agree with a traveler or buyer.
+Every plan buys 180 days of advertising, billed upfront. The fee is flat and it is the only money Listora ever takes — we do not take a percentage of what you agree with a traveler or buyer.
 
-Essential covers everything you need to advertise: your listing live for twelve full months, ownership verified before it publishes, up to twenty photos, direct messaging with travelers and buyers, and inclusion in all search results.
+Starter, $995, covers one property: standard search visibility, a professional listing presentation, one Google Ads campaign, one Facebook and Instagram campaign set, basic SEO and metadata work, a monthly email blast, and a monthly performance report.
 
-Featured adds visibility: priority placement above standard listings, a Featured badge on every card, rotating placement on the homepage, a monthly performance report, and inclusion in our weekly traveler email.
+Explorer, $1,995, covers up to three properties and adds reach: enhanced search visibility, a featured listing with priority placement, two Google Ads campaigns with retargeting, social ads across Facebook, Instagram and TikTok, two email blasts a month with automation, advanced SEO and local optimization, audience targeting and retargeting, and a monthly performance report with recommendations.
 
-Premier adds our team's work: top-of-results placement in your region, listing copy written for you, photo editing and sequencing by our team, and a dedicated listing specialist.
+Signature, $3,995, covers up to five properties and adds our team's work: premier search visibility, highest priority placement, three or more Google Ads campaigns with retargeting and display, full campaigns across Facebook, Instagram, TikTok and YouTube, weekly email blasts with automation, video marketing, reputation management, a real-time analytics dashboard, and a dedicated account manager.
 
 Plans are arranged with us directly rather than paid for on the website. Ask on the Help page or email us and we will set it up.
 TXT,
@@ -108,7 +108,7 @@ A draft is not visible to anyone browsing the site. It stays private until it ha
 
 Our team then reviews what you sent against the documentation you provide. Most drafts clear in one to two business days. If something does not line up, we come back to you directly rather than declining quietly.
 
-Once verification passes and your plan is arranged, we publish the listing and your twelve-month term begins from that date — not from the date you submitted.
+Once verification passes and your plan is arranged, we publish the listing and your 180-day term begins from that date — not from the date you submitted.
 TXT,
             ],
             [
@@ -116,10 +116,10 @@ TXT,
                 'audience' => HelpAudience::Owner,
                 'category' => 'advertising',
                 'title' => 'What if my listing does not move within the year?',
-                'summary' => 'Renew at half price. On Premier, renewal is free.',
+                'summary' => 'Renew at half price. On Signature, renewal is free.',
                 'search_keywords' => 'renew, renewal, expired, did not sell, no result, 180 days, term, extend',
                 'body' => <<<'TXT'
-If your 180 days run out without a result, you can renew at half the original fee. On the Premier plan, renewal is free.
+If your 180 days run out without a result, you can renew at half the original fee. On the Signature plan, renewal is free.
 
 We would rather keep a good listing live than take another full fee from someone who has not had a result yet.
 

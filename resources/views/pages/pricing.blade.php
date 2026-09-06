@@ -8,7 +8,7 @@
     <div class="wrap">
         <span class="eyebrow">Pricing</span>
         <h1>One fee. 180 days. No cut of your deal.</h1>
-        <p>Every plan includes ownership verification, unlimited photos, unlimited edits, and direct messaging. The only difference between them is how visible your listing is.</p>
+        <p>Every plan includes ownership verification, unlimited edits, and direct messaging. What changes between them is how many properties you can advertise and how hard we work to put them in front of people.</p>
     </div>
 </div>
 
@@ -17,8 +17,8 @@
         @include('partials.tiers', ['plans' => $plans])
 
         <p class="center muted" style="margin-top:34px;font-size:15px;max-width:60ch;margin-inline:auto">
-            Billed once per listing and valid for 180 days from the day it publishes.
-            Renew at half price on Essential and Featured, free on Premier.
+            Billed upfront and valid for 180 days from the day your advertising publishes.
+            Renew at half price on Starter and Explorer, free on Signature.
         </p>
     </div>
 </section>
@@ -34,7 +34,7 @@
             @php
                 $inc = [
                     ['Ownership verification', 'Our team reviews your deed, title, or other proof that the property is yours to advertise before your listing publishes. Never an add-on.'],
-                    ['Unlimited photos', 'Up to twenty images on Essential and unlimited above it — with no per-photo charge on any plan.'],
+                    ['Unlimited photos', 'Up to twenty images on Starter and forty above it — with no per-photo charge on any plan.'],
                     ['Unlimited edits', 'Change your price, dates, copy, or photos as often as you want for the whole 180 days.'],
                     ['Direct messaging', 'Inquiries arrive in your inbox with your email address kept private until you reply.'],
                     ['Pause any time', 'Property not available for a while? Pause the listing and restart it later without losing days.'],

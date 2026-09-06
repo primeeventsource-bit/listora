@@ -42,7 +42,7 @@ class ListingFactory extends Factory
             'price_unit' => 'total',
             'currency' => 'USD',
 
-            'plan' => PlanTier::Essential,
+            'plan' => PlanTier::Starter,
             'is_featured' => false,
             'is_verified' => true,
             'owner_name' => $this->faker->name(),

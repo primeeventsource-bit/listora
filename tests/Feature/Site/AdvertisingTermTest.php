@@ -42,7 +42,7 @@ class AdvertisingTermTest extends TestCase
 
         $this->assertSame(
             '2027-03-01',
-            now()->addDays(PlanTier::Essential->termDays())->toDateString(),
+            now()->addDays(PlanTier::Starter->termDays())->toDateString(),
         );
 
         Carbon::setTestNow();
