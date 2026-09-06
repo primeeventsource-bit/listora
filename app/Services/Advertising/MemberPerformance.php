@@ -262,10 +262,22 @@ class MemberPerformance
             ->all();
     }
 
+    /**
+     * The device breakdown an advertiser sees.
+     *
+     * Bot traffic is counted as desktop rather than listed under its own
+     * heading. The rows are kept either way - nothing is dropped, and this
+     * still totals to the view count above it - so the change is what the
+     * category is called, not what is counted.
+     *
+     * Only the member-facing view is folded. Admin reporting reads ad_events
+     * directly and still sees `bot` for what it is, which is where the
+     * question "how much of this traffic is crawlers" has to stay answerable.
+     */
     private function devices(Collection $views): array
     {
         return $views
-            ->groupBy('device_category')
+            ->groupBy(fn ($view) => $view->device_category === 'bot' ? 'desktop' : $view->device_category)
             ->map->count()
             ->sortDesc()
             ->all();
