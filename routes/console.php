@@ -23,3 +23,14 @@ Schedule::command('offers:expire')->everyMinute()->withoutOverlapping();
 // minute a row crosses the line does not matter, and a single daily pass
 // keeps the delete volume predictable.
 Schedule::command('listora:prune-ad-events')->dailyAt('03:20')->withoutOverlapping();
+
+// Watches the public domain from outside the application.
+//
+// The custom hostname has failed five times in six days, and the last outage
+// ran 58 hours because nothing was watching. This does not fix the fault - it
+// lives in the platform's Cloudflare integration - but it bounds how long an
+// outage can go unnoticed.
+//
+// Every five minutes, and withoutOverlapping because a check against a
+// hostname whose TLS is failing can sit until its timeout.
+Schedule::command('listora:site-watch')->everyFiveMinutes()->withoutOverlapping();
